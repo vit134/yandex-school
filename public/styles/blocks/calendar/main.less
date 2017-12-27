@@ -1,0 +1,32 @@
+.calendar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 0 2%;
+    height: 100%;
+
+    &__arrow {
+        width: 24px;
+        height: 24px;
+        background-color: #E9ECEF;
+        border-radius: 100px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 7px;
+        cursor: pointer;
+
+        &_left {
+            background-image: url('@{blocksPath}/calendar/images/arrow2.svg');
+        }
+
+        &_right {
+            background-image: url('@{blocksPath}/calendar/images/arrow.svg');
+        }
+
+        &:hover {
+            background-color: rgba(0,16,33,0.05);;
+        }
+    }
+}
