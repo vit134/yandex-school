@@ -16,6 +16,21 @@ div {
   margin: 0 auto;
   max-width: 1280px;
 }
+.button {
+  cursor: pointer;
+}
+.button_add-event {
+  background: #007DFF;
+  border-radius: 4px;
+  color: #fff;
+  text-align: center;
+  width: 140px;
+  height: 36px;
+  line-height: 36px;
+}
+.button_add-event:hover {
+  background: #0059FF;
+}
 .calendar {
   display: flex;
   flex-direction: row;
@@ -45,9 +60,13 @@ div {
   background-color: rgba(0, 16, 33, 0.05);
 }
 .calendar__date {
+  cursor: pointer;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0;
+}
+.calendar__date:hover {
+  color: #0070E0;
 }
 .header {
   display: flex;
@@ -65,21 +84,6 @@ div {
   height: 24.4px;
   background: url('/styles/blocks//header/images/logo.svg') center no-repeat;
   background-size: 100%;
-}
-.button {
-  cursor: pointer;
-}
-.button_add-event {
-  background: #007DFF;
-  border-radius: 4px;
-  color: #fff;
-  text-align: center;
-  width: 140px;
-  height: 36px;
-  line-height: 36px;
-}
-.button_add-event:hover {
-  background: #0059FF;
 }
 .main {
   overflow: hidden;
