@@ -1,0 +1,88 @@
+.tooltip {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    margin-left: -169px;
+    width: 338px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+    padding: 19px 16px;
+    z-index: 12;
+
+    &__title {
+        font-size: 15px;
+        letter-spacing: 0;
+        line-height: 24px;
+        font-weight: 700;
+    }
+
+    &__description {
+        font-size: 13px;
+        letter-spacing: 0;
+        line-height: 17px;
+        margin-bottom: 20px;
+    }
+
+    &__members {
+        font-size: 0;
+
+        &__item {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        &__image {
+            display: inline-block;
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        &__name {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 13px;
+            letter-spacing: 0;
+            line-height: 17px;
+            font-weight: 600;
+            margin-right: 3px;
+        }
+
+        &__also {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 13px;
+            letter-spacing: 0;
+            line-height: 17px;
+            color: #37003E;
+        }
+    }
+
+    &__edit {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #E9ECEF;
+        background-image: url('@{blocksPath}/tooltip/images/edit.svg');
+        background-size: 11px;
+        background-position: center;
+        background-repeat: no-repeat;
+        cursor: pointer;
+    }
+
+    &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        margin-left: -5px;
+        bottom: 100%;
+        border: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+    }
+}

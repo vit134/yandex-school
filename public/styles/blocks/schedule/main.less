@@ -1,0 +1,126 @@
+.schedule {
+    &__floor {
+        &__head {
+            background: #F6F7F9;
+
+            &__title {
+                width: @leftColumnWidth;
+                font-size: 11px;
+                color: #858E98;
+                letter-spacing: 0.4px;
+                text-transform: uppercase;
+                padding: 21px 0 8px @defaultPadding;
+                background: #fff;
+                border-right: 1px solid @borderColor;
+                font-weight: 700;
+            }
+        }
+    }
+
+    &__row {
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    &__row:last-child & {
+        &__room {
+            margin-bottom: 0;
+        }
+    }
+
+    &__room {
+        width: @leftColumnWidth;
+        background: #fff;
+        padding: 0 @defaultPadding 16px;
+        border-right: 1px solid @borderColor;
+
+        &__name {
+            font-weight: 600;
+            font-size: 15px;
+            line-height: 17px;
+
+            &:hover {
+                color: #0070E0;
+            }
+        }
+
+        &__capacity {
+            font-size: 13px;
+            line-height: 17px;
+        }
+
+        &.busy & {
+            &__name,
+            &__capacity {
+                color: #858E98;
+            }
+        }
+    }
+
+    &__events {
+        -webkit-flex: auto;
+        flex: auto;
+        background:  #F6F7F9;
+        font-size: 0;
+
+        &__item {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 14px;
+            background: #fff;
+            height: 28px;
+            margin-top: 3px;
+            width: 150px;
+
+            &__add {
+                display: none;
+                width: 57px;
+                height: 100%;
+                border-radius: 2px;
+                background: #2B50FD;
+                text-align: center;
+                line-height: 28px;
+                color: #fff;
+                font-weight: bold;
+                font-size: 20px;
+                cursor: pointer;
+
+                &:active {
+                    background: #1D00FE;
+                }
+            }
+
+            &__tooltip {
+                display: none;
+            }
+
+            &:hover {
+                z-index: 11;
+            }
+
+            &:hover & {
+                &__add {
+                    display: block;
+                }
+
+                &__tooltip {
+                    display: block
+                }
+            }
+
+            &.busy {
+                background: #D5DFE9;
+
+                &:hover {
+                    background:  #99A9B9;
+                    z-index: 11;
+                }
+            }
+        }
+    }
+}
