@@ -1,0 +1,45 @@
+<div class="newevent">
+    <div class="newevent__title">Новая встреча</div>
+    <div class="newevent__main">
+        <div class="newevent__col">
+            <div class="newevent__field-block">
+                <div class="newevent__label">Тема</div>
+                <input type="text" name="newevent_topic" class="newevent__input" placeholder="О чем будете говорить?">
+            </div>
+            <div class="newevent__field-block">
+                <div class="newevent__label">Участники</div>
+                <input type="text" name="newevent_memmbers" class="newevent__input" placeholder="Участники">
+                <div class="newevent__dropdown">
+                    {% for i in 0..10 %}
+                        <div class="newevent__dropdown__item">
+                            <img src="https://pp.vk.me/c631327/v631327960/10ee6/QuTCTfqtquw.jpg" class="newevent__dropdown__image">
+                            <span class="newevent__dropdown__member">Лекс Лютер</span>
+                            <span class="newevent__dropdown__floor">· 7 этаж</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="newevent__col">
+            <div class="newevent__fields-wrapper">
+                <div class="newevent__field-block newevent__field-block_date">
+                    <div class="newevent__label">Дата</div>
+                    <input type="text" name="newevent_date" class="newevent__input" value="{{ "now"|date("m/d/Y") }}">
+                </div>
+                <div class="newevent__field-block newevent__field-block_start">
+                    <div class="newevent__label">Начало</div>
+                    <input type="text" name="newevent_start" class="newevent__input" value="{{ "now"|date("H:i") }}">
+                </div>
+                <span class="newevent__tire">&#8212;</span>
+                <div class="newevent__field-block newevent__field-block_end">
+                    <div class="newevent__label">Конец</div>
+                    <input type="text" name="newevent_end" class="newevent__input" value="{{ "now"|date_modify("+2 hour")|date("H:i") }}">
+                </div>
+            </div>
+            <div class="newevent__field-block">
+                <div class="newevent__label">Ваша переговорка</div>
+                <input type="text" name="newevent_room" class="newevent__input newevent__input_background" value="16:00&#8212;16:30   Готем &#183; 4 этаж">
+            </div>
+        </div>
+    </div>
+</div>

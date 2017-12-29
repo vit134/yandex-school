@@ -1,0 +1,165 @@
+.newevent {
+    max-width: 872px;
+    margin: 0 auto;
+    padding-top: 31px;
+    height: calc(~"100vh - @{headerHeight}");
+
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    &__main {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+    }
+
+    &__col {
+        width: 50%;
+        padding-right: 16px;
+
+        &:last-child {
+            padding-right: 0;
+            padding-left: 16px;
+        }
+    }
+
+    &__fields-wrapper {
+        font-size: 0;
+    }
+
+    &__field-block {
+        position: relative;
+        margin-bottom: 24px;
+
+        &_date {
+            width: 238px;
+            margin-right: 16px;
+        }
+
+        &_date,
+        &_start,
+        &_end {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        &_start,
+        &_end {
+            width: 72px;
+        }
+
+        &_start {
+            margin-right: 3px;
+        }
+
+        &_end {
+            margin-left: 3px;
+        }
+    }
+
+    &__label,
+    &__input {
+        display: block;
+        width: 100%;
+    }
+
+    &__label {
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    &__input {
+        background: #FFFFFF;
+        border: 2px solid #E9ECEF;
+        border-radius: 4px;
+        height: 38px;
+        color: #00000;
+        font-size: 13px;
+        letter-spacing: 0.47px;
+        padding: 0 10px;
+        box-sizing: border-box;
+
+        &_background {
+            border-color: #007DFF;
+            background: #007DFF;
+            color: #fff;
+        }
+
+        &:focus {
+            outline: none;
+            border-color: #007DFF;
+        }
+
+        &:-webkit-input-placeholder {
+          color: pink;
+        }
+        &:-moz-placeholder {
+          color: pink;
+        }
+        &:-ms-input-placeholder {
+          color: pink;
+        }
+        &:-moz-placeholder {
+          color: pink;
+        }
+    }
+
+    &__tire {
+        font-size: 14px;
+        font-weight: 900;
+    }
+
+    &__dropdown {
+        display: none;
+        position: absolute;
+        width: 100%;
+        height: 136px;
+        top: calc(~"100% + 1px");
+        background: #fff;
+        box-shadow: 0 1px 10px 0 rgba(0,44,92,0.28);
+        border-radius: 4px;
+        overflow: hidden;
+
+        &__item {
+            padding: 5px 16px;
+            cursor: default;
+
+            &:hover {
+                background: #F6F7F9;
+            }
+        }
+
+        &__item:hover &{
+            &__member,
+            &__floor {
+                font-weight: 700;
+            }
+        }
+
+
+        &__image,
+        &__member,
+        &__floor {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 13px;
+        }
+
+        &__image {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        &__floor {
+            color: #37003E;
+        }
+
+    }
+}
