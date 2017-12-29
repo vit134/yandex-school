@@ -79,7 +79,6 @@
         border: 2px solid #E9ECEF;
         border-radius: 4px;
         height: 38px;
-        color: #00000;
         font-size: 13px;
         letter-spacing: 0.47px;
         padding: 0 10px;
@@ -90,23 +89,37 @@
             border-color: #007DFF;
         }
 
-        &:-webkit-input-placeholder {
-          color: pink;
+        &::-webkit-input-placeholder {
+          color: #858E98;
         }
-        &:-moz-placeholder {
-          color: pink;
+
+        &::-moz-placeholder {
+          color: #858E98;
         }
+
         &:-ms-input-placeholder {
-          color: pink;
+          color: #858E98;
         }
+
         &:-moz-placeholder {
-          color: pink;
+          color: #858E98;
         }
     }
 
     &__tire {
         font-size: 14px;
         font-weight: 900;
+    }
+
+    &__calendar {
+        position: absolute;
+        top: 35px;
+        right: 10px;
+        width: 12px;
+        height: 12px;
+        background: url('@{blocksPath}/newevent/images/calendar.svg') center no-repeat;
+        background-size: 100%;
+        cursor: pointer;
     }
 
     &__dropdown {

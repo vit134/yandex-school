@@ -230,7 +230,6 @@ div {
   border: 2px solid #E9ECEF;
   border-radius: 4px;
   height: 38px;
-  color: #00000;
   font-size: 13px;
   letter-spacing: 0.47px;
   padding: 0 10px;
@@ -240,21 +239,31 @@ div {
   outline: none;
   border-color: #007DFF;
 }
-.newevent__input:-webkit-input-placeholder {
-  color: pink;
+.newevent__input::-webkit-input-placeholder {
+  color: #858E98;
 }
-.newevent__input:-moz-placeholder {
-  color: pink;
+.newevent__input::-moz-placeholder {
+  color: #858E98;
 }
 .newevent__input:-ms-input-placeholder {
-  color: pink;
+  color: #858E98;
 }
 .newevent__input:-moz-placeholder {
-  color: pink;
+  color: #858E98;
 }
 .newevent__tire {
   font-size: 14px;
   font-weight: 900;
+}
+.newevent__calendar {
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  background: url('/styles/blocks//newevent/images/calendar.svg') center no-repeat;
+  background-size: 100%;
+  cursor: pointer;
 }
 .newevent__dropdown {
   display: none;

@@ -39,4 +39,3 @@ $(document).ready(function () {
 
     init();
 });
-console.log('no it realy works!');

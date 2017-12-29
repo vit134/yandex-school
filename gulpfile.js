@@ -23,7 +23,7 @@ var path = {
     dev: {
         html: 'public/app/**/*.twig',
         htmlBlocks: 'public/app/blocks/*/*.twig',
-        js: 'public/scripts/*.js',
+        js: 'public/scripts/*/*.js',
         less: 'public/styles/*.less',
         blocks: 'public/styles/blocks/*/*.less'
     }
@@ -61,13 +61,13 @@ gulp.task('scripts', function() {
     return gulp.src([
         path.dev.js
     ])
-    .pipe(concat('__main.js'))
+    //.pipe(concat('__main.js'))
     .pipe(babel({presets: [preset]}))
     .pipe(gulp.dest(path.build.scripts))
     .pipe(uglify().on('error', function(e) {
         console.log(e);
     }))
-    .pipe(rename('_main.js'))
+    //.pipe(rename('_main.js'))
     .pipe(babel({presets: [preset]}))
     .pipe(gulp.dest(path.build.scripts))
     .pipe(reload({stream: true}));
