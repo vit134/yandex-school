@@ -8,7 +8,7 @@
             </div>
             <div class="newevent__field-block">
                 <div class="newevent__label">Участники</div>
-                <input type="text" name="newevent_memmbers" class="newevent__input" placeholder="Участники">
+                <input type="text" name="newevent_memmbers" class="newevent__input newevent__input_dropdown" placeholder="Участники">
                 <div class="newevent__dropdown">
                     {% for i in 0..10 %}
                         <div class="newevent__dropdown__item">
@@ -24,7 +24,7 @@
             <div class="newevent__fields-wrapper">
                 <div class="newevent__field-block newevent__field-block_date">
                     <div class="newevent__label">Дата</div>
-                    <input type="text" name="newevent_date" class="newevent__input" value="{{ "now"|date("m/d/Y") }}">
+                    <input type="text" name="newevent_date" class="newevent__input" value="{{ "now"|date("d M\, Y") }}">
                 </div>
                 <div class="newevent__field-block newevent__field-block_start">
                     <div class="newevent__label">Начало</div>
@@ -37,9 +37,17 @@
                 </div>
             </div>
             <div class="newevent__field-block">
-                <div class="newevent__label">Ваша переговорка</div>
-                <input type="text" name="newevent_room" class="newevent__input newevent__input_background" value="16:00&#8212;16:30   Готем &#183; 4 этаж">
+                <div class="newevent__label">Рекомендованные переговорки</div>
+                {% for i in 1..3 %}
+                    <div class="newevent__room-item">
+                        <span class="newevent__room-item__time">16:00&#8212;16:30</span>
+                        <span class="newevent__room-item__name">Готем</span>
+                        &#183;
+                        <span class="newevent__room-item__floor">4 этаж</span>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
+    <a href="/" class="newevent__close"></a>
 </div>
