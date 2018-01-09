@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     watch = require('gulp-watch'),
     nodemon = require('gulp-nodemon'),
     babel = require('gulp-babel'),
+    browserify = require('gulp-browserify'),
     preset = require('babel-preset-es2015'),
     browserSync = require('browser-sync').create();
 
@@ -69,6 +70,7 @@ gulp.task('scripts', function() {
     }))
     //.pipe(rename('_main.js'))
     .pipe(babel({presets: [preset]}))
+    .pipe(browserify())
     .pipe(gulp.dest(path.build.scripts))
     .pipe(reload({stream: true}));
 });

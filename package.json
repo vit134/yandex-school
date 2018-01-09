@@ -28,6 +28,7 @@
     "browser-sync": "^2.22.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
+    "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.6.1",
     "gulp-less": "^3.4.0",
     "gulp-nodemon": "^2.2.1",
@@ -36,6 +37,7 @@
     "gulp-watch": "^4.3.11",
     "nodemon": "^1.14.3",
     "semistandard": "^11.0.0",
+    "simplebar": "^2.5.1",
     "twig": "^1.10.5"
   }
 }
