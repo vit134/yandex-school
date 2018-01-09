@@ -1,20 +1,46 @@
 .button {
+    border-radius: 4px;
+    text-align: center;
+    padding: 0 16px;
+    line-height: 36px;
+    font-size: 13px;
+    letter-spacing: 0;
+    font-weight: 500;
     cursor: pointer;
+
+    &:active {
+        background: #0059FF;
+    }
+
+    &:hover {
+        background: #0059FF;
+    }
 
     &_add-event {
         background: #007DFF;
-        border-radius: 4px;
-        color: #fff;
-        text-align: center;
+        color: #fff;        
         width: 140px;
         height: 36px;
-        line-height: 36px;
-        font-size: 13px;
-        letter-spacing: 0;
-        font-weight: 600;
+    }
+
+    &_cansel {
+        background: #E9ECEF;
+
+        &:active {
+            background:  #C7CDD3;
+        }
 
         &:hover {
-            background: #0059FF;
+            background: #DDE0E3;
         }
+
+        &.disabled {
+            opacity: 0.4;
+        }
+    }
+
+    &_create {
+        background: #007DFF;
+        color: #fff;
     }
 }

@@ -19,6 +19,20 @@ function init() {
         autoHide: false
     });
 
+    var datepickekerOptions = $.extend(
+        {},
+        $.datepicker.regional[ "ru" ],
+        {
+            showOn: "both",
+            buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
+            buttonImageOnly: true,
+            showOtherMonths: true,
+            selectOtherMonths: true
+        }
+    )
+
+    $("#datepicker").datepicker(datepickekerOptions);
+
 }
 
 function bindEvents() {

@@ -29,7 +29,7 @@ var _SimpleBar = require("SimpleBar"),
     $dropdownSelectOption = $dropdownSelect.find("option"),
     $membersItem = $(".js-members-item"),
     $removeMemberBtn = $(".js-remove-member");function init() {
-  bindEvents(), scrollBar = new _SimpleBar2.default($dropdowmContainer[0], { autoHide: !1 });
+  bindEvents(), scrollBar = new _SimpleBar2.default($dropdowmContainer[0], { autoHide: !1 });var e = $.extend({}, $.datepicker.regional.ru, { showOn: "both", buttonImage: "../../../styles/blocks/newevent/images/calendar.svg", buttonImageOnly: !0, showOtherMonths: !0, selectOtherMonths: !0 });$("#datepicker").datepicker(e);
 }function bindEvents() {
   $dropdowmInput.on("click", function () {
     $dropdowmContainer.addClass("active");
