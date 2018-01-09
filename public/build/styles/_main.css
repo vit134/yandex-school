@@ -251,9 +251,6 @@ div {
 .newevent__input:-moz-placeholder {
   color: #858E98;
 }
-.newevent__input_dropdown:focus + .newevent__dropdown {
-  display: flex !important;
-}
 .newevent__tire {
   font-size: 14px;
   font-weight: 900;
@@ -269,15 +266,20 @@ div {
   cursor: pointer;
 }
 .newevent__dropdown {
-  display: none !important;
+  display: none;
   position: absolute;
   width: 100%;
-  height: 136px;
+  height: 140px;
   top: calc(100% + 1px);
   background: #fff;
   box-shadow: 0 1px 10px 0 rgba(0, 44, 92, 0.28);
   border-radius: 4px;
   overflow: hidden;
+}
+.newevent__dropdown.active {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 .newevent__dropdown__item {
   padding: 5px 16px;
@@ -334,17 +336,49 @@ div {
   background-repeat: no-repeat;
   background-size: 11px;
 }
-[data-simplebar] {
+.newevent__members {
+  position: absolute;
+  top: calc(100% + 1px);
+  width: 100%;
+  padding: 12px 0;
+}
+.newevent__members__item {
   position: relative;
-  z-index: 0;
+  display: inline-block;
+  vertical-align: middle;
+  background: #E9ECEF;
+  border-radius: 16px;
+  margin: 0 8px 8px 0;
+  padding-right: 36px;
+}
+.newevent__members__name {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+}
+.newevent__members__image {
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #222;
+}
+.newevent__members__close {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  right: 5px;
+  top: 5px;
+  background: url('/styles/blocks//newevent/images/close.svg') center no-repeat;
+  background-size: 12px;
+  cursor: pointer;
+}
+[data-simplebar] {
+  z-index: 10;
   overflow: hidden;
   -webkit-overflow-scrolling: touch;
-  /* Trigger native scrolling for mobile, if not supported, plugin is used. */
-}
-[data-simplebar="init"] {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 }
 .simplebar-scroll-content {
   overflow-x: hidden;
@@ -370,18 +404,18 @@ div {
 .simplebar-scrollbar {
   position: absolute;
   right: 2px;
-  border-radius: 7px;
+  background: #D5DFE9;
+  border-radius: 100px;
   min-height: 10px;
   width: 7px;
   opacity: 0;
   -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
-  background: black;
   background-clip: padding-box;
 }
 .simplebar-track:hover .simplebar-scrollbar {
   /* When hovered, remove all transitions from drag handle */
-  opacity: 0.5;
+  opacity: 1;
   -webkit-transition: opacity 0 linear;
   transition: opacity 0 linear;
 }
