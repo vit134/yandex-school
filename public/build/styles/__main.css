@@ -12,27 +12,12 @@ a {
 div {
   box-sizing: border-box;
 }
+.hidden {
+  display: none !important;
+}
 .l-window {
   margin: 0 auto;
   max-width: 1280px;
-}
-.button {
-  cursor: pointer;
-}
-.button_add-event {
-  background: #007DFF;
-  border-radius: 4px;
-  color: #fff;
-  text-align: center;
-  width: 140px;
-  height: 36px;
-  line-height: 36px;
-  font-size: 13px;
-  letter-spacing: 0;
-  font-weight: 600;
-}
-.button_add-event:hover {
-  background: #0059FF;
 }
 .calendar {
   display: flex;
@@ -71,6 +56,24 @@ div {
 .calendar__date:hover {
   color: #0070E0;
 }
+.button {
+  cursor: pointer;
+}
+.button_add-event {
+  background: #007DFF;
+  border-radius: 4px;
+  color: #fff;
+  text-align: center;
+  width: 140px;
+  height: 36px;
+  line-height: 36px;
+  font-size: 13px;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+.button_add-event:hover {
+  background: #0059FF;
+}
 .header {
   display: flex;
   flex-direction: row;
@@ -88,80 +91,6 @@ div {
   height: 24.4px;
   background: url('/styles/blocks//header/images/logo.svg') center no-repeat;
   background-size: 100%;
-}
-.main {
-  overflow: hidden;
-}
-.main__header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  align-items: center;
-  height: 46px;
-  border-bottom: 1px solid #E9ECEF;
-}
-.main__calendar {
-  padding: 0 24px;
-  width: 245px;
-}
-.main__hours {
-  position: relative;
-  -webkit-flex: auto;
-  flex: auto;
-  padding: 0 10px 0 24px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  height: 100%;
-  line-height: 46px;
-}
-.main__hours__current {
-  position: absolute;
-  top: 13px;
-  width: 49px;
-  height: 20px;
-  text-align: center;
-  line-height: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  background: #007DFF;
-  border-radius: 100px;
-  color: #fff;
-  z-index: 10;
-}
-.main__hours__current:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 24.5px;
-  top: 100%;
-  width: 1px;
-  height: 10000px;
-  background: inherit;
-}
-.main__hours__item {
-  position: relative;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.4px;
-  width: 6.25%;
-}
-.main__hours__item.past {
-  color: #858E98;
-}
-.main__hours__item:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 100%;
-  width: 1px;
-  height: 10000px;
-  background: #E9ECEF;
-  z-index: 9;
 }
 .newevent {
   position: relative;
@@ -269,7 +198,7 @@ div {
   display: none;
   position: absolute;
   width: 100%;
-  height: 140px;
+  max-height: 140px;
   top: calc(100% + 1px);
   background: #fff;
   box-shadow: 0 1px 10px 0 rgba(0, 44, 92, 0.28);
@@ -365,7 +294,7 @@ div {
   border-radius: 50%;
   background: #222;
 }
-.newevent__members__close {
+.newevent__members__remove {
   position: absolute;
   width: 16px;
   height: 16px;
@@ -437,6 +366,80 @@ div {
   min-height: 0;
   min-width: 10px;
   width: auto;
+}
+.main {
+  overflow: hidden;
+}
+.main__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  height: 46px;
+  border-bottom: 1px solid #E9ECEF;
+}
+.main__calendar {
+  padding: 0 24px;
+  width: 245px;
+}
+.main__hours {
+  position: relative;
+  -webkit-flex: auto;
+  flex: auto;
+  padding: 0 10px 0 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  height: 100%;
+  line-height: 46px;
+}
+.main__hours__current {
+  position: absolute;
+  top: 13px;
+  width: 49px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  background: #007DFF;
+  border-radius: 100px;
+  color: #fff;
+  z-index: 10;
+}
+.main__hours__current:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 24.5px;
+  top: 100%;
+  width: 1px;
+  height: 10000px;
+  background: inherit;
+}
+.main__hours__item {
+  position: relative;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  width: 6.25%;
+}
+.main__hours__item.past {
+  color: #858E98;
+}
+.main__hours__item:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 1px;
+  height: 10000px;
+  background: #E9ECEF;
+  z-index: 9;
 }
 .schedule__floor__head {
   background: #F6F7F9;

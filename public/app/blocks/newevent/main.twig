@@ -1,40 +1,48 @@
 {% set members = [
     {
+        id: 0,
         name: 'Лекс Лютер',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 3
     },
     {
+        id: 1,
         name: 'Дарт Вейдер',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 7
     },
     {
+        id: 2,
         name: 'Йода',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 1
     },
     {
+        id: 3,
         name: 'Люк Скайуокер',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 6
     },
     {
+        id: 4,
         name: 'Кайло Рен',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 3
     },
     {
+        id: 5,
         name: 'Оби-Ван Кеноби',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 7
     },
     {
+        id: 6,
         name: 'Лея Органа',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 1
     },
     {
+        id: 7,
         name: 'Хан Соло',
         image: 'http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png',
         floor: 6
@@ -52,9 +60,14 @@
             <div class="newevent__field-block">
                 <div class="newevent__label">Участники</div>
                 <input type="text" name="newevent_memmbers" class="newevent__input newevent__input_dropdown js-dropdown-input" placeholder="Участники">
+                <select class="hidden js-newevent-select" multiple="true">
+                    {% for item in members %}
+                        <option value="{{ item.id }}">{{ item.name }}</option>
+                    {% endfor %}
+                </select>
                 <div id="js-dropdown-container" class="newevent__dropdown">
                     {% for item in members %}
-                        <div class="newevent__dropdown__item js-dropdown-item">
+                        <div class="newevent__dropdown__item js-dropdown-item" data-id="{{ item.id }}">
                             <img src="{{ item.image }}" class="newevent__dropdown__image">
                             <span class="newevent__dropdown__member">{{ item.name }}</span>
                             <span class="newevent__dropdown__floor">· {{ item.floor }} этаж</span>
@@ -62,26 +75,13 @@
                     {% endfor %}
                 </div>
                 <div class="newevent__members js-members-container">
-                    <span class="newevent__members__item">
-                        <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                        <span class="newevent__members__name">Лекс Лютер</span>
-                        <span class="newevent__members__close"></span>
-                    </span>
-                    <span class="newevent__members__item">
-                        <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                        <span class="newevent__members__name">Лекс Лютер</span>
-                        <span class="newevent__members__close"></span>
-                    </span>
-                    <span class="newevent__members__item">
-                        <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                        <span class="newevent__members__name">Лекс Лютер</span>
-                        <span class="newevent__members__close"></span>
-                    </span>
-                    <span class="newevent__members__item">
-                        <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                        <span class="newevent__members__name">Лекс Лютер</span>
-                        <span class="newevent__members__close"></span>
-                    </span>
+                    {% for item in members %}
+                        <span class="newevent__members__item hidden js-members-item" data-id="{{ item.id }}">
+                            <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
+                            <span class="newevent__members__name">{{ item.name }}</span>
+                            <span class="newevent__members__remove js-remove-member"></span>
+                        </span>
+                    {% endfor %}
                 </div>
             </div>
         </div>
