@@ -37,6 +37,49 @@ div {
 .button_add-event:hover {
   background: #0059FF;
 }
+.calendar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  align-items: center;
+  padding: 0 2%;
+  height: 100%;
+}
+.calendar__arrow {
+  width: 24px;
+  height: 24px;
+  background-color: #E9ECEF;
+  border-radius: 100px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 7px;
+  cursor: pointer;
+}
+.calendar__arrow_left {
+  background-image: url('/styles/blocks//calendar/images/arrow2.svg');
+}
+.calendar__arrow_right {
+  background-image: url('/styles/blocks//calendar/images/arrow.svg');
+}
+.calendar__arrow:hover {
+  background-color: rgba(0, 16, 33, 0.05);
+}
+.calendar__date {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.calendar__date:hover {
+  color: #0070E0;
+}
+.footer {
+  padding: 20px 0;
+  display: flex;
+  border-top: 1px solid #E9ECEF;
+  box-sizing: border-box;
+}
 .header {
   display: flex;
   flex-direction: row;
@@ -134,7 +177,7 @@ div {
   max-width: 872px;
   margin: 0 auto;
   padding-top: 31px;
-  height: calc(100vh - 71px);
+  height: calc(100vh - 71px - 76px);
 }
 .newevent__title {
   font-size: 20px;
@@ -581,41 +624,4 @@ div {
   bottom: 100%;
   border: 10px solid transparent;
   border-bottom: 10px solid #fff;
-}
-.calendar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  align-items: center;
-  padding: 0 2%;
-  height: 100%;
-}
-.calendar__arrow {
-  width: 24px;
-  height: 24px;
-  background-color: #E9ECEF;
-  border-radius: 100px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 7px;
-  cursor: pointer;
-}
-.calendar__arrow_left {
-  background-image: url('/styles/blocks//calendar/images/arrow2.svg');
-}
-.calendar__arrow_right {
-  background-image: url('/styles/blocks//calendar/images/arrow.svg');
-}
-.calendar__arrow:hover {
-  background-color: rgba(0, 16, 33, 0.05);
-}
-.calendar__date {
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0;
-}
-.calendar__date:hover {
-  color: #0070E0;
 }
