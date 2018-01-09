@@ -23,7 +23,9 @@ app.get('/', function(req, res){
 
 app.get('/newevent', function(req, res){
     res.render('new-event', {
-        enableAddButton: false
+        enableAddButton: false,
+        footer: true,
+        newEvent: true
     });
 });
 
