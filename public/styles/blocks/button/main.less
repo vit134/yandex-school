@@ -5,36 +5,41 @@
     line-height: 36px;
     font-size: 13px;
     letter-spacing: 0;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    color: #ffffff;
-    background: @buttonBlueColor;
 
-    &:focus {
-        background: @buttonBlueColorPressed;
+    &_blue {
+        color: #ffffff;
+        background: @buttonBlueColor;
+
+        &:focus {
+            background: @buttonBlueColorPressed;
+        }
+
+        &:hover {
+            background: @buttonBlueColorHover;
+        }
     }
 
-    &:hover {
-        background: @buttonBlueColorHover;
+    &_grey {
+        background: #E9ECEF;
+
+        &:focus {
+            background:  #C7CDD3;
+        }
+
+        &:hover {
+            background: #DDE0E4;
+        }
     }
 
     &_add-event {
-
-        color: #fff;
         width: 140px;
         height: 36px;
     }
 
     &_cansel {
-        background: #E9ECEF;
-
-        &:active {
-            background:  #C7CDD3;
-        }
-
-        &:hover {
-            background: #DDE0E3;
-        }
+        
 
         &.disabled {
             opacity: 0.4;

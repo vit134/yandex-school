@@ -8,7 +8,8 @@ var $dropdowmContainer = $('#js-dropdown-container'),
     $dropdownSelect = $('.js-newevent-select'),
     $dropdownSelectOption = $dropdownSelect.find('option'),
     $membersItem = $('.js-members-item'),
-    $removeMemberBtn = $('.js-remove-member');
+    $removeMemberBtn = $('.js-remove-member'),
+    $calendarContainer = $('.js-calendar-container');
 
 var scrollBar;
 
@@ -27,11 +28,17 @@ function init() {
             buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
             buttonImageOnly: true,
             showOtherMonths: true,
-            selectOtherMonths: true
+            selectOtherMonths: true,
+            beforeShow:function(textbox, instance){
+                $calendarContainer.append($(instance.dpDiv)).show();
+            },
+            onClose: function() {
+                $calendarContainer.hide();
+            }
         }
     )
 
-    $("#datepicker").datepicker(datepickekerOptions);
+    $('#datepicker').datepicker(datepickekerOptions);
 
 }
 

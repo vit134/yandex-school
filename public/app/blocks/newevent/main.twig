@@ -90,7 +90,7 @@
                 <div class="newevent__field-block newevent__field-block_date">
                     <div class="newevent__label">Дата</div>
                     <input type="text" name="newevent_date" class="newevent__input" id="datepicker" value="{{ "now"|date("d M\, Y") }}">
-                    <span class="newevent__calendar"></span>
+                    <div class="newevent__calendar js-calendar-container"></div>
                 </div>
                 <div class="newevent__field-block newevent__field-block_start">
                     <div class="newevent__label">Начало</div>
@@ -117,20 +117,26 @@
     </div>
     <a href="/" class="newevent__close"></a>
 </div>
-<div class="popup">
-    <div class="popoup_create-event">
-        <div class="popup__img"></div>
-        <div class="popup__title">Встреча создана!</div>
-        <div class="popup__text">
-            <span>14 декабря</span>
-            ,
-            <span>15:00-17:00</span>
+<div class="popup js-popup" data-id="event_create">
+    <div class="popup__img popup__img_create"></div>
+    <div class="popup__title">Встреча создана!</div>
+    <div class="popup__text">14 декабря, 15:00-17:00</div>
+    <div class="popup__text">Готем &#183; 4 этаж</div>    
+    <div class="popup__buttons">
+        <div class="popup__buttons__item">
+            <div class="button button_blue">Хорошо</div>
         </div>
-        <div class="popup__text">
-            <span>Готем</span>
-            &#183;
-            <span>4 этаж</span>
+    </div>
+</div>
+<div class="popup js-popup" data-id="event_delete">
+    <div class="popup__img popup__img_delete"></div>
+    <div class="popup__title">Встреча будет<br>удалена безвозвратно</div>   
+    <div class="popup__buttons">
+        <div class="popup__buttons__item">
+            <div class="button button_grey">Отмена</div>
         </div>
-        <div class="button button_blue">Хорошо</div>
+        <div class="popup__buttons__item">
+            <div class="button button_grey">Удалить</div>
+        </div>
     </div>
 </div>
