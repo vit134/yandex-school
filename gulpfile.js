@@ -75,14 +75,11 @@ gulp.task('scripts', function() {
     .pipe(reload({stream: true}));
 });
 
-gulp.task('build', ['styles', 'scripts'], function() {
-    return gulp.src([path.dev.html])
-        .pipe(gulp.dest(path.prod.src));
-});
+gulp.task('build', ['styles', 'scripts']);
 
 gulp.task('watch',function(){
     gulp.watch([path.dev.less, path.dev.blocks, path.dev.js, path.dev.html, path.dev.htmlBlocks], ['styles', 'scripts']);
     reload({stream: true});
 });
 
-gulp.task('default', ['watch', 'sync']);
+gulp.task('default', ['build', 'watch', 'sync']);

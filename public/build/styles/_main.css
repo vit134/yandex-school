@@ -28,15 +28,16 @@ div {
   letter-spacing: 0;
   font-weight: 500;
   cursor: pointer;
+  color: #ffffff;
+  background: #007DFF;
 }
-.button:active {
-  background: #0059FF;
+.button:focus {
+  background: #0011FE;
 }
 .button:hover {
-  background: #0059FF;
+  background: #0058FF;
 }
 .button_add-event {
-  background: #007DFF;
   color: #fff;
   width: 140px;
   height: 36px;
@@ -53,11 +54,10 @@ div {
 .button_cansel.disabled {
   opacity: 0.4;
 }
-.button_create {
-  background: #007DFF;
-  color: #fff;
-}
 .calendar {
+  position: relative;
+}
+.calendar__head {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -65,6 +65,18 @@ div {
   align-items: center;
   padding: 0 2%;
   height: 100%;
+}
+.calendar__dropdown {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  width: 245px;
+  height: 232px;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 1px 10px 0 rgba(0, 44, 92, 0.28);
+  border-radius: 4px;
+  z-index: 12;
 }
 .calendar__arrow {
   width: 24px;
@@ -195,184 +207,6 @@ div {
   height: 10000px;
   background: #E9ECEF;
   z-index: 9;
-}
-.schedule__floor__head {
-  background: #F6F7F9;
-}
-.schedule__floor__head__title {
-  width: 245px;
-  font-size: 11px;
-  color: #858E98;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  padding: 21px 0 8px 25px;
-  background: #fff;
-  border-right: 1px solid #E9ECEF;
-  font-weight: 700;
-}
-.schedule__row {
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-}
-.schedule__row:last-child .schedule__room {
-  margin-bottom: 0;
-}
-.schedule__room {
-  width: 245px;
-  background: #fff;
-  padding: 0 25px 16px;
-  border-right: 1px solid #E9ECEF;
-}
-.schedule__room__name {
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 17px;
-  cursor: pointer;
-}
-.schedule__room__name:hover {
-  color: #0070E0;
-}
-.schedule__room__capacity {
-  font-size: 13px;
-  line-height: 17px;
-}
-.schedule__room.busy .schedule__room__name,
-.schedule__room.busy .schedule__room__capacity {
-  color: #858E98;
-}
-.schedule__events {
-  -webkit-flex: auto;
-  flex: auto;
-  background: #F6F7F9;
-  font-size: 0;
-}
-.schedule__events__item {
-  position: relative;
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 14px;
-  background: #fff;
-  height: 28px;
-  margin-top: 3px;
-  width: 150px;
-}
-.schedule__events__item__add {
-  display: none;
-  width: 57px;
-  height: 100%;
-  border-radius: 2px;
-  background: #2B50FD;
-  text-align: center;
-  line-height: 28px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 20px;
-  cursor: pointer;
-}
-.schedule__events__item__add:active {
-  background: #1D00FE;
-}
-.schedule__events__item__tooltip {
-  display: none;
-}
-.schedule__events__item:hover {
-  z-index: 11;
-}
-.schedule__events__item:hover .schedule__events__item__add {
-  display: block;
-}
-.schedule__events__item:hover .schedule__events__item__tooltip {
-  display: block;
-}
-.schedule__events__item.busy {
-  background: #D5DFE9;
-}
-.schedule__events__item.busy:hover {
-  background: #99A9B9;
-  z-index: 11;
-}
-.tooltip {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  margin-left: -169px;
-  width: 338px;
-  border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 1px 16px 0 rgba(0, 44, 92, 0.28);
-  padding: 19px 16px;
-  z-index: 12;
-}
-.tooltip__title {
-  font-size: 15px;
-  letter-spacing: 0;
-  line-height: 24px;
-  font-weight: 700;
-}
-.tooltip__description {
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 17px;
-  margin-bottom: 20px;
-}
-.tooltip__members {
-  font-size: 0;
-}
-.tooltip__members__item {
-  display: inline-block;
-  vertical-align: middle;
-}
-.tooltip__members__image {
-  display: inline-block;
-  vertical-align: middle;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-.tooltip__members__name {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 17px;
-  font-weight: 600;
-  margin-right: 3px;
-}
-.tooltip__members__also {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 13px;
-  letter-spacing: 0;
-  line-height: 17px;
-  color: #37003E;
-}
-.tooltip__edit {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background-color: #E9ECEF;
-  background-image: url('/styles/blocks//tooltip/images/edit.svg');
-  background-size: 11px;
-  background-position: center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-.tooltip:before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  margin-left: -5px;
-  bottom: 100%;
-  border: 10px solid transparent;
-  border-bottom: 10px solid #fff;
 }
 .newevent {
   position: relative;
@@ -735,4 +569,182 @@ div {
   background-size: 100%;
   cursor: pointer;
   opacity: 0.4;
+}
+.schedule__floor__head {
+  background: #F6F7F9;
+}
+.schedule__floor__head__title {
+  width: 245px;
+  font-size: 11px;
+  color: #858E98;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  padding: 21px 0 8px 25px;
+  background: #fff;
+  border-right: 1px solid #E9ECEF;
+  font-weight: 700;
+}
+.schedule__row {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+.schedule__row:last-child .schedule__room {
+  margin-bottom: 0;
+}
+.schedule__room {
+  width: 245px;
+  background: #fff;
+  padding: 0 25px 16px;
+  border-right: 1px solid #E9ECEF;
+}
+.schedule__room__name {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 17px;
+  cursor: pointer;
+}
+.schedule__room__name:hover {
+  color: #0070E0;
+}
+.schedule__room__capacity {
+  font-size: 13px;
+  line-height: 17px;
+}
+.schedule__room.busy .schedule__room__name,
+.schedule__room.busy .schedule__room__capacity {
+  color: #858E98;
+}
+.schedule__events {
+  -webkit-flex: auto;
+  flex: auto;
+  background: #F6F7F9;
+  font-size: 0;
+}
+.schedule__events__item {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  background: #fff;
+  height: 28px;
+  margin-top: 3px;
+  width: 150px;
+}
+.schedule__events__item__add {
+  display: none;
+  width: 57px;
+  height: 100%;
+  border-radius: 2px;
+  background: #2B50FD;
+  text-align: center;
+  line-height: 28px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+}
+.schedule__events__item__add:active {
+  background: #1D00FE;
+}
+.schedule__events__item__tooltip {
+  display: none;
+}
+.schedule__events__item:hover {
+  z-index: 11;
+}
+.schedule__events__item:hover .schedule__events__item__add {
+  display: block;
+}
+.schedule__events__item:hover .schedule__events__item__tooltip {
+  display: block;
+}
+.schedule__events__item.busy {
+  background: #D5DFE9;
+}
+.schedule__events__item.busy:hover {
+  background: #99A9B9;
+  z-index: 11;
+}
+.tooltip {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  margin-left: -169px;
+  width: 338px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 16px 0 rgba(0, 44, 92, 0.28);
+  padding: 19px 16px;
+  z-index: 13;
+}
+.tooltip__title {
+  font-size: 15px;
+  letter-spacing: 0;
+  line-height: 24px;
+  font-weight: 700;
+}
+.tooltip__description {
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 17px;
+  margin-bottom: 20px;
+}
+.tooltip__members {
+  font-size: 0;
+}
+.tooltip__members__item {
+  display: inline-block;
+  vertical-align: middle;
+}
+.tooltip__members__image {
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+.tooltip__members__name {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 17px;
+  font-weight: 600;
+  margin-right: 3px;
+}
+.tooltip__members__also {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 17px;
+  color: #37003E;
+}
+.tooltip__edit {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #E9ECEF;
+  background-image: url('/styles/blocks//tooltip/images/edit.svg');
+  background-size: 11px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.tooltip:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  margin-left: -5px;
+  bottom: 100%;
+  border: 10px solid transparent;
+  border-bottom: 10px solid #fff;
 }

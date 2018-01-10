@@ -1,6 +1,4 @@
 .main {
-    @headerHeight: 46px;
-
     overflow: hidden;
 
     &__header {
@@ -9,7 +7,7 @@
         justify-content: space-between;
         flex-wrap: nowrap;
         align-items: center;
-        height: @headerHeight;
+        height: @toplineHeight;
         border-bottom: 1px solid @borderColor;
     }
 
@@ -29,7 +27,7 @@
         flex-wrap: nowrap;
         align-items: stretch;
         height: 100%;
-        line-height: @headerHeight;
+        line-height: @toplineHeight;
 
         &__current {
             position: absolute;

@@ -7,18 +7,20 @@
     letter-spacing: 0;
     font-weight: 500;
     cursor: pointer;
+    color: #ffffff;
+    background: @buttonBlueColor;
 
-    &:active {
-        background: #0059FF;
+    &:focus {
+        background: @buttonBlueColorPressed;
     }
 
     &:hover {
-        background: #0059FF;
+        background: @buttonBlueColorHover;
     }
 
     &_add-event {
-        background: #007DFF;
-        color: #fff;        
+
+        color: #fff;
         width: 140px;
         height: 36px;
     }
@@ -37,10 +39,5 @@
         &.disabled {
             opacity: 0.4;
         }
-    }
-
-    &_create {
-        background: #007DFF;
-        color: #fff;
     }
 }
