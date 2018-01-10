@@ -6,7 +6,7 @@
             {% include 'blocks/calendar/main.twig' %}
         </div>
         <div class="main__hours js-hours">
-            <div class="main__hours__current js-hours-current">{{ "now"|date("h:i") }}</div>
+            <div class="main__hours__current js-hours-current">{{ "now"|date("H:i") }}</div>
             <div class="main__hours__item js-hours-item" data-time="8:00">8:00</div>
             {% for i in 9..23 %}
                 <div class="main__hours__item js-hours-item" data-time="{{i}}:00">{{i}}</div>
@@ -174,5 +174,5 @@
 {% endblock %}
 
 {% block pageScript %}
-    <script type="text/javascript" src="/build/scripts/__main.js"></script>
+    <script type="text/javascript" src="/build/scripts/index/index.js"></script>
 {% endblock %}

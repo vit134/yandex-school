@@ -34,7 +34,10 @@ gulp.task('sync', function() {
     browserSync.init({
         proxy: "localhost:3000",
         open: true,
-        notify: true
+        notify: true,
+        socket: {
+            namespace: '/someothername'
+        }
     });
 });
 

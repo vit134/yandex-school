@@ -219,7 +219,7 @@
 
         &__item:hover & {
             &__remove {
-                opacity: 1;    
+                opacity: 1;
             }
         }
 
@@ -332,7 +332,6 @@
         opacity: 0.3;
     }
 
-
     &-state {
         &-default {
             width: 20px;
@@ -342,12 +341,18 @@
             margin: 0 auto;
         }
 
-        &-highlight {
+        &-active {
             background: #007DFF;
             border-radius: 50%;
             color: #fff;
         }
+
+        &-highlight {
+            border: 1px solid #007DFF;
+            border-radius: 50%;
+        }
     }
+
     &-datepicker {
         width: 238px;
         background: #fff;
