@@ -60,6 +60,13 @@
 
         &-next {
             order: 3;
+            background-image: url('@{blocksPath}/calendar/images/arrow.svg');
+            background-position: 8px center;
+        }
+
+        &-prev {
+            background-image: url('@{blocksPath}/calendar/images/arrow2.svg');
+            background-position: 5px center;
         }
 
         &-prev,
@@ -68,10 +75,12 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #E9ECEF;
+            background-color: #E9ECEF;
             opacity: 0.6;
             cursor: pointer;
             text-align: center;
+
+            background-repeat: no-repeat;
 
             &:hover {
                 opacity: 1;

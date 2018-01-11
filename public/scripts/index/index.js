@@ -20,7 +20,7 @@ $(document).ready(function() {
 
     function init() {
         bindEvents();
-        setCurrentTime();
+        //setCurrentTime();
 
         var datepickekerOptions = $.extend(
             {},
@@ -30,11 +30,11 @@ $(document).ready(function() {
                 selectOtherMonths: true,
                 onSelect: function(date, obj) {
 
-                    var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
+                    /*var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
                     var currentDate = obj.currentDay + '-' + obj.currentMonth + '-' + obj.currentYear;
 
                     $calendarToogle.html(date).removeClass('open');
-                    $calendarContainer.datepicker('hide').hide();
+                    $calendarContainer.datepicker('hide').hide();*/
                 }
             }
         )
@@ -89,7 +89,7 @@ $(document).ready(function() {
                 $calendarContainer.datepicker('hide').hide();
             }
         });
-        
+
     }
 
     init();

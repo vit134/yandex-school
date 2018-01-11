@@ -7,17 +7,198 @@
 </head>
 <body>
     <div class="l-window">
-        {% include 'blocks/header/header.twig' %}
+        <header class="header">
+            <a href="/" class="header__logo"></a>
+            <a href="/newevent" class="button button_blue js-add-event-btn">Создать встречу</a>
+        </header>
         <main class="main">
-            {% block Main %}{% endblock %}
+            <div class="main__header">
+                <div class="main__calendar">
+                    {% include 'blocks/calendar/main.twig' %}
+                </div>
+                <div class="main__hours js-hours">
+                    <div class="main__hours__current js-hours-current">{{ "now"|date("H:i") }}</div>
+                    <div class="main__hours__item js-hours-item" data-time="8:00">8:00</div>
+                    <div class="main__hours__item js-hours-item" data-time="9:00">9</div>
+                    <div class="main__hours__item js-hours-item" data-time="10:00">10</div>
+                    <div class="main__hours__item js-hours-item" data-time="11:00">11</div>
+                    <div class="main__hours__item js-hours-item" data-time="12:00">12</div>
+                    <div class="main__hours__item js-hours-item" data-time="13:00">13</div>
+                    <div class="main__hours__item js-hours-item" data-time="14:00">14</div>
+                    <div class="main__hours__item js-hours-item" data-time="15:00">15</div>
+                    <div class="main__hours__item js-hours-item" data-time="16:00">16</div>
+                    <div class="main__hours__item js-hours-item" data-time="17:00">17</div>
+                    <div class="main__hours__item js-hours-item" data-time="18:00">18</div>
+                    <div class="main__hours__item js-hours-item" data-time="19:00">19</div>
+                    <div class="main__hours__item js-hours-item" data-time="20:00">20</div>
+                    <div class="main__hours__item js-hours-item" data-time="21:00">21</div>
+                    <div class="main__hours__item js-hours-item" data-time="22:00">22</div>
+                    <div class="main__hours__item js-hours-item" data-time="23:00">23</div>
+                </div>
+            </div>
+            <div class="main__schedule">
+                <div class="schedule__floor">
+                    <div class="schedule__floor__head schedule__row">
+                        <div class="schedule__floor__head__title">7 этаж</div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room busy">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item busy">
+                                <div class="schedule__events__item__tooltip">
+                                    <div class="tooltip">
+                                        <div class="tooltip__title">Рассуждения о высоком</div>
+                                        <div class="tooltip__description">
+                                            <span>28 декабря,</span>
+                                            <span>15:00&#8212;17:00</span>
+                                            <span> &#183; </span>
+                                            <span>Желтый дом</span>
+                                        </div>
+                                        <div class="tooltip__members">
+                                            <div class="tooltip__members__item">
+                                                <img src="https://cdn.dribbble.com/users/588874/screenshots/2249528/dribbble_1x.png" class="tooltip__members__image">
+                                                <span class="tooltip__members__name">Дарт Вейдер</span>
+                                            </div>
+                                            <span class="tooltip__members__also">
+                                                и <span>12</span> участников
+                                            </span>
+                                        </div>
+                                        <div class="tooltip__edit"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="schedule__events__item busy"></div>
+                            <div class="schedule__events__item busy"></div>
+                        </div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item busy"></div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item busy"></div>
+                        </div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item busy"></div>
+                        </div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room busy">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="schedule__floor">
+                    <div class="schedule__floor__head schedule__row">
+                        <div class="schedule__floor__head__title">6 этаж</div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="schedule__row">
+                        <div class="schedule__room">
+                            <div class="schedule__room__name">Ржавый Фред</div>
+                            <div class="schedule__room__capacity">3-6 человек</div>
+                        </div>
+                        <div class="schedule__events">
+                            <div class="schedule__events__item">
+                                <a href="" class="schedule__events__item__add">+</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
-        {% if footer %}
-            {% include 'blocks/footer/footer.twig' %}
-        {% endif %}
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/scripts/vendor/datepicker-ru.js"></script>
-    {% block pageScript %}{% endblock %}
+    <script type="text/javascript" src="/build/scripts/index/index.js"></script>
 </body>
 </html>

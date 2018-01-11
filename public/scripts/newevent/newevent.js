@@ -25,7 +25,7 @@ function init() {
         $.datepicker.regional[ "ru" ],
         {
             showOn: "both",
-            buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
+            buttonImage: "/public/styles/blocks/newevent/images/calendar.svg",
             buttonImageOnly: true,
             showOtherMonths: true,
             selectOtherMonths: true,
