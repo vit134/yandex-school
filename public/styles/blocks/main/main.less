@@ -13,21 +13,25 @@
 
     &__calendar {
         padding: 0 24px;
-        width: @leftColumnWidth;
+        flex: 0 0 @leftColumnWidth;
     }
 
     &__hours {
         position: relative;
         -webkit-flex: auto;
         flex: auto;
-        padding: 0 10px 0 24px;
-        display: flex;
+        /*display: flex;
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: nowrap;
-        align-items: stretch;
+        align-items: stretch;*/
+        padding: 0 10px 0 24px;
         height: 100%;
         line-height: @toplineHeight;
+
+        &__inner {
+            font-size: 0;
+        }
 
         &__current {
             position: absolute;
@@ -57,10 +61,12 @@
 
         &__item {
             position: relative;
+            display: inline-block;
+            vertical-align: middle;
             font-weight: 700;
             font-size: 11px;
             letter-spacing: 0.4px;
-            width: 100% / 16;
+            width: 6.25%;
 
             &.past {
                 color: #858E98;
@@ -84,4 +90,25 @@
         border-right: 1px solid #F6F7F9;
     }
 
+}
+
+
+
+@media screen and (max-width: @tabletWidth) {
+    .main {
+        &__hours {
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+
+            &__inner {
+                width: 1000px;
+            }
+                
+
+            &__item {
+                flex: 0 0 calc(~'1000px / 16');
+            }
+        }
+    }
 }

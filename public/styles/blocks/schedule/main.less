@@ -14,6 +14,7 @@
                 background: #fff;
                 border-right: 1px solid @borderColor;
                 font-weight: 700;
+                flex: none;
             }
         }
     }
@@ -38,6 +39,7 @@
         background: #fff;
         padding: 0 @defaultPadding 18px;
         border-right: 1px solid @borderColor;
+        flex: none;
 
         &__name {
             font-weight: 600;
@@ -78,7 +80,6 @@
             background: #fff;
             height: 28px;
             margin-top: 3px;
-            width: 150px;
 
             &__add {
                 display: none;
@@ -124,6 +125,14 @@
                     z-index: 11;
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: @tabletWidth) {
+    .schedule {
+        &__events {
+            flex: 0 0 1000px;
         }
     }
 }
