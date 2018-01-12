@@ -19,6 +19,42 @@ div {
   margin: 0 auto;
   max-width: 1280px;
 }
+.button {
+  border-radius: 4px;
+  text-align: center;
+  padding: 0 16px;
+  line-height: 36px;
+  font-size: 13px;
+  letter-spacing: 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button_blue {
+  color: #ffffff;
+  background: #007DFF;
+}
+.button_blue:focus {
+  background: #0011FE;
+}
+.button_blue:hover {
+  background: #0058FF;
+}
+.button_grey {
+  background: #E9ECEF;
+}
+.button_grey:focus {
+  background: #C7CDD3;
+}
+.button_grey:hover {
+  background: #DDE0E4;
+}
+.button_add-event {
+  width: 140px;
+  height: 36px;
+}
+.button_cansel.disabled {
+  opacity: 0.4;
+}
 .calendar {
   position: relative;
 }
@@ -155,42 +191,6 @@ div {
   cursor: pointer;
   opacity: 0.4;
 }
-.button {
-  border-radius: 4px;
-  text-align: center;
-  padding: 0 16px;
-  line-height: 36px;
-  font-size: 13px;
-  letter-spacing: 0;
-  font-weight: 600;
-  cursor: pointer;
-}
-.button_blue {
-  color: #ffffff;
-  background: #007DFF;
-}
-.button_blue:focus {
-  background: #0011FE;
-}
-.button_blue:hover {
-  background: #0058FF;
-}
-.button_grey {
-  background: #E9ECEF;
-}
-.button_grey:focus {
-  background: #C7CDD3;
-}
-.button_grey:hover {
-  background: #DDE0E4;
-}
-.button_add-event {
-  width: 140px;
-  height: 36px;
-}
-.button_cansel.disabled {
-  opacity: 0.4;
-}
 .footer {
   padding: 20px 0;
   display: flex;
@@ -219,37 +219,107 @@ div {
   background: url('/public/styles/blocks//header/images/logo.svg') center no-repeat;
   background-size: 100%;
 }
+@media screen and (max-width: 415px) {
+  .header__button {
+    display: none;
+  }
+}
 .main {
+  position: relative;
   overflow: hidden;
 }
-.main__header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: nowrap;
-  align-items: center;
+.main__calendar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 245px;
+  padding: 12px 24px;
   height: 46px;
   border-bottom: 1px solid #E9ECEF;
 }
-.main__calendar {
+.main__schedule__inner {
+  display: flex;
+}
+.main__schedule__col-left {
+  flex: none;
+  width: 245px;
   padding: 0 24px;
-  flex: 0 0 245px;
+  margin-top: 45px;
+  border-right: 1px solid #E9ECEF;
+}
+.main__schedule__col-right {
+  flex: auto;
+  background: #F6F7F9;
+}
+.main__schedule__room {
+  margin-bottom: 16px;
+}
+.main__schedule__room__name {
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 17px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.main__schedule__room__name:hover {
+  color: #0070E0;
+}
+.main__schedule__room__capacity {
+  font-size: 13px;
+  line-height: 17px;
+}
+.main__schedule__room.busy .main__schedule__room__name,
+.main__schedule__room.busy .main__schedule__room__capacity {
+  color: #858E98;
+}
+.main__schedule__room:last-child {
+  margin-bottom: 0;
+}
+.main__floor {
+  padding-top: 24px;
+}
+.main__floor__title {
+  font-weight: bold;
+  font-size: 11px;
+  color: #858E98;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 .main__hours {
   position: relative;
-  -webkit-flex: auto;
-  flex: auto;
-  /*display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-        align-items: stretch;*/
-  padding: 0 10px 0 24px;
-  height: 100%;
+  font-size: 0;
+  height: 46px;
+  border-bottom: 1px solid #E9ECEF;
+  padding-left: 15px;
+  background: #fff;
+}
+.main__hours__item {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: calc(100% / 16);
+  font-weight: bold;
+  font-size: 11px;
+  color: #858E98;
+  letter-spacing: 0.4px;
   line-height: 46px;
 }
-.main__hours__inner {
-  font-size: 0;
+.main__hours__item.past {
+  color: #858E98;
+}
+.main__hours__item:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 4px;
+  top: 100%;
+  width: 1px;
+  height: 10000px;
+  background: rgba(19, 100, 205, 0.1);
+  z-index: 9;
 }
 .main__hours__current {
   position: absolute;
@@ -275,43 +345,71 @@ div {
   height: 10000px;
   background: inherit;
 }
-.main__hours__item {
-  position: relative;
+.main__lines__floor {
+  margin-bottom: 10px;
+}
+.main__lines__floor:last-child {
+  margin-bottom: 0;
+}
+.main__lines__row {
+  font-size: 0;
+  margin-bottom: 24px;
+}
+.main__lines__row_empty {
+  height: 47px;
+  margin: 0;
+}
+.main__lines__row:last-child {
+  margin-bottom: 0;
+}
+.main__lines__item {
   display: inline-block;
   vertical-align: middle;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.4px;
-  width: 6.25%;
+  height: 28px;
+  background: #fff;
 }
-.main__hours__item.past {
-  color: #858E98;
+.main__lines__item.busy {
+  background: #D5DFE9;
 }
-.main__hours__item:after {
-  content: "";
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 100%;
-  width: 1px;
-  height: 10000px;
-  background: #E9ECEF;
-  z-index: 9;
+.main__lines__item.busy:hover {
+  background: #98A9B9;
 }
-.main__schedule {
-  border-right: 1px solid #F6F7F9;
-}
-@media screen and (max-width: 768px) {
-  .main__hours {
+@media screen and (max-width: 769px) {
+  .main__schedule__col-right {
     overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
   }
-  .main__hours__inner {
+  .main__schedule__col-right__inner {
     width: 1000px;
   }
-  .main__hours__item {
-    flex: 0 0 calc(1000px / 16);
+}
+@media screen and (max-width: 641px) {
+  .main__calendar {
+    position: static;
+    width: 100%;
+  }
+  .main__calendar__inner {
+    max-width: 245px;
+  }
+  .main__schedule {
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+  }
+  .main__schedule::-webkit-scrollbar {
+    width: 0;
+  }
+  .main__schedule__inner {
+    width: 1181px;
+  }
+  .main__schedule__col-left {
+    flex: none;
+    width: 181px;
+    border-top: 1px solid #E9ECEF;
+  }
+}
+@media screen and (max-width: 415px) {
+  .main__calendar__inner {
+    max-width: 100%;
   }
 }
 .newevent {
@@ -748,7 +846,7 @@ div {
   background: #99A9B9;
   z-index: 11;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 769px) {
   .schedule__events {
     flex: 0 0 1000px;
   }
