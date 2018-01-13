@@ -19,42 +19,6 @@ div {
   margin: 0 auto;
   max-width: 1280px;
 }
-.button {
-  border-radius: 4px;
-  text-align: center;
-  padding: 0 16px;
-  line-height: 36px;
-  font-size: 13px;
-  letter-spacing: 0;
-  font-weight: 600;
-  cursor: pointer;
-}
-.button_blue {
-  color: #ffffff;
-  background: #007DFF;
-}
-.button_blue:focus {
-  background: #0011FE;
-}
-.button_blue:hover {
-  background: #0058FF;
-}
-.button_grey {
-  background: #E9ECEF;
-}
-.button_grey:focus {
-  background: #C7CDD3;
-}
-.button_grey:hover {
-  background: #DDE0E4;
-}
-.button_add-event {
-  width: 140px;
-  height: 36px;
-}
-.button_cansel.disabled {
-  opacity: 0.4;
-}
 .calendar {
   position: relative;
 }
@@ -107,6 +71,42 @@ div {
 }
 .calendar__date:hover {
   color: #0070E0;
+}
+.button {
+  border-radius: 4px;
+  text-align: center;
+  padding: 0 16px;
+  line-height: 36px;
+  font-size: 13px;
+  letter-spacing: 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button_blue {
+  color: #ffffff;
+  background: #007DFF;
+}
+.button_blue:focus {
+  background: #0011FE;
+}
+.button_blue:hover {
+  background: #0058FF;
+}
+.button_grey {
+  background: #E9ECEF;
+}
+.button_grey:focus {
+  background: #C7CDD3;
+}
+.button_grey:hover {
+  background: #DDE0E4;
+}
+.button_add-event {
+  width: 140px;
+  height: 36px;
+}
+.button_cansel.disabled {
+  opacity: 0.4;
 }
 .ui-priority-secondary {
   opacity: 0.3;
@@ -302,7 +302,6 @@ div {
   width: calc(100% / 16);
   font-weight: bold;
   font-size: 11px;
-  color: #858E98;
   letter-spacing: 0.4px;
   line-height: 46px;
 }
@@ -315,6 +314,19 @@ div {
 }
 .main__events__floor:last-child {
   margin-bottom: 0;
+}
+.main__events__room {
+  display: none;
+  position: fixed;
+  left: 10px;
+  font-size: 11px;
+  color: #858E98;
+  letter-spacing: 0.4px;
+  z-index: 99;
+  padding: 5px 8px;
+  background: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 44, 92, 0.28);
+  border-radius: 4px;
 }
 .main__events__row {
   font-size: 0;
@@ -337,7 +349,7 @@ div {
   /*border-right: 1px solid #fff;
             box-sizing: content-box;*/
 }
-.main__events__item:first-child:before {
+.main__events__item:nth-of-type(1):before {
   content: "";
   display: block;
   position: absolute;
@@ -347,7 +359,7 @@ div {
   height: 28px;
   background: #fff;
 }
-.main__events__item:first-child.busy:before {
+.main__events__item:nth-of-type(1).busy:before {
   background: #D5DFE9;
 }
 .main__events__item.busy {
@@ -472,7 +484,7 @@ div {
   .main__events__item {
     height: 58px;
   }
-  .main__events__item:first-child:before {
+  .main__events__item:nth-of-type(1):before {
     height: 58px;
   }
   .main__floor__title {

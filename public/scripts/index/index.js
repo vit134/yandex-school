@@ -8,7 +8,10 @@ $(document).ready(function() {
         $calendarNextDay = $('.js-calendar-next'),
         $tooltip = $('.js-tooltip'),
         $tooltipTriangle = $('.js-tooltip-triangle'),
-        $eventItem = $('.js-event-item');
+        $eventItem = $('.js-event-item'),
+        $schedule = $('.js-schedule'),
+        $eventsRoom = $('.js-events-room'),
+        $colLeft = $('.js-col-left');
 
     var $addEventBtn = $('.js-add-event-btn');
 
@@ -20,8 +23,12 @@ $(document).ready(function() {
         _oneMinute = _oneHour / 60,
         _startPoint = 8 * _oneHour;
 
+    var _colLeftWidth;
+
+    var scheduleScrollFlag = false;
 
     function init() {
+        updateChangeblVars();
         bindEvents();
         //setCurrentTime();
 
@@ -43,6 +50,10 @@ $(document).ready(function() {
         )
 
         $calendarContainer.datepicker(datepickekerOptions);
+    }
+
+    function updateChangeblVars() {
+        _colLeftWidth = $colLeft.outerWidth(true);
     }
 
     function bindEvents() {
@@ -96,7 +107,26 @@ $(document).ready(function() {
             }
         })
 
-        $(window).on('resize', closeTooltip);
+        $schedule.on('scroll', function() {
+            var scrollLeft = $(this).scrollLeft();
+
+            if (scrollLeft > _colLeftWidth && !scheduleScrollFlag) {
+                console.log('>');
+                console.log($eventsRoom)
+                $eventsRoom.show();
+                scheduleScrollFlag = true;
+            } else if (scrollLeft < _colLeftWidth - _colLeftWidth / 4 && scheduleScrollFlag) {
+                console.log('<')
+                $eventsRoom.hide();
+                scheduleScrollFlag = false;
+            }
+        })
+
+        $(window).on('resize', function() {
+            updateChangeblVars();
+            closeTooltip();
+
+        });
     }
 
     function setCurrentTime() {
