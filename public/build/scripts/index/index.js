@@ -1,20 +1,145 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-"use strict";
+'use strict';
+
 $(document).ready(function () {
-  $(".js-hours"), $(".js-hours-current"), $(".js-hours-item");var e = $(".js-calendar-container"),
-      t = $(".js-calendar-toggle"),
-      s = $(".js-calendar-prev"),
-      a = $(".js-calendar-next"),
-      n = ($(".js-add-event-btn"), new Date());n.getHours(), n.getMinutes();!function () {
-    a.on("click", function () {
-      var t = e.datepicker("getDate");t.setTime(t.getTime() + 864e5), e.datepicker("setDate", t), e.datepicker("refresh");
-    }), s.on("click", function () {
-      var t = e.datepicker("getDate");t.setTime(t.getTime() - 864e5), e.datepicker("setDate", t), e.datepicker("refresh");
-    }), t.on("click", function () {
-      $(this).hasClass("open") ? ($(this).removeClass("open"), e.datepicker("hide").hide()) : ($(this).addClass("open"), e.datepicker("show").show());
-    }), $(document).mouseup(function (s) {
-      t.is(s.target) || 0 !== e.has(s.target).length || (t.removeClass("open"), e.datepicker("hide").hide());
-    });var n = $.extend({}, $.datepicker.regional.ru, { showOtherMonths: !0, selectOtherMonths: !0, onSelect: function onSelect(e, t) {} });e.datepicker(n);
-  }();
+    var $hours = $('.js-hours'),
+        $hoursCurrentItem = $('.js-hours-current'),
+        $hoursItem = $('.js-hours-item'),
+        $calendarContainer = $('.js-calendar-container'),
+        $calendarToogle = $('.js-calendar-toggle'),
+        $calendarPrevDay = $('.js-calendar-prev'),
+        $calendarNextDay = $('.js-calendar-next'),
+        $tooltip = $('.js-tooltip'),
+        $tooltipTriangle = $('.js-tooltip-triangle'),
+        $eventItem = $('.js-event-item');
+
+    var $addEventBtn = $('.js-add-event-btn');
+
+    var currentTime = new Date(),
+        currentHour = currentTime.getHours(),
+        currentMinute = currentTime.getMinutes();
+
+    var _oneHour = 6.25,
+        _oneMinute = _oneHour / 60,
+        _startPoint = 8 * _oneHour;
+
+    function init() {
+        bindEvents();
+        //setCurrentTime();
+
+        var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            onSelect: function onSelect(date, obj) {
+
+                /*var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
+                var currentDate = obj.currentDay + '-' + obj.currentMonth + '-' + obj.currentYear;
+                 $calendarToogle.html(date).removeClass('open');
+                $calendarContainer.datepicker('hide').hide();*/
+            }
+        });
+
+        $calendarContainer.datepicker(datepickekerOptions);
+    }
+
+    function bindEvents() {
+        $calendarNextDay.on("click", function () {
+            var date = $calendarContainer.datepicker('getDate');
+            date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
+            $calendarContainer.datepicker("setDate", date);
+            $calendarContainer.datepicker("refresh");
+        });
+
+        $calendarPrevDay.on("click", function () {
+            var date = $calendarContainer.datepicker('getDate');
+            date.setTime(date.getTime() - 1000 * 60 * 60 * 24);
+            $calendarContainer.datepicker("setDate", date);
+            $calendarContainer.datepicker("refresh");
+        });
+
+        $calendarToogle.on('click', function () {
+            if (!$(this).hasClass('open')) {
+                $(this).addClass('open');
+                $calendarContainer.datepicker('show').show();
+            } else {
+                $(this).removeClass('open');
+                $calendarContainer.datepicker('hide').hide();
+            }
+        });
+
+        $(document).mouseup(function (e) {
+            if (!$calendarToogle.is(e.target) && $calendarContainer.has(e.target).length === 0) {
+                $calendarToogle.removeClass('open');
+                $calendarContainer.datepicker('hide').hide();
+            }
+
+            /*if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0) {
+                $eventItem.removeClass('active');
+                closeTooltip();
+            }*/
+        });
+
+        $eventItem.on('click', function () {
+            var position = getEventItemPosition($(this));
+
+            if ($(this).hasClass('can-open')) {
+                if ($(this).hasClass('active')) {
+                    closeTooltip();
+                } else {
+                    $eventItem.removeClass('active');
+                    $(this).addClass('active');
+                    openTooltip(position);
+                }
+            }
+        });
+
+        $(window).on('resize', closeTooltip);
+    }
+
+    function setCurrentTime() {
+        $hoursCurrentItem.animate({
+            left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%'
+        }, 500);
+
+        $hoursItem.map(function (key, item) {
+            var $item = $(item),
+                _itemTime = $(item).data('time').split(':')[0];
+
+            if (currentHour > _itemTime) {
+                $item.addClass('past');
+            }
+        });
+    }
+
+    function getEventItemPosition($item) {
+        var top = $item.offset().top,
+            left = $item.offset().left,
+            width = $item.outerWidth(true),
+            height = $item.outerHeight(true);
+
+        return { top: top, left: left, width: width };
+    }
+
+    function openTooltip(position) {
+        $tooltip.css({
+            top: position.top + 26 + 'px',
+            left: position.left + position.width / 2 - 338 / 2 + 'px'
+        });
+        if ($(window).width() < 415) {
+            $tooltipTriangle.css({
+                left: position.left + position.width / 2 - 4 + 'px'
+            });
+        }
+
+        $tooltip.fadeIn(200);
+    }
+
+    function closeTooltip() {
+        $tooltip.hide();
+        $tooltipTriangle.css({ left: 160 });
+        $eventItem.removeClass('active');
+    }
+
+    init();
 });
 },{}]},{},[1])

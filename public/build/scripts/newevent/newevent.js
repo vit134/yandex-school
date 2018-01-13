@@ -17,49 +17,118 @@ object-assign
 */
 var i=Object.getOwnPropertySymbols,o=Object.prototype.hasOwnProperty,s=Object.prototype.propertyIsEnumerable;t.exports=function(){try{if(!Object.assign)return!1;var t=new String("abc");if(t[5]="de","5"===Object.getOwnPropertyNames(t)[0])return!1;for(var e={},n=0;n<10;n++)e["_"+String.fromCharCode(n)]=n;if("0123456789"!==Object.getOwnPropertyNames(e).map(function(t){return e[t]}).join(""))return!1;var r={};return"abcdefghijklmnopqrst".split("").forEach(function(t){r[t]=t}),"abcdefghijklmnopqrst"===Object.keys(Object.assign({},r)).join("")}catch(t){return!1}}()?Object.assign:function(t,e){for(var n,c,a=r(t),u=1;u<arguments.length;u++){n=Object(arguments[u]);for(var l in n)o.call(n,l)&&(a[l]=n[l]);if(i){c=i(n);for(var f=0;f<c.length;f++)s.call(n,c[f])&&(a[c[f]]=n[c[f]])}}return a}}]).default});
 },{}],2:[function(require,module,exports){
-"use strict";
-var _SimpleBar = require("SimpleBar"),
-    _SimpleBar2 = _interopRequireDefault(_SimpleBar);function _interopRequireDefault(e) {
-  return e && e.__esModule ? e : { default: e };
-}console.log("newevent");var scrollBar,
-    $dropdowmContainer = $("#js-dropdown-container"),
-    $dropdownItem = $(".js-dropdown-item"),
-    $dropdowmInput = $(".js-dropdown-input"),
-    $dropdownSelect = $(".js-newevent-select"),
-    $dropdownSelectOption = $dropdownSelect.find("option"),
-    $membersItem = $(".js-members-item"),
-    $removeMemberBtn = $(".js-remove-member"),
-    $calendarContainer = $(".js-calendar-container");function init() {
-  bindEvents(), scrollBar = new _SimpleBar2.default($dropdowmContainer[0], { autoHide: !1 });var e = $.extend({}, $.datepicker.regional.ru, { showOn: "both", buttonImage: "/public/styles/blocks/newevent/images/calendar.svg", buttonImageOnly: !0, showOtherMonths: !0, selectOtherMonths: !0, beforeShow: function beforeShow(e, t) {
-      $calendarContainer.append($(t.dpDiv)).show();
-    }, onClose: function onClose() {
-      $calendarContainer.hide();
-    } });$("#datepicker").datepicker(e);
-}function bindEvents() {
-  $dropdowmInput.on("click", function () {
-    $dropdowmContainer.addClass("active");
-  }), $(document).mouseup(function (e) {
-    $dropdowmContainer.is(e.target) || 0 !== $dropdowmContainer.has(e.target).length || $dropdowmContainer.removeClass("active");
-  }), $dropdownItem.on("click", function (e) {
-    e.preventDefault(), getMember($(this).data("id")), $(this).addClass("hidden");
-  }), $removeMemberBtn.on("click", function (e) {
-    e.preventDefault(), removemembers($(this).parent().data("id")), $(this).parent().addClass("hidden");
-  }), $dropdowmInput.on("click keyup paste", liveSearch);
-}function getMember(e) {
-  $(this).addClass("hidden"), $dropdownSelectOption.filter(function () {
-    return $(this).val() == e;
-  }).attr("selected", "selected"), $membersItem.filter(function () {
-    return $(this).data("id") == e;
-  }).removeClass("hidden"), $dropdowmContainer.removeClass("active"), $dropdowmInput.val("");
-}function removemembers(e) {
-  $dropdownSelectOption.filter(function () {
-    return $(this).val() == e;
-  }).attr("selected", !1), $dropdownItem.filter(function () {
-    return $(this).data("id") == e;
-  }).removeClass("hidden");
-}function liveSearch() {
-  var e = $dropdowmInput.val();$dropdownItem.each(function () {
-    $(this).text().search(new RegExp(e, "i")) < 0 ? $(this).fadeOut() : $(this).show();
-  }), scrollBar.recalculate();
-}init();
+'use strict';
+
+var _SimpleBar = require('SimpleBar');
+
+var _SimpleBar2 = _interopRequireDefault(_SimpleBar);
+
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
+
+console.log('newevent');
+
+var $dropdowmContainer = $('#js-dropdown-container'),
+    $dropdownItem = $('.js-dropdown-item'),
+    $dropdowmInput = $('.js-dropdown-input'),
+    $dropdownSelect = $('.js-newevent-select'),
+    $dropdownSelectOption = $dropdownSelect.find('option'),
+    $membersItem = $('.js-members-item'),
+    $removeMemberBtn = $('.js-remove-member'),
+    $calendarContainer = $('.js-calendar-container');
+
+var scrollBar;
+
+function init() {
+    bindEvents();
+
+    scrollBar = new _SimpleBar2.default($dropdowmContainer[0], {
+        autoHide: false
+    });
+
+    var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
+        showOn: "both",
+        buttonImage: "/public/styles/blocks/newevent/images/calendar.svg",
+        buttonImageOnly: true,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        beforeShow: function beforeShow(textbox, instance) {
+            $calendarContainer.append($(instance.dpDiv)).show();
+        },
+        onClose: function onClose() {
+            $calendarContainer.hide();
+        }
+    });
+
+    $('#datepicker').datepicker(datepickekerOptions);
+}
+
+function bindEvents() {
+
+    $dropdowmInput.on('click', function () {
+        $dropdowmContainer.addClass('active');
+    });
+
+    $(document).mouseup(function (e) {
+        if (!$dropdowmContainer.is(e.target) && $dropdowmContainer.has(e.target).length === 0) {
+            $dropdowmContainer.removeClass('active');
+        }
+    });
+
+    $dropdownItem.on('click', function (e) {
+        e.preventDefault();
+        getMember($(this).data('id'));
+        $(this).addClass('hidden');
+    });
+
+    $removeMemberBtn.on('click', function (e) {
+        e.preventDefault();
+        removemembers($(this).parent().data('id'));
+        $(this).parent().addClass('hidden');
+    });
+
+    $dropdowmInput.on('click keyup paste', liveSearch);
+}
+
+function getMember(id) {
+    $(this).addClass('hidden');
+
+    $dropdownSelectOption.filter(function () {
+        return $(this).val() == id;
+    }).attr('selected', 'selected');
+
+    $membersItem.filter(function () {
+        return $(this).data('id') == id;
+    }).removeClass('hidden');
+
+    $dropdowmContainer.removeClass('active');
+    $dropdowmInput.val('');
+}
+
+function removemembers(id) {
+    $dropdownSelectOption.filter(function () {
+        return $(this).val() == id;
+    }).attr('selected', false);
+
+    $dropdownItem.filter(function () {
+        return $(this).data('id') == id;
+    }).removeClass('hidden');
+}
+
+function liveSearch() {
+    var filter = $dropdowmInput.val();
+
+    $dropdownItem.each(function () {
+        if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+            $(this).fadeOut();
+        } else {
+            $(this).show();
+        }
+    });
+
+    scrollBar.recalculate();
+}
+
+init();
 },{"SimpleBar":1}]},{},[2])
