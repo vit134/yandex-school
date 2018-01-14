@@ -11,6 +11,7 @@ $(document).ready(function() {
         $eventItem = $('.js-event-item'),
         $schedule = $('.js-schedule'),
         $eventsRoom = $('.js-events-room'),
+        $eventsFloor = $('.js-events-floor'),
         $colLeft = $('.js-col-left');
 
     var $addEventBtn = $('.js-add-event-btn');
@@ -111,15 +112,22 @@ $(document).ready(function() {
             var scrollLeft = $(this).scrollLeft();
 
             if (scrollLeft > _colLeftWidth && !scheduleScrollFlag) {
-                console.log('>');
-                console.log($eventsRoom)
                 $eventsRoom.show();
+                $eventsFloor.show();
                 scheduleScrollFlag = true;
-            } else if (scrollLeft < _colLeftWidth - _colLeftWidth / 4 && scheduleScrollFlag) {
-                console.log('<')
+            } else if (scrollLeft <= _colLeftWidth && scheduleScrollFlag) {
                 $eventsRoom.hide();
+                $eventsFloor.hide();
                 scheduleScrollFlag = false;
             }
+
+            $eventsRoom.css({
+                left: scrollLeft - _colLeftWidth + 5 + 'px'
+            });
+
+            $eventsFloor.css({
+                left: scrollLeft - _colLeftWidth + 5 + 'px'
+            });
         })
 
         $(window).on('resize', function() {

@@ -1,4 +1,5 @@
 .button {
+    display: block;
     border-radius: 4px;
     text-align: center;
     padding: 0 16px;
@@ -39,10 +40,13 @@
     }
 
     &_cansel {
-        
-
         &.disabled {
             opacity: 0.4;
         }
+    }
+
+    &.disabled {
+        background: #E5E5E5;
+        color: #8B8E92;
     }
 }

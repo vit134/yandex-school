@@ -4,8 +4,42 @@
     justify-content: center;
     border-top: 1px solid #E9ECEF;
     box-sizing: border-box;
+    background: #fff;
 
     &__button {
         margin-right: 16px;
+    }
+}
+
+@media screen and (max-width: @bigMobileWidth) {
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .editevent {
+        .footer {
+            position: static;
+            flex-wrap: wrap;
+            border-width: 8px;
+            padding-top: 0;
+            justify-content: flex-end;
+            
+            &__button {
+                &_delete {
+                    width: 100%;
+                    color: #FF3333;
+                    padding: 16px 0;
+                    border-bottom: 8px solid #E9ECEF;
+                    background: #fff;
+                    margin: 0 0 17px 0;
+                    border-radius: 0;
+                    font-size: 15px;
+                    line-height: 15px;
+                }
+            }
+        }
     }
 }

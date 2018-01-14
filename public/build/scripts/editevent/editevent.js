@@ -19,13 +19,17 @@ var i=Object.getOwnPropertySymbols,o=Object.prototype.hasOwnProperty,s=Object.pr
 },{}],2:[function(require,module,exports){
 'use strict';
 
+console.log('editevent');
+
+require('../newevent/newevent.js');
+},{"../newevent/newevent.js":3}],3:[function(require,module,exports){
+'use strict';
+
 var _SimpleBar = require('SimpleBar');
 
 var _SimpleBar2 = _interopRequireDefault(_SimpleBar);
 
-function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : { default: obj };
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 console.log('newevent');
 

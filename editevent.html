@@ -7,14 +7,14 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/public/build/styles/__main.css">
 </head>
-<body>
+<body class="editevent">
     <div class="l-window">
         <header class="header">
             <a href="/" class="header__logo"></a>
         </header>
         <main class="main">
             <div class="newevent">
-                <div class="newevent__title">Новая встреча</div>
+                <div class="newevent__title">Редактирование встречи</div>
                 <div class="newevent__main">
                     <div class="newevent__field-block newevent__field-block_left">
                         <div class="newevent__label">Тема</div>
@@ -30,7 +30,6 @@
                             <div class="newevent__label">Начало</div>
                             <input type="text" name="newevent_start" class="newevent__input" value="16:00">
                         </div>
-                        <!--<span class="newevent__tire">&#8212;</span>-->
                         <div class="newevent__field-block newevent__field-block_end">
                             <div class="newevent__label">Конец</div>
                             <input type="text" name="newevent_end" class="newevent__input" value="16:30">
@@ -145,19 +144,27 @@
             </div>
         </main>
         <footer class="footer">
-            <a href="" class="footer__button button button_grey js-cansel-event-btn">Отмена</a>
-            <a href="" data-target="created" class="footer__button button button_blue js-event-btn disabled">Создать встречу</a>
+            <a href="" data-target="delete" class="footer__button footer__button_delete button button_grey js-event-btn">Удалить встречу</a>
+            <a href="/index.html" class="footer__button button button_grey">Отмена</a>
+            <a href="" data-target="saved" class="footer__button button button_blue js-event-btn">Сохранить</a>
         </footer>
-        <div class="newevent__tooltip">
-            Выберите переговорку
-        </div>
     </div>
     <div class="popup__wrapper js-popup-wrapper">
-        <div class="popup js-popup" data-target="created">
+        <div class="popup js-popup" data-target="delete">
+            <div class="popup__img popup__img_delete"></div>
+            <div class="popup__title">Встреча будет<br>удалена безвозвратно</div>
+            <div class="popup__buttons">
+                <div class="popup__buttons__item">
+                    <div class="button button_grey js-popup-close-button">Отмена</div>
+                </div>
+                <div class="popup__buttons__item">
+                    <a href="/index.html" class="button button_grey">Удалить</a>
+                </div>
+            </div>
+        </div>
+        <div class="popup js-popup" data-target="saved">
             <div class="popup__img popup__img_create"></div>
-            <div class="popup__title">Встреча создана!</div>
-            <div class="popup__text">14 декабря, 15:00-17:00</div>
-            <div class="popup__text">Готем &#183; 4 этаж</div>    
+            <div class="popup__title">Встреча сохранена</div>
             <div class="popup__buttons">
                 <div class="popup__buttons__item">
                     <div class="button button_blue js-popup-close-button">Хорошо</div>

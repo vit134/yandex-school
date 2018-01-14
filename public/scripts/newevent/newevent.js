@@ -2,6 +2,8 @@ import SimpleBar from 'SimpleBar';
 
 console.log('newevent');
 
+var $body = $('body');
+
 var $dropdowmContainer = $('#js-dropdown-container'),
     $dropdownItem = $('.js-dropdown-item'),
     $dropdowmInput = $('.js-dropdown-input'),
@@ -9,7 +11,14 @@ var $dropdowmContainer = $('#js-dropdown-container'),
     $dropdownSelectOption = $dropdownSelect.find('option'),
     $membersItem = $('.js-members-item'),
     $removeMemberBtn = $('.js-remove-member'),
-    $calendarContainer = $('.js-calendar-container');
+    $calendarContainer = $('.js-calendar-container'),
+    $inputArrow = $('.js-input-arrow'),
+    $inputClear = $('.js-input-clear'),
+    $footerButton = $('.js-event-btn');
+
+var $popupWrapper = $('.js-popup-wrapper'),
+    $popup = $('.js-popup'),
+    $popupCanselBtn = $('.js-popup-close-button');
 
 var scrollBar;
 
@@ -49,13 +58,15 @@ function bindEvents() {
     })
 
     $(document).mouseup(function(e) {
-        if (!$dropdowmContainer.is(e.target) && $dropdowmContainer.has(e.target).length === 0) {
+        if ($dropdowmContainer.is(':visible') && !$dropdowmContainer.is(e.target) && $dropdowmContainer.has(e.target).length === 0) {
             $dropdowmContainer.removeClass('active');
+            $inputArrow.hide();
         }
     });
 
     $dropdownItem.on('click', function(e) {
         e.preventDefault();
+        $inputArrow.hide();
         getMember($(this).data('id'));
         $(this).addClass('hidden')
     });
@@ -67,6 +78,29 @@ function bindEvents() {
     })
 
     $dropdowmInput.on('click keyup paste', liveSearch);
+
+    $inputClear.on('click', function() {
+        $dropdowmInput.val('').trigger('click');
+        $(this).hide();
+
+    })
+
+    $footerButton.on('click', function(e) {
+        e.preventDefault();
+        var _target = $(this).data('target')
+        console.log('[data-target="' + _target + '"]');
+        
+        $body.addClass('overflow');
+        $popup.filter('[data-target="' + _target + '"]').show();
+        $popupWrapper.fadeIn(200);
+
+    })
+
+    $popupCanselBtn.on('click', function() {
+        $popup.hide();
+        $popupWrapper.hide();
+        $body.removeClass('overflow');
+    })
 }
 
 function getMember(id) {
@@ -95,15 +129,26 @@ function removemembers(id) {
 }
 
 function liveSearch() {
-    var filter = $dropdowmInput.val();
+    var filter = $dropdowmInput.val(),
+        count = 0;
 
     $dropdownItem.each(function(){
         if ($(this).text().search(new RegExp(filter, "i")) < 0) {
             $(this).fadeOut();
         } else {
             $(this).show();
+            count++;
         }
     });
+
+    if (count === 0) {
+        $dropdowmInput.addClass('can-clear');
+        $inputArrow.hide();
+        $inputClear.show();
+    } else {
+        $dropdowmInput.removeClass('can-clear');
+        $inputArrow.show();
+    }
 
     scrollBar.recalculate();
 }
