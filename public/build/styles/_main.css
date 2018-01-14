@@ -23,47 +23,6 @@ div {
   margin: 0 auto;
   max-width: 1280px;
 }
-.button {
-  display: block;
-  border-radius: 4px;
-  text-align: center;
-  padding: 0 16px;
-  line-height: 36px;
-  font-size: 13px;
-  letter-spacing: 0;
-  font-weight: 600;
-  cursor: pointer;
-}
-.button_blue {
-  color: #ffffff;
-  background: #007DFF;
-}
-.button_blue:focus {
-  background: #0011FE;
-}
-.button_blue:hover {
-  background: #0058FF;
-}
-.button_grey {
-  background: #E9ECEF;
-}
-.button_grey:focus {
-  background: #C7CDD3;
-}
-.button_grey:hover {
-  background: #DDE0E4;
-}
-.button_add-event {
-  width: 140px;
-  height: 36px;
-}
-.button_cansel.disabled {
-  opacity: 0.4;
-}
-.button.disabled {
-  background: #E5E5E5;
-  color: #8B8E92;
-}
 .calendar {
   position: relative;
 }
@@ -122,6 +81,47 @@ div {
     width: calc(100% + 48px);
     margin: 0 -24px;
   }
+}
+.button {
+  display: block;
+  border-radius: 4px;
+  text-align: center;
+  padding: 0 16px;
+  line-height: 36px;
+  font-size: 13px;
+  letter-spacing: 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button_blue {
+  color: #ffffff;
+  background: #007DFF;
+}
+.button_blue:focus {
+  background: #0011FE;
+}
+.button_blue:hover {
+  background: #0058FF;
+}
+.button_grey {
+  background: #E9ECEF;
+}
+.button_grey:focus {
+  background: #C7CDD3;
+}
+.button_grey:hover {
+  background: #DDE0E4;
+}
+.button_add-event {
+  width: 140px;
+  height: 36px;
+}
+.button_cansel.disabled {
+  opacity: 0.4;
+}
+.button.disabled {
+  background: #E5E5E5;
+  color: #8B8E92;
 }
 .ui-priority-secondary {
   opacity: 0.3;
@@ -267,6 +267,10 @@ div {
   }
 }
 @media screen and (max-width: 415px) {
+  .header {
+    height: 48px;
+    line-height: 48px;
+  }
   .header__button {
     display: none;
   }
@@ -410,8 +414,9 @@ div {
   vertical-align: middle;
   height: 28px;
   background: #fff;
-  /*border-right: 1px solid #fff;
-            box-sizing: content-box;*/
+}
+.main__events__item:active {
+  background: #005CFF;
 }
 .main__events__item:nth-of-type(1):before {
   content: "";
@@ -858,16 +863,7 @@ div {
   opacity: 0.6;
 }
 .newevent__tooltip {
-  position: fixed;
-  bottom: 77px;
-  left: 0;
-  right: 0;
-  padding: 12px 16px;
-  background: rgba(0, 16, 33, 0.8);
-  color: #fff;
-  font-size: 15px;
-  font-weight: bold;
-  opacity: 0.93;
+  display: none;
 }
 [data-simplebar] {
   z-index: 10;
@@ -985,6 +981,19 @@ div {
   .newevent__dropdown {
     top: 58px;
   }
+  .newevent__tooltip {
+    display: block;
+    position: fixed;
+    bottom: 77px;
+    left: 0;
+    right: 0;
+    padding: 12px 16px;
+    background: rgba(0, 16, 33, 0.8);
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+    opacity: 0.93;
+  }
 }
 @media screen and (max-width: 769px) {
   .newevent {
@@ -1009,6 +1018,9 @@ div {
   }
 }
 @media screen and (max-width: 415px) {
+  .newevent__title {
+    margin-bottom: 16px;
+  }
   .newevent__field-block_rooms {
     margin-bottom: 93px;
   }

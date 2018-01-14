@@ -170,8 +170,10 @@
             vertical-align: middle;
             height: 28px;
             background: #fff;
-            /*border-right: 1px solid #fff;
-            box-sizing: content-box;*/
+
+            &:active {
+                background: #005CFF;
+            }
 
             &:nth-of-type(1){
                 &:before {
@@ -188,7 +190,6 @@
                 &.busy {
                     &:before {
                         background: #D5DFE9;
-                        //border-color: #D5DFE9;
                     }
                 }
             }
