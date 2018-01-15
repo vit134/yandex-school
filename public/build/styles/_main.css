@@ -38,7 +38,7 @@ div {
   color: #ffffff;
   background: #007DFF;
 }
-.button_blue:focus {
+.button_blue:active {
   background: #0011FE;
 }
 .button_blue:hover {
@@ -47,7 +47,7 @@ div {
 .button_grey {
   background: #E9ECEF;
 }
-.button_grey:focus {
+.button_grey:active {
   background: #C7CDD3;
 }
 .button_grey:hover {
@@ -212,7 +212,7 @@ div {
   max-width: 872px;
   margin: 0 auto;
   padding-top: 31px;
-  height: calc(100vh - 71px - 76px);
+  height: calc(100vh - 71px - 76px - 1px);
 }
 .event__title {
   font-size: 20px;
@@ -757,9 +757,10 @@ div {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  cursor: pointer;
 }
 .main__schedule__room__name:hover {
-  color: #0070E0;
+  color: #007DFF;
 }
 .main__schedule__room__capacity {
   font-size: 13px;
@@ -934,6 +935,11 @@ div {
   height: calc(100% - 20px);
   background: #007DFF;
 }
+@media screen and (min-width: 1280px) {
+  .main__events__item.busy:hover {
+    background: #98A9B9;
+  }
+}
 @media screen and (max-width: 769px) {
   .main__schedule__col-right {
     overflow-x: scroll;
@@ -1090,7 +1096,7 @@ div {
   color: #858E98;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-  padding: 17px 0 8px 25px;
+  padding: 17px 0 8px 24px;
   background: #fff;
   border-right: 1px solid #E9ECEF;
   font-weight: 700;
@@ -1110,7 +1116,7 @@ div {
 .schedule__room {
   width: 245px;
   background: #fff;
-  padding: 0 25px 18px;
+  padding: 0 24px 18px;
   border-right: 1px solid #E9ECEF;
   flex: none;
 }

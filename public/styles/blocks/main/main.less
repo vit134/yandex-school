@@ -7,9 +7,9 @@
         top: 0;
         left: 0;
         width: 245px;
-        padding: 12px 24px;
-        height: 46px;
-        border-bottom: 1px solid #E9ECEF;
+        padding: 12px @defaultPadding;
+        height: @toplineHeight;
+        border-bottom: 1px solid @borderColor;
     }
 
     &__schedule {
@@ -21,14 +21,14 @@
             &-left {
                 flex: none;
                 width: 245px;
-                padding: 0 24px;
+                padding: 0 @defaultPadding;
                 margin-top: 45px;
-                border-right: 1px solid #E9ECEF;
+                border-right: 1px solid @borderColor;
             }
 
             &-right {
                 flex: auto;
-                background: #F6F7F9;
+                background: @backgroundColor;
 
                 &__inner {
                     position: relative;
@@ -47,9 +47,10 @@
                 white-space: nowrap;
                 text-overflow: ellipsis;
                 overflow: hidden;
+                cursor: pointer;
 
                 &:hover {
-                    color:  #0070E0;
+                    color:  @blueColor;
                 }
             }
 
@@ -86,8 +87,8 @@
     &__hours {
         position: relative;
         font-size: 0;
-        height: 46px;
-        border-bottom: 1px solid #E9ECEF;
+        height: @toplineHeight;
+        border-bottom: 1px solid @borderColor;
         padding-left: 15px;
         background: #fff;
 
@@ -99,7 +100,7 @@
             font-weight: bold;
             font-size: 11px;
             letter-spacing: 0.4px;
-            line-height: 46px;
+            line-height: @toplineHeight;
 
             &.past {
                 color: #858E98;
@@ -152,7 +153,7 @@
         &__row {
             position: relative;
             font-size: 0;
-            margin-bottom: 24px;
+            margin-bottom: @defaultPadding;
             padding-left: 15px;
 
             &_empty {
@@ -192,6 +193,8 @@
                     &:before {
                         background: #D5DFE9;
                     }
+
+
                 }
             }
 
@@ -225,9 +228,9 @@
                 display: block;
                 position: absolute;
                 left: 0;
-                top: 46px;
+                top: @toplineHeight;
                 width: 1px;
-                height: calc(~'100% - 46px');
+                height: calc(~'100% - @{toplineHeight}');
                 background: rgba(19,100,205,0.10);
                 z-index: 9;
             }
@@ -266,6 +269,20 @@
             }
         }
 
+    }
+}
+
+@media screen and (min-width: @maxWidth) {
+    .main {
+        &__events {
+            &__item {
+                &.busy {
+                    &:hover {
+                        background: #98A9B9;;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -308,8 +325,8 @@
 
             &__room {
                 margin-bottom: 0;
-                border-bottom: 1px solid #E9ECEF;
-                border-right: 1px solid #E9ECEF;
+                border-bottom: 1px solid @borderColor;
+                border-right: 1px solid @borderColor;
                 padding: 11px 25px 11px 16px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
@@ -329,7 +346,7 @@
                 &-left {
                     flex: none;
                     width: 181px;
-                    border-top: 1px solid #E9ECEF;
+                    border-top: 1px solid @borderColor;
                     padding: 0;
                     border-right: none;
                 }
@@ -339,7 +356,7 @@
         &__events {
             &__row {
                 margin-bottom: 0;
-                border-bottom: 1px solid #E9ECEF;
+                border-bottom: 1px solid @borderColor;
 
                 &:last-child {
                     margin-bottom: 0;
@@ -365,7 +382,7 @@
         &__floor {
             &__title {
                 padding: 16px 0 8px 15px;
-                background: #F6F7F9;
+                background: @backgroundColor;
                 height: 37px;
             }
         }

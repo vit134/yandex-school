@@ -3,7 +3,7 @@
     max-width: 872px;
     margin: 0 auto;
     padding-top: 31px;
-    height: calc(~"100vh - @{headerHeight} - @{footerHeight}");
+    height: calc(~"100vh - @{headerHeight} - @{footerHeight} - 1px");
 
     &__title {
         font-size: 20px;
@@ -219,7 +219,7 @@
 
 @media screen and (max-width: @maxWidth) {
     .event {
-        padding: 31px 24px 0;
+        padding: 31px @defaultPadding 0;
 
         &__close {
             right: 24px;
@@ -233,7 +233,7 @@
 
 @media screen and (max-width: @tabletWidth) {
     .event {
-        padding: 24px 16px 0;
+        padding: @defaultPadding 16px 0;
 
         &__members {
             position: static;
