@@ -1,0 +1,227 @@
+.field {
+    &-block {
+        position: relative;
+        flex: 0 0 50%;
+        margin-bottom: @defaultPadding;
+
+        &__label,
+        &__input {
+            display: block;
+            width: 100%;
+        }
+
+        &__label {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        &__input {
+            background: #FFFFFF;
+            border: 2px solid #E9ECEF;
+            border-radius: 4px;
+            height: 38px;
+            font-size: 13px;
+            letter-spacing: 0.47px;
+            padding: 0 10px;
+            box-sizing: border-box;
+
+            &:focus {
+                outline: none;
+                border-color: #007DFF;
+            }
+
+            &__arrow,
+            &__clear {
+                display: none;
+                position: absolute;
+                top: 30px;
+                right: 10px;
+                width: 16px;
+                height: 16px;
+                transform: rotate(-90deg);
+                cursor: pointer;
+            }
+
+            &__arrow {
+                background-image: url('@{blocksPath}/event/images/arrow.svg');
+                background-position: center;
+                background-repeat:  no-repeat;
+                background-size: 9px;
+            }
+
+            &__clear {
+                background-image: url('@{blocksPath}/event/images/close.svg');
+                background-position: center;
+                background-repeat:  no-repeat;
+                background-size: 9px;
+            }
+
+            &.can-clear ~ & {
+                &__arrow {
+                    display: none;
+                }
+
+                &__clear {
+                    display: block;
+                }
+            }
+
+            &::-webkit-input-placeholder {
+              color: #858E98;
+            }
+
+            &::-moz-placeholder {
+              color: #858E98;
+            }
+
+            &:-ms-input-placeholder {
+              color: #858E98;
+            }
+
+            &:-moz-placeholder {
+              color: #858E98;
+            }
+        }
+
+
+        &_left {
+            padding-right: 16px;
+        }
+
+        &_right {
+            padding-left: 16px;
+        }
+
+        &_date {
+            width: 238px;
+            margin-right: 16px;
+        }
+
+        &_date,
+        &_start,
+        &_end {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        &_start,
+        &_end {
+            width: 72px;
+        }
+
+        &_start {
+            margin-right: 3px;
+        }
+
+        &_end {
+            position: relative;
+            margin-left: 3px;
+            padding-left: 10px;
+
+            &:before {
+                content: "\2014";
+                display: block;
+                position: absolute;
+                left: -5px;
+                top: 30px;
+                font-size: 14px;
+            }
+        }
+    }
+
+    &-wrapper {
+        font-size: 0;
+        flex: 0 0 50%;
+        padding-left: 16px;
+    }
+}
+
+//модификация блока на странице редактирования встречи
+.editevent {
+    .field {
+        &-block {
+            &_rooms {
+                margin-bottom: 16px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @maxWidth) {
+    .field{
+        &-block {
+            &_date {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            &_start,
+            &_end {
+                width: 50%;
+                margin: 0;
+                margin-bottom: @defaultPadding;
+            }
+
+            &_start {
+                padding-right: 8px;
+            }
+
+            &_end {
+                padding-left: 12px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: @tabletWidth) {
+    .field {
+        &-block {
+            flex: 100%;
+            margin-bottom: 16px;
+
+            &__input {
+                &__arrow,
+                &__clear {
+                    top: 33px;
+                    right: 26px;
+                }
+            }
+
+            &_left {
+                padding-right: 0;
+            }
+
+            &_right {
+                padding-left: 0;
+            }
+
+            &_end,
+            &_start {
+                margin-bottom: 20px;
+            }
+
+            &_members {
+                border-bottom: 8px solid #E9ECEF;
+                margin: 0 -16px 16px;
+                padding: 0 16px 8px;
+            }
+        }
+
+        &-wrapper {
+            flex: 100%;
+            padding-left: 0;
+            border-bottom: 8px solid #E9ECEF;
+            margin: 0 -16px 16px;
+            padding: 0 16px;
+        }
+    }
+}
+
+@media screen and (max-width: @bigMobileWidth) {
+    .field-block {
+        &_rooms {
+            margin-bottom: 93px;
+        }
+    }
+}

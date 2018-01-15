@@ -7,8 +7,8 @@
         justify-content: space-between;
         flex-wrap: nowrap;
         align-items: center;
-        padding: 0 2%;
         height: 100%;
+        flex: none;
     }
 
     &__dropdown {
@@ -33,6 +33,7 @@
         background-repeat: no-repeat;
         background-size: 7px;
         cursor: pointer;
+        opacity: 0.6;
 
         &_left {
             background-image: url('@{blocksPath}/calendar/images/arrow2.svg');
@@ -42,8 +43,9 @@
             background-image: url('@{blocksPath}/calendar/images/arrow.svg');
         }
 
-        &:hover {
-            background-color: rgba(0,16,33,0.05);;
+        &:hover,
+        &:active {
+            opacity: 1;
         }
     }
 
@@ -55,6 +57,16 @@
 
         &:hover {
             color: #0070E0;
+        }
+    }
+}
+
+@media screen and (max-width: @bigMobileWidth) {
+
+    .calendar {
+        &__dropdown {
+            width: calc(~'100% + 48px');
+            margin: 0 -@defaultPadding;
         }
     }
 }

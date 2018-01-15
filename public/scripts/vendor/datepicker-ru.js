@@ -1,4 +1,4 @@
-/* Russian (UTF-8) initialisation for the jQuery UI date picker plugin. */
+﻿/* Russian (UTF-8) initialisation for the jQuery UI date picker plugin. */
 /* Written by Andrew Stromnov (stromnov@gmail.com). */
 ( function( factory ) {
 	if ( typeof define === "function" && define.amd ) {
@@ -14,8 +14,8 @@
 
 datepicker.regional.ru = {
 	closeText: "Закрыть",
-	prevText: "&#x3C;",
-	nextText: "&#x3E;",
+	prevText: "",
+	nextText: "",
 	currentText: "Сегодня",
 	monthNames: [ "Январь","Февраль","Март","Апрель","Май","Июнь",
 	"Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь" ],

@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Яндекс Переговорки</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/build/styles/__main.css">
 </head>
@@ -14,6 +16,26 @@
         {% if footer %}
             {% include 'blocks/footer/footer.twig' %}
         {% endif %}
+    </div>
+    <div class="tooltip js-tooltip">
+        <div class="tooltip__triangle js-tooltip-triangle"></div>
+        <div class="tooltip__title">Рассуждения о высоком</div>
+        <div class="tooltip__description">
+            <span>28 декабря,</span>
+            <span>15:00&#8212;17:00</span>
+            <span> &#183; </span>
+            <span>Желтый дом</span>
+        </div>
+        <div class="tooltip__members">
+            <div class="tooltip__members__item">
+                <img src="https://cdn.dribbble.com/users/588874/screenshots/2249528/dribbble_1x.png" class="tooltip__members__image">
+                <span class="tooltip__members__name">Дарт Вейдер</span>
+            </div>
+            <span class="tooltip__members__also">
+                и <span>12</span> участников
+            </span>
+        </div>
+        <a href="/editevent.html" class="tooltip__edit"></a>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

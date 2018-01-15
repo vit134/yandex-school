@@ -10,7 +10,18 @@
     border-radius: 8px;
     background: #fff;
     box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
-    z-index: 20;
+
+    &__wrapper {
+        display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0, 0.3);
+        z-index: 20;
+    }
 
     &__img {
         width: 40px;
@@ -18,12 +29,12 @@
         margin: 0 auto 16px;
 
         &_create {
-            background: url('@{blocksPath}/popup/images/emoji2.svg') center no-repeat;
+            background: url('@{blocksPath}/popup/images/emoji2.png') center no-repeat;
             background-size: 100%;
         }
 
         &_delete {
-            background: url('@{blocksPath}/popup/images/emoji1.svg') center no-repeat;
+            background: url('@{blocksPath}/popup/images/emoji1.png') center no-repeat;
             background-size: 100%;
         }
     }
@@ -46,12 +57,19 @@
     }
 
     &__buttons {
-        margin-top: 24px;
+        margin-top: @defaultPadding;
 
         &__item {
             display: inline-block;
             vertical-align: middle;
             margin: 0 8px;
         }
+    }
+}
+
+@media screen and (max-width: @bigMobileWidth) {
+    .popup {
+        top: auto;
+        bottom: @defaultPadding;
     }
 }

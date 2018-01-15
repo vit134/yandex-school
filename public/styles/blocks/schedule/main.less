@@ -1,7 +1,8 @@
 .schedule {
+
     &__floor {
         &__head {
-            background: #F6F7F9;
+            background: @backgroundColor;
 
             &__title {
                 width: @leftColumnWidth;
@@ -9,10 +10,11 @@
                 color: #858E98;
                 letter-spacing: 0.4px;
                 text-transform: uppercase;
-                padding: 21px 0 8px @defaultPadding;
+                padding: 17px 0 8px @defaultPadding;
                 background: #fff;
                 border-right: 1px solid @borderColor;
                 font-weight: 700;
+                flex: none;
             }
         }
     }
@@ -28,15 +30,16 @@
 
     &__row:last-child & {
         &__room {
-            margin-bottom: 0;
+            padding-bottom: 0;
         }
     }
 
     &__room {
         width: @leftColumnWidth;
         background: #fff;
-        padding: 0 @defaultPadding 16px;
+        padding: 0 @defaultPadding 18px;
         border-right: 1px solid @borderColor;
+        flex: none;
 
         &__name {
             font-weight: 600;
@@ -65,7 +68,8 @@
     &__events {
         -webkit-flex: auto;
         flex: auto;
-        background:  #F6F7F9;
+        display: flex;
+        background:  @backgroundColor;
         font-size: 0;
 
         &__item {
@@ -76,7 +80,6 @@
             background: #fff;
             height: 28px;
             margin-top: 3px;
-            width: 150px;
 
             &__add {
                 display: none;
@@ -122,6 +125,14 @@
                     z-index: 11;
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: @tabletWidth) {
+    .schedule {
+        &__events {
+            flex: 0 0 1000px;
         }
     }
 }
