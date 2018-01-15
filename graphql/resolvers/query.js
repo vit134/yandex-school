@@ -17,6 +17,6 @@ module.exports = {
         return models.Room.findById(id);
     },
     rooms(root, args, context) {
-        return models.Room.findAll({}, context);
+        return models.Room.findAll({}, context)
     }
 };

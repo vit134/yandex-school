@@ -19,4 +19,5 @@ router.use(graphqlHTTP({
     graphiql: true,
 }));
 
-module.exports = router;
+module.exports.router = router;
+module.exports.schema = schema;

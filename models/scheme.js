@@ -25,6 +25,8 @@ module.exports = function(sequelize) {
     Room.belongsToMany(Event, {through: 'Room_Events'});
     Event.belongsToMany(Room, {through: 'Room_Events'});
 
+    //Room.belongsTo(Event);
+
     Event.belongsTo(Room);
 
     return {
