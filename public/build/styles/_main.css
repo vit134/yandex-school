@@ -642,15 +642,13 @@ div {
 .footer__button {
   margin-right: 16px;
 }
-@media screen and (max-width: 769px) {
+@media screen and (max-width: 415px) {
   .footer {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
   }
-}
-@media screen and (max-width: 415px) {
   .editevent .footer {
     border-width: 8px;
   }
@@ -685,7 +683,7 @@ div {
   background: #FFFFFF;
   border-bottom: 1px solid #E9ECEF;
   box-sizing: border-box;
-  z-index: 10;
+  z-index: 11;
 }
 .header__inner {
   display: flex;
@@ -991,6 +989,9 @@ div {
     margin-bottom: 0;
     border-bottom: 1px solid #E9ECEF;
   }
+  .main__events__row:last-child {
+    margin-bottom: 0;
+  }
   .main__events__row_empty {
     height: 37px;
   }
@@ -1044,11 +1045,11 @@ div {
   margin: 0 auto 16px;
 }
 .popup__img_create {
-  background: url('/public/styles/blocks//popup/images/emoji2.svg') center no-repeat;
+  background: url('/public/styles/blocks//popup/images/emoji2.png') center no-repeat;
   background-size: 100%;
 }
 .popup__img_delete {
-  background: url('/public/styles/blocks//popup/images/emoji1.svg') center no-repeat;
+  background: url('/public/styles/blocks//popup/images/emoji1.png') center no-repeat;
   background-size: 100%;
 }
 .popup__title {
