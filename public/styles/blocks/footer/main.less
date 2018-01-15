@@ -1,32 +1,43 @@
 .footer {
-    padding: 20px 0;
-    display: flex;
-    justify-content: center;
     border-top: 1px solid #E9ECEF;
     box-sizing: border-box;
     background: #fff;
+
+    &__inner {
+        max-width: @maxWidth;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        padding: 20px 0;
+    }
 
     &__button {
         margin-right: 16px;
     }
 }
 
-@media screen and (max-width: @bigMobileWidth) {
+@media screen and (max-width: @tabletWidth) {
     .footer {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
     }
+}
 
+@media screen and (max-width: @bigMobileWidth) {
+    //модификация блока на странице редактирования встречи
     .editevent {
         .footer {
-            position: static;
-            flex-wrap: wrap;
             border-width: 8px;
-            padding-top: 0;
-            justify-content: flex-end;
-            
+
+            &__inner {
+                position: static;
+                flex-wrap: wrap;
+                border-width: 8px;
+                padding-top: 0;
+            }
+
             &__button {
                 &_delete {
                     width: 100%;
@@ -40,6 +51,14 @@
                     line-height: 15px;
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: @mobileWidth) {
+    .editevent {
+        .footer {
+            position: static;
         }
     }
 }

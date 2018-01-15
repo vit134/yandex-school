@@ -7,157 +7,160 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/public/build/styles/__main.css">
 </head>
-<body>
+<body class="newevent">
     <div class="l-window">
         <header class="header">
-            <a href="/index.html" class="header__logo"></a>
+            <div class="header__inner">
+                <a href="/index.html" class="header__logo"></a>
+            </div>
         </header>
         <main class="main">
-            <div class="newevent">
-                <div class="newevent__title">Новая встреча</div>
-                <div class="newevent__main">
-                    <div class="newevent__field-block newevent__field-block_left">
-                        <div class="newevent__label">Тема</div>
-                        <input type="text" name="newevent_topic" class="newevent__input" placeholder="О чем будете говорить?">
+            <div class="event">
+                <div class="event__title">Новая встреча</div>
+                <div class="event__main">
+                    <div class="field-block field-block_left">
+                        <div class="field-block__label">Тема</div>
+                        <input type="text" name="newevent_topic" class="field-block__input" placeholder="О чем будете говорить?">
                     </div>
-                    <div class="newevent__fields-wrapper">
-                        <div class="newevent__field-block newevent__field-block_date">
-                            <div class="newevent__label">Дата</div>
-                            <input type="text" name="newevent_date" class="newevent__input" id="datepicker" value="14 декабря, 2017">
-                            <div class="newevent__calendar js-calendar-container"></div>
+                    <div class="field-wrapper">
+                        <div class="field-block field-block_date">
+                            <div class="field-block__label">Дата</div>
+                            <input type="text" name="newevent_date" class="field-block__input" id="datepicker" value="14 декабря, 2017">
+                            <div class="event__calendar js-calendar-container"></div>
                         </div>
-                        <div class="newevent__field-block newevent__field-block_start">
-                            <div class="newevent__label">Начало</div>
-                            <input type="text" name="newevent_start" class="newevent__input" value="16:00">
+                        <div class="field-block field-block_start">
+                            <div class="field-block__label">Начало</div>
+                            <input type="text" name="newevent_start" class="field-block__input" value="16:00">
                         </div>
-                        <!--<span class="newevent__tire">&#8212;</span>-->
-                        <div class="newevent__field-block newevent__field-block_end">
-                            <div class="newevent__label">Конец</div>
-                            <input type="text" name="newevent_end" class="newevent__input" value="16:30">
+                        <div class="field-block field-block_end">
+                            <div class="field-block__label">Конец</div>
+                            <input type="text" name="newevent_end" class="field-block__input" value="16:30">
                         </div>
                     </div>
-                    <div class="newevent__field-block newevent__field-block_left newevent__field-block_members">
-                        <div class="newevent__label">Участники</div>
-                        <input type="text" name="newevent_memmbers" class="newevent__input newevent__input_dropdown js-dropdown-input" placeholder="Участники">
-                        <div class="newevent__input__arrow js-input-arrow"></div>
-                        <div class="newevent__input__clear js-input-clear"></div>
+                    <div class="field-block field-block_left field-block_members">
+                        <div class="field-block__label">Участники</div>
+                        <input type="text" name="newevent_memmbers" class="field-block__input field-block__input_dropdown js-dropdown-input" placeholder="Участники">
+                        <div class="field-block__input__arrow js-input-arrow"></div>
+                        <div class="field-block__input__clear js-input-clear"></div>
                         <select class="hidden js-newevent-select" multiple="true">
                             <!-- нужно для отправки на сервер -->
                         </select>
-                        <div id="js-dropdown-container" class="newevent__dropdown">
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Лекс Лютер ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+                        <div id="js-dropdown-container" class="event__dropdown">
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Лекс Лютер ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Дарт Вейдер ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Дарт Вейдер ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Йода ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Йода ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Люк Скайуокер ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
-                            </div>
-
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Кайло Рен ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Люк Скайуокер ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
 
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Люк Скайуокер ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Кайло Рен ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Оби-Ван Кеноби ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Люк Скайуокер ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Лея Органа ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Оби-Ван Кеноби ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="0">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">Хан Соло ·</span>
-                                <span class="newevent__dropdown__floor"> 3 этаж</span>
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Лея Органа ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
+                            </div>
+                            <div class="event__dropdown__item js-dropdown-item" data-id="0">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__dropdown__image">
+                                <span class="event__dropdown__member">Хан Соло ·</span>
+                                <span class="event__dropdown__floor"> 3 этаж</span>
                             </div>
                         </div>
-                        <div class="newevent__members js-members-container">
-                            <span class="newevent__members__item  js-members-item" data-id="{{ item.id }}">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                                <span class="newevent__members__name">Люк Скайуокер</span>
-                                <span class="newevent__members__remove js-remove-member"></span>
+                        <div class="event__members js-members-container">
+                            <span class="event__members__item  js-members-item" data-id="{{ item.id }}">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__members__image">
+                                <span class="event__members__name">Люк Скайуокер</span>
+                                <span class="event__members__remove js-remove-member"></span>
                             </span>
-                            <span class="newevent__members__item  js-members-item" data-id="{{ item.id }}">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                                <span class="newevent__members__name">Оби-Ван Кеноби</span>
-                                <span class="newevent__members__remove js-remove-member"></span>
+                            <span class="event__members__item  js-members-item" data-id="{{ item.id }}">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__members__image">
+                                <span class="event__members__name">Оби-Ван Кеноби</span>
+                                <span class="event__members__remove js-remove-member"></span>
                             </span>
-                            <span class="newevent__members__item  js-members-item" data-id="{{ item.id }}">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                                <span class="newevent__members__name">Хан Соло</span>
-                                <span class="newevent__members__remove js-remove-member"></span>
+                            <span class="event__members__item  js-members-item" data-id="{{ item.id }}">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__members__image">
+                                <span class="event__members__name">Хан Соло</span>
+                                <span class="event__members__remove js-remove-member"></span>
                             </span>
-                            <span class="newevent__members__item  js-members-item" data-id="{{ item.id }}">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                                <span class="newevent__members__name">Йода</span>
-                                <span class="newevent__members__remove js-remove-member"></span>
+                            <span class="event__members__item  js-members-item" data-id="{{ item.id }}">
+                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="event__members__image">
+                                <span class="event__members__name">Йода</span>
+                                <span class="event__members__remove js-remove-member"></span>
                             </span>
                         </div>
                     </div>
-                    <div class="newevent__field-block newevent__field-block_right newevent__field-block_rooms">
-                        <div class="newevent__label">Рекомендованные переговорки</div>
-                            <div class="newevent__room-item">
-                                <span class="newevent__room-item__time">16:00&#8212;16:30</span>
-                                <span class="newevent__room-item__name">Готем</span>
+                    <div class="field-block field-block_right field-block_rooms">
+                        <div class="field-block__label">Рекомендованные переговорки</div>
+                            <div class="event__room-item">
+                                <span class="event__room-item__time">16:00&#8212;16:30</span>
+                                <span class="event__room-item__name">Готем</span>
                                 &#183;
-                                <span class="newevent__room-item__floor">4 этаж</span>
-                                <span class="newevent__room-item__close"></span>
+                                <span class="event__room-item__floor">4 этаж</span>
+                                <span class="event__room-item__close"></span>
                             </div>
-                            <div class="newevent__room-item">
-                                <span class="newevent__room-item__time">16:00&#8212;16:30</span>
-                                <span class="newevent__room-item__name">Поле непаханное</span>
+                            <div class="event__room-item">
+                                <span class="event__room-item__time">16:00&#8212;16:30</span>
+                                <span class="event__room-item__name">Поле непаханное</span>
                                 &#183;
-                                <span class="newevent__room-item__floor">4 этаж</span>
-                                <span class="newevent__room-item__close"></span>
+                                <span class="event__room-item__floor">4 этаж</span>
+                                <span class="event__room-item__close"></span>
                             </div>
-                            <div class="newevent__room-item">
-                                <span class="newevent__room-item__time">16:00&#8212;16:30</span>
-                                <span class="newevent__room-item__name">Тёмная башня </span>
+                            <div class="event__room-item">
+                                <span class="event__room-item__time">16:00&#8212;16:30</span>
+                                <span class="event__room-item__name">Тёмная башня </span>
                                 &#183;
-                                <span class="newevent__room-item__floor">4 этаж</span>
-                                <span class="newevent__room-item__close"></span>
+                                <span class="event__room-item__floor">4 этаж</span>
+                                <span class="event__room-item__close"></span>
                             </div>
                     </div>
                 </div>
                 <a href="/index.html" class="newevent__close"></a>
             </div>
         </main>
-        <footer class="footer">
-            <a href="" class="footer__button button button_grey js-cansel-event-btn">Отмена</a>
-            <a href="" data-target="created" class="footer__button button button_blue js-event-btn disabled">Создать встречу</a>
-        </footer>
-        <div class="newevent__tooltip">
+        <div class="event__tooltip">
             Выберите переговорку
         </div>
     </div>
+    <footer class="footer">
+        <div class="footer__inner">
+            <a href="" class="footer__button button button_grey js-cansel-event-btn">Отмена</a>
+            <a href="" data-target="created" class="footer__button button button_blue js-event-btn disabled">Создать встречу</a>
+        </div>
+    </footer>
     <div class="popup__wrapper js-popup-wrapper">
         <div class="popup js-popup" data-target="created">
             <div class="popup__img popup__img_create"></div>
             <div class="popup__title">Встреча создана!</div>
             <div class="popup__text">14 декабря, 15:00-17:00</div>
-            <div class="popup__text">Готем &#183; 4 этаж</div>    
+            <div class="popup__text">Готем &#183; 4 этаж</div>
             <div class="popup__buttons">
                 <div class="popup__buttons__item">
                     <div class="button button_blue js-popup-close-button">Хорошо</div>
@@ -168,6 +171,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/public/scripts/vendor/datepicker-ru.js"></script>
-    <script type="text/javascript" src="public/build/scripts/newevent/newevent.js"></script>
+    <script type="text/javascript" src="public/build/scripts/event/event.js"></script>
 </body>
 </html>

@@ -43,7 +43,8 @@
             background-image: url('@{blocksPath}/calendar/images/arrow.svg');
         }
 
-        &:hover {
+        &:hover,
+        &:active {
             opacity: 1;
         }
     }
@@ -61,7 +62,7 @@
 }
 
 @media screen and (max-width: @bigMobileWidth) {
-    
+
     .calendar {
         &__dropdown {
             width: calc(~'100% + 48px');

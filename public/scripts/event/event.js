@@ -34,7 +34,7 @@ function init() {
         $.datepicker.regional[ "ru" ],
         {
             showOn: "both",
-            buttonImage: "/public/styles/blocks/newevent/images/calendar.svg",
+            buttonImage: "/public/styles/blocks/calendar/images/calendar.svg",
             buttonImageOnly: true,
             showOtherMonths: true,
             selectOtherMonths: true,
@@ -89,7 +89,7 @@ function bindEvents() {
         e.preventDefault();
         var _target = $(this).data('target')
         console.log('[data-target="' + _target + '"]');
-        
+
         $body.addClass('overflow');
         $popup.filter('[data-target="' + _target + '"]').show();
         $popupWrapper.fadeIn(200);

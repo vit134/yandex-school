@@ -1,14 +1,24 @@
 .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    align-items: center;
-    height: @headerHeight;
-    padding: 0 24px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
     background: #FFFFFF;
     border-bottom: 1px solid #E9ECEF;
     box-sizing: border-box;
+    z-index: 10;
+
+    &__inner {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        align-items: center;
+        height: @headerHeight;
+        max-width: @maxWidth;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
 
     &__logo {
         width: 174px;
@@ -20,15 +30,19 @@
 
 @media screen and (max-width: @tabletWidth) {
     .header {
-        padding: 0 16px;
+        &__inner {
+            padding: 0 16px;
+        }
     }
 }
 
 @media screen and (max-width: @bigMobileWidth) {
     .header {
-        height: 48px;
-        line-height: 48px;
-        
+        &__inner {
+            height: @headerSmallHeight;
+            line-height: @headerSmallHeight;
+        }
+
         &__button {
             display: none;
         }
