@@ -14,6 +14,12 @@ module.exports = function resolvers() {
             room: event => event.getRoom()
         },
 
+        Room: {
+            events: room => {
+                return room.getEvents()
+            }
+        },
+
         Date: GraphQLDate
     };
 };
