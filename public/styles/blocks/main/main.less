@@ -110,7 +110,6 @@
 
     &__events {
         position: relative;
-        z-index: 3;
 
         &__floor {
             &:last-child {
@@ -173,8 +172,28 @@
             height: 28px;
             background: #fff;
 
-            &:active {
-                background: #005CFF;
+            &__add {
+                display: none;
+                width: 57px;
+                height: 100%;
+                border-radius: 2px;
+                background: #2B50FD;
+                text-align: center;
+                line-height: 28px;
+                color: #fff;
+                font-weight: bold;
+                font-size: 20px;
+                cursor: pointer;
+
+                &:active {
+                    background: #1D00FE;
+                }
+            }
+
+            &_small & {
+                &__add {
+                    width: 100%;
+                }
             }
 
             &:nth-of-type(1){
@@ -222,6 +241,12 @@
             vertical-align: top;
             width: calc(~'100% / 16');
             height: 100%;
+
+            &:nth-child(2) {
+                &:after {
+                    z-index: 999;
+                }
+            }
 
             &:after {
                 content: "";
@@ -280,6 +305,16 @@
                     &:hover {
                         background: #98A9B9;;
                     }
+                }
+
+                &:hover & {
+                    &__add {
+                        display: block;
+                    }
+                }
+
+                &:hover {
+                    z-index: 11;
                 }
             }
         }
@@ -370,6 +405,10 @@
 
             &__item {
                 height: 58px;
+
+                &:active {
+                    background: #005CFF;
+                }
 
                 &:nth-of-type(1) {
                     &:before {
