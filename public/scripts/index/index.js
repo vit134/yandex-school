@@ -29,6 +29,7 @@ $(document).ready(function() {
     var scheduleScrollFlag = false;
 
     function init() {
+        //removeScroll();
         updateChangeblVars();
         bindEvents();
         //setCurrentTime();
@@ -180,6 +181,18 @@ $(document).ready(function() {
         $tooltip.hide();
         $tooltipTriangle.css({left: 160})
         $eventItem.removeClass('active');
+    }
+
+    function removeScroll() {
+        var _mainHeight = $('.main').height();
+        console.log(_mainHeight);
+        $('.main').css({
+            overflow: 'hidden'
+        })
+        $('.js-schedule').css({
+            'height': _mainHeight - 20 + 'px',
+            'paddin-bottom': '20px'
+        })
     }
 
     init();

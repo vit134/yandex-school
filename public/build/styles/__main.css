@@ -938,7 +938,7 @@ div {
   .main__schedule__col-right {
     overflow-x: scroll;
     -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
+    scroll-behavior: smooth;
   }
   .main__schedule__col-right::-webkit-scrollbar {
     width: 0;
@@ -958,7 +958,7 @@ div {
   .main__schedule {
     overflow-x: scroll;
     -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
+    scroll-behavior: smooth;
   }
   .main__schedule::-webkit-scrollbar {
     width: 0;
@@ -994,6 +994,7 @@ div {
   }
   .main__events__row_empty {
     height: 37px;
+    border-bottom: none;
   }
   .main__events__item {
     height: 58px;

@@ -276,7 +276,8 @@
                 &-right {
                     overflow-x: scroll;
                     -ms-overflow-style: none;
-                    overflow: -moz-scrollbars-none;
+                    scroll-behavior: smooth;
+
                     &::-webkit-scrollbar { width: 0; }
 
                     &__inner {
@@ -301,7 +302,8 @@
         &__schedule {
             overflow-x: scroll;
             -ms-overflow-style: none;
-            overflow: -moz-scrollbars-none;
+            scroll-behavior: smooth;
+
             &::-webkit-scrollbar { width: 0; }
 
             &__room {
@@ -345,6 +347,7 @@
 
                 &_empty {
                     height: 37px;
+                    border-bottom: none;
                 }
             }
 
