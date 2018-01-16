@@ -1,6 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block Main %}
+    <!-- <pre>{{ dump(data) }}</pre> -->
     <div class="main__calendar">
         <div class="main__calendar__inner">
             <div class="calendar">
@@ -17,12 +18,18 @@
         <div class="main__schedule__inner">
             <div class="main__schedule__col-left js-col-left">
                 {% for key, floor in data %}
-                    <div class="main__floor">                    
+                    <div class="main__floor" data-id="{{ key }}">                    
                         <div class="main__floor__title">{{ key }} этаж</div>
                         {% for room in floor %}
-                            <div class="main__schedule__room">
+                            <div class="main__schedule__room" data-id="{{ room.id }}">
                                 <div class="main__schedule__room__name">{{ room.title }}</div>
-                                <div class="main__schedule__room__capacity">{{ room.capacity }}</div>
+                                <div class="main__schedule__room__capacity">
+                                    {% if room.capacityMin == 0 %}
+                                        до {{ room.capacityMax }} человек
+                                    {% else %}
+                                        {{ room.capacityMin }}—{{ room.capacityMax }} человек
+                                    {% endif %}
+                                </div>
                             </div>
                         {% endfor %}
                     </div>

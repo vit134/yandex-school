@@ -22,14 +22,16 @@ type UserRoom {
 type Room {
     id: ID!
     title: String!
-    capacity: Int!
+    capacityMax: Int!
+    capacityMin: Int
     floor: Int!
     events: [Event]
 }
 
 input RoomInput {
     title: String!
-    capacity: Int!
+    capacityMax: Int!
+    capacityMin: Int
     floor: Int!
 }
 

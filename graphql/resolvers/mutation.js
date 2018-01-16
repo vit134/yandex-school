@@ -37,7 +37,7 @@ module.exports = {
             .then(event => {
                 event.setRoom(roomId);
                 event.getRoom().then(room => {
-                    room.addEvent(14)
+                    room.addEvent(event.dataValues.id)
                     return event;
                 })
                 return event.setUsers(usersIds)
@@ -60,7 +60,14 @@ module.exports = {
 
     changeEventRoom(root, {id, roomId}) {
         return models.Event.findById(id)
-            .then(event => event.setRoom(roomId));
+            .then(event => {
+                event.setRoom(roomId)
+                event.getRoom().then(room => {
+                    room.addEvent(id)
+                    return event;
+                })
+                return event;
+            });
     },
 
     removeEvent(root, {id}) {

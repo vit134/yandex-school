@@ -9,7 +9,8 @@ module.exports = function(sequelize) {
 
     const Room = sequelize.define('Room', {
         title: Sequelize.STRING,
-        capacity: Sequelize.SMALLINT,
+        capacityMax: Sequelize.SMALLINT,
+        capacityMin: Sequelize.SMALLINT,
         floor: Sequelize.TINYINT
     });
 

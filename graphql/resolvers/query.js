@@ -18,15 +18,15 @@ module.exports = {
     },
     rooms(root, args, context) {
         return models.Room.findAll({
-            // attributes: ['id', 'title', 'capa'],
             include: [{
                 model: models.Event,
                 as: 'Events',
-                // attributes: ['id', 'title'],
+                include: {
+                    model: models.User,
+                    as: 'Users'
+                }
             }]
         }).then(res => {
-            //console.log(res);
-            //return JSON.stringify(res);
             return res;
         })
     }
