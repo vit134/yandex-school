@@ -65,7 +65,8 @@
                                         <span class="main__events__room busy js-events-room">{{ room.title }}</span>
                                         {% if room.Events | length > 0 %}
                                             {% for event in room.Events %}
-                                                <div class="main__events__item js-event-item busy" style="width: 6.25%;"></div>
+                                                {% set eventTime = event.dateEnd | date("H") - event.dateStart | date("H") %}
+                                                <div class="main__events__item js-event-item busy" data-time="{{ eventTime }}" style="width: 6.25%;"></div>
                                             {% endfor %}
                                         {% else %}
                                             <div class="main__events__item js-event-item" style="width: 100%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>

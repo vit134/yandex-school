@@ -88,11 +88,12 @@ function createData() {
     let oneHourLater = new Date(now.getTime() + HOUR);
     let twoHoursLater = new Date(oneHourLater.getTime() + HOUR);
     let threeHoursLater = new Date(twoHoursLater.getTime() + HOUR);
+    let forHoursLater = new Date(threeHoursLater.getTime() + HOUR);
 
     let eventsPromise = models.Event.bulkCreate([{
         title: 'ШРИ 2018 - начало',
-        dateStart: now,
-        dateEnd: oneHourLater
+        dateStart: twoHoursLater,
+        dateEnd: threeHoursLater
     },
     {
         title: '👾 Хакатон 👾',
@@ -102,7 +103,7 @@ function createData() {
     {
         title: '🍨 Пробуем kefir.js',
         dateStart: threeHoursLater,
-        dateEnd: twoHoursLater
+        dateEnd: forHoursLater
     }
     ]);
 
@@ -122,7 +123,7 @@ function createData() {
             promises.push(events[1].setUsers([users[1], users[2]]));
             promises.push(events[2].setUsers([users[0], users[2]]));
 
-            promises.push(rooms[0].setEvents([events[0], events[1]]));
+            promises.push(rooms[0].setEvents([events[0], events[2]]));
             promises.push(rooms[1].setEvents([events[0], events[1], events[2]]));
             promises.push(rooms[2].setEvents([events[0], events[2]]));
             promises.push(rooms[3].setEvents([events[0], events[1]]));
