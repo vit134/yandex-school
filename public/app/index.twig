@@ -2,6 +2,12 @@
 
 {% block Main %}
     <pre>{{ dump(data) }}</pre>
+
+    {% for item in d %}
+        <div class="bla">
+            <div class="bla_title">{{ item.title }}</div>
+        </div>
+    {% endfor %}
     <div class="main__calendar">
         <div class="main__calendar__inner">
             <div class="calendar">

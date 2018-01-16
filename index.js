@@ -2,7 +2,6 @@ const path = require('path');
 const query = require('./graphql/resolvers/query.js');
 const express = require('express');
 const {twig} = require('twig');
-const fetch = require('node-fetch')
 
 const bodyParser = require('body-parser');
 
@@ -18,20 +17,14 @@ app.set('views', 'public/app/');
 app.get('/', function(req, res){
 
     var url = 'http://localhost:3000/graphql?query=query rooms { id title capacity floor events { id title users { id login } } }';
-
-    graphql(graphqlRoutes.schema).then((result) => console.log(result));
-
-
-    query.rooms().then(data => {
+    var rooms;
+    query.rooms().then((data) => {
         var rooms = [];
-
-        data.map(function(el) {
-            rooms.push(el.dataValues);
-        })
+        console.log('index', data);
 
         res.render('index', {
             enableAddButton: true,
-            data: rooms
+            data: data
         });
     })
 });
