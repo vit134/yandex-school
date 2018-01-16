@@ -16,15 +16,21 @@ app.set('views', 'public/app/');
 
 app.get('/', function(req, res){
 
-    var url = 'http://localhost:3000/graphql?query=query rooms { id title capacity floor events { id title users { id login } } }';
-    var rooms;
     query.rooms().then((data) => {
-        var rooms = [];
-        console.log('index', data);
+        var floors = {};
+        data = JSON.parse(JSON.stringify(data));
+
+        data.map((el) => {
+            if (floors[el.floor] === undefined) {
+                floors[el.floor] = []
+            } 
+
+            floors[el.floor].push(el);
+        })
 
         res.render('index', {
             enableAddButton: true,
-            data: data
+            data: floors
         });
     })
 });

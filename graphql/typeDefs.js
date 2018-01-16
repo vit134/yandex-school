@@ -10,6 +10,7 @@ type User {
 
 input UserInput {
     login: String!
+    avatarUrl: String
     homeFloor: Int
 }
 

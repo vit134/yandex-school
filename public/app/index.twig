@@ -1,13 +1,6 @@
 {% extends 'layout.twig' %}
 
 {% block Main %}
-    <pre>{{ dump(data) }}</pre>
-
-    {% for item in d %}
-        <div class="bla">
-            <div class="bla_title">{{ item.title }}</div>
-        </div>
-    {% endfor %}
     <div class="main__calendar">
         <div class="main__calendar__inner">
             <div class="calendar">
@@ -23,197 +16,57 @@
     <div class="main__schedule js-schedule">
         <div class="main__schedule__inner">
             <div class="main__schedule__col-left js-col-left">
-                <div class="main__floor">
-                    <div class="main__floor__title">7 этаж</div>
-                    <div class="main__schedule__room busy">
-                        <div class="main__schedule__room__name">Ржавый Фред</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
+                {% for key, floor in data %}
+                    <div class="main__floor">                    
+                        <div class="main__floor__title">{{ key }} этаж</div>
+                        {% for room in floor %}
+                            <div class="main__schedule__room">
+                                <div class="main__schedule__room__name">{{ room.title }}</div>
+                                <div class="main__schedule__room__capacity">{{ room.capacity }}</div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="main__schedule__room">
-                        <div class="main__schedule__room__name">Прачечная</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room">
-                        <div class="main__schedule__room__name">Жёлтый дом</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room busy">
-                        <div class="main__schedule__room__name">Оранжевый тюльпан</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                </div>
-                <div class="main__floor">
-                    <div class="main__floor__title">6 этаж</div>
-                    <div class="main__schedule__room busy">
-                        <div class="main__schedule__room__name">Джокер</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room">
-                        <div class="main__schedule__room__name">Мариванна</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room">
-                        <div class="main__schedule__room__name">Тонкий Боб</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room">
-                        <div class="main__schedule__room__name">Чёрная вдова</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room busy">
-                        <div class="main__schedule__room__name">Белорусский ликёр</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                </div>
-                <div class="main__floor">
-                    <div class="main__floor__title">5 этаж</div>
-                    <div class="main__schedule__room busy">
-                        <div class="main__schedule__room__name">Ржавый Фред</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room">
-                        <div class="main__schedule__room__name">Ржавый Фред</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room">
-                        <div class="main__schedule__room__name">Ржавый Фред</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                    <div class="main__schedule__room busy">
-                        <div class="main__schedule__room__name">Ржавый Фред</div>
-                        <div class="main__schedule__room__capacity">3-6 человек</div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <div class="main__schedule__col-right">
                 <div class="main__schedule__col-right__inner">
                     <div class="main__hours">
-                        <div class="main__hours__item js-hours-item past" data-time="8:00">8:00</div>
-                        <div class="main__hours__item js-hours-item past" data-time="9:00">9</div>
-                        <div class="main__hours__item js-hours-item " data-time="10:00">10</div>
-                        <div class="main__hours__item js-hours-item " data-time="11:00">11</div>
-                        <div class="main__hours__item js-hours-item " data-time="12:00">12</div>
-                        <div class="main__hours__item js-hours-item" data-time="13:00">13</div>
-                        <div class="main__hours__item js-hours-item" data-time="14:00">14</div>
-                        <div class="main__hours__item js-hours-item" data-time="15:00">15</div>
-                        <div class="main__hours__item js-hours-item" data-time="16:00">16</div>
-                        <div class="main__hours__item js-hours-item" data-time="17:00">17</div>
-                        <div class="main__hours__item js-hours-item" data-time="18:00">18</div>
-                        <div class="main__hours__item js-hours-item" data-time="19:00">19</div>
-                        <div class="main__hours__item js-hours-item" data-time="20:00">20</div>
-                        <div class="main__hours__item js-hours-item" data-time="21:00">21</div>
-                        <div class="main__hours__item js-hours-item" data-time="22:00">22</div>
-                        <div class="main__hours__item js-hours-item" data-time="23:00">23</div>
+                        {% for i in 8..23 %}
+                            {% if loop.index == 1 %}
+                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}:00</div> 
+                            {% else %}
+                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}</div> 
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <div class="main__lines">
                         <span class="main__lines__current" style="left: 9.375%">
-                            <span class="main__lines__current__label">9:30</span>
+                            <span class="main__lines__current__label">{{ "now"|date("H:s") }}</span>
                         </span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
-                        <span class="main__lines__item"></span>
+                        {% for i in 8..23 %}
+                            <span class="main__lines__item"></span>
+                        {% endfor %}
                     </div>
                     <div class="main__events">
-                        <div class="main__events__floor">
-                            <div class="main__events__row main__events__row_empty">
-                                <div class="main__events__floor__title js-events-floor">7 этаж</div>
+                        {% for key, floor in data %}
+                            <div class="main__events__floor">
+                                <div class="main__events__row main__events__row_empty">
+                                    <div class="main__events__floor__title js-events-floor">{{ key }} этаж</div>
+                                </div>
+                                {% for room in floor %}
+                                    <div class="main__events__row">
+                                        <span class="main__events__room busy js-events-room">{{ room.title }}</span>
+                                        {% if room.Events | length > 0 %}
+                                            {% for event in room.Events %}
+                                                <div class="main__events__item js-event-item busy" style="width: 6.25%;"></div>
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="main__events__item js-event-item" style="width: 100%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
                             </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room busy js-events-room">Ржавый Фред</span>
-                                <div class="main__events__item js-event-item can-open busy" style="width: 6.25%;"></div>
-                                <div class="main__events__item js-event-item busy" style="width: 12.5%;"></div>
-                                <div class="main__events__item main__events__item_small js-event-item" style="width: 1.5625%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                                <div class="main__events__item js-event-item busy" style="width: 1.5625%;"></div>
-                                <div class="main__events__item main__events__item_small js-event-item" style="width: 3.125%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                                <div class="main__events__item js-event-item busy" style="width: 73.4375%;"></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Прачечная</span>
-                                <div class="main__events__item js-event-item busy" style="width: 45%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                                <div class="main__events__item js-event-item busy" style="width: 25%;"></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Жёлтый дом</span>
-                                <div class="main__events__item js-event-item" style="width: 30%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                                <div class="main__events__item js-event-item busy" style="width: 20%;"></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Оранжевый тюльпан</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                        </div>
-                        <div class="main__events__floor">
-                            <div class="main__events__row main__events__row_empty">
-                                <div class="main__events__floor__title js-events-floor">6 этаж</div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Джокер</span>
-                                <div class="main__events__item js-event-item busy" style="width: 12.5%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Мариванна</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Тонкий Боб</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Чёрная вдова</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Белорусский ликёр</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-
-                            </div>
-                        </div>
-                        <div class="main__events__floor">
-                            <div class="main__events__row main__events__row_empty">
-                                <div class="main__events__floor__title js-events-floor">6 этаж</div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Ржавый Фред</span>
-                                <div class="main__events__item js-event-item busy" style="width: 12.5%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Ржавый Фред</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Ржавый Фред</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                            </div>
-                            <div class="main__events__row">
-                                <span class="main__events__room js-events-room">Ржавый Фред</span>
-                                <div class="main__events__item js-event-item busy" style="width: 30%;"></div>
-                                <div class="main__events__item js-event-item" style="width: 20%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
