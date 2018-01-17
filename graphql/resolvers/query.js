@@ -5,7 +5,9 @@ module.exports = {
         return models.Event.findById(id);
     },
     events(root, args, context) {
-        return models.Event.findAll({}, context);
+        return models.Event.findAll({
+            order: [ ['dateStart', 'DESC'] ]
+        }, context);
     },
     user(root, {id}) {
         return models.User.findById(id);

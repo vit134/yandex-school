@@ -18,7 +18,7 @@
         <div class="main__schedule__inner">
             <div class="main__schedule__col-left js-col-left">
                 {% for key, floor in data %}
-                    <div class="main__floor" data-id="{{ key }}">                    
+                    <div class="main__floor" data-id="{{ key }}">
                         <div class="main__floor__title">{{ key }} этаж</div>
                         {% for room in floor %}
                             <div class="main__schedule__room" data-id="{{ room.id }}">
@@ -40,15 +40,15 @@
                     <div class="main__hours">
                         {% for i in 8..23 %}
                             {% if loop.index == 1 %}
-                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}:00</div> 
+                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}:00</div>
                             {% else %}
-                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}</div> 
+                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}</div>
                             {% endif %}
                         {% endfor %}
                     </div>
                     <div class="main__lines">
                         <span class="main__lines__current" style="left: 9.375%">
-                            <span class="main__lines__current__label">{{ "now"|date("H:s") }}</span>
+                            <span class="main__lines__current__label">{{ "now"|date("H:i") }}</span>
                         </span>
                         {% for i in 8..23 %}
                             <span class="main__lines__item"></span>
@@ -65,8 +65,17 @@
                                         <span class="main__events__room busy js-events-room">{{ room.title }}</span>
                                         {% if room.Events | length > 0 %}
                                             {% for event in room.Events %}
-                                                {% set eventTime = event.dateEnd | date("H") - event.dateStart | date("H") %}
-                                                <div class="main__events__item js-event-item busy" data-time="{{ eventTime }}" style="width: 6.25%;"></div>
+                                                {% set eventHour = event.dateEnd | date("H") - event.dateStart | date("H") %}
+                                                {% set eventMinute = event.dateEnd | date("i") - event.dateStart | date("i") %}
+                                                {% set eventHourDiff = eventHour * 60 %}
+                                                {% set eventLength = eventHourDiff + eventMinute %}
+
+                                                <div class="main__events__item js-event-item"
+                                                data-timeStart="{{ event.dateStart | date("H:i") }}"
+                                                data-timeEnd="{{ event.dateEnd | date("H:i") }}"
+                                                style="width:{{ eventLength/15*1.5625  }}%;">{{ eventLength }}</div>
+
+
                                             {% endfor %}
                                         {% else %}
                                             <div class="main__events__item js-event-item" style="width: 100%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
