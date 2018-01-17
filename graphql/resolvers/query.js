@@ -6,7 +6,7 @@ module.exports = {
     },
     events(root, args, context) {
         return models.Event.findAll({
-            order: [ ['dateStart', 'DESC'] ]
+            order: [ ['dateStart', 'ASC'] ]
         }, context);
     },
     user(root, {id}) {
@@ -20,14 +20,17 @@ module.exports = {
     },
     rooms(root, args, context) {
         return models.Room.findAll({
+            order: [
+                [ {model: models.Event, as: 'Events'}, 'dateStart', 'ASC' ]
+            ],
             include: [{
                 model: models.Event,
-                as: 'Events',
                 include: {
                     model: models.User,
                     as: 'Users'
                 }
             }]
+            
         }).then(res => {
             return res;
         })

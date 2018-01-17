@@ -1,4 +1,7 @@
+import twig from 'twig';
 $(document).ready(function() {
+    
+
     var $hours = $('.js-hours'),
         $hoursCurrentItem = $('.js-hours-current'),
         $hoursItem = $('.js-hours-item'),
@@ -50,6 +53,18 @@ $(document).ready(function() {
                 }
             }
         )
+        //var tmp = require('../../../app/blocks/newevent/main.twig');
+
+        var template = twig({
+            id: "list", // id is optional, but useful for referencing the template later
+            data: "{% for value in list %}{{ value }}, {% endfor %}"
+        });
+
+        var output = template.render({
+            list: ["one", "two", "three"]
+        });
+
+        $('.js-event').html(output)
 
         $calendarContainer.datepicker(datepickekerOptions);
     }
