@@ -24,38 +24,38 @@ app.get('/', function(req, res){
 
     query.rooms().then((data) => {
         var floors = {};
+        var rangeEvents = [];
         data = JSON.parse(JSON.stringify(data));
 
         data.map((el) => {
             if (floors[el.floor] === undefined) {
                 floors[el.floor] = []
-            } 
+            }
 
             floors[el.floor].push(el);
         })
 
 
-        var start = new Date(2018, 0, 17, 8, 0, 0);
-        var end   = new Date(2018, 0, 17, 23, 0, 0);
-        var range = moment.range(start, end);
-        console.log(new Date('2018-01-17T08:00:00.000Z'));
-        console.log(new Date('2018-01-17T09:30:00.000Z'));
-        console.log(range.subtract(moment.range(new Date('2018-01-17T05:00:00.000Z'), new Date('2018-01-17T06:30:00.000Z'))))
-
-
+        var startDay = moment('2018-0-17 08:0:00');
+        var endDay   = new Date(2018, 0, 17, 23, 0, 0);
+        var range = moment.range(startDay, endDay);
 
         for (var key in floors) {
             var floor = floors[key];
             floor.forEach((item, i) => {
                 var events = item.Events;
                 console.log(item.title);
-                var diff = [];
                 events.forEach((item) => {
-                    //console.log(moment.range(item.dateStart, item.dateEnd));
-                    console.log(range.subtract(moment.range(item.dateStart, item.dateEnd)));
-                       
+                    var start = moment.utc(moment.parseZone(item.dateStart).utc().format());
+                    var end  = moment.utc(moment.parseZone(item.dateEnd).utc().format());
+                    console.log(item.dateStart, item.dateEnd);
+                    /*console.log('item',item);
+                    console.log('start',start);
+                    console.log('end',end);*/
+                    rangeEvents.push(moment.range(start, end));
+
                 })
-                console.log(diff);
+                console.log(rangeEvents);
                 console.log('------');
             })
             console.log('~~~~~~');
