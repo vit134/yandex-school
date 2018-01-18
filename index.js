@@ -16,51 +16,53 @@ const app = express();
 
 app.use(bodyParser.json());
 
+console.log(moment().format());
+
 app.set('view engine', 'twig');
 app.set('views', 'public/app/');
 
-app.get('/', function(req, res){
+let startDay = moment('2018-01-17T08:00:00.000Z').utc();
+let endDay   = moment('2018-01-17T23:00:00.000Z').utc();
+let day = moment.range(startDay, endDay);
 
-    function subtractRanges(longRanges, shortRanges) {
-      // Always return an array
-      if (shortRanges.length === 0)
-        return longRanges.hasOwnProperty("length") ? longRanges : [longRanges];
+function subtractRanges(longRanges, shortRanges) {
+  // Always return an array
+  if (shortRanges.length === 0)
+    return longRanges.hasOwnProperty("length") ? longRanges : [longRanges];
 
-      // Result is empty range
-      if (longRanges.length === 0) return [];
+  // Result is empty range
+  if (longRanges.length === 0) return [];
 
-      if (!longRanges.hasOwnProperty("length")) longRanges = [longRanges];
+  if (!longRanges.hasOwnProperty("length")) longRanges = [longRanges];
 
-      for (let long in longRanges) {
-        for (let short in shortRanges) {
-          longRanges[long] = longRanges[long].subtract(shortRanges[short]);
-          if (longRanges[long].length === 0) {
-            // Subtracted an entire range, remove it from list
-            longRanges.splice(long, 1);
-            shortRanges.splice(0, short);
-            return subtractRanges(longRanges, shortRanges);
-          } else if (longRanges[long].length === 1) {
-            // No subtraction made, but .subtract always returns arrays
-            longRanges[long] = longRanges[long][0];
-          } else {
-            // Successfully subtracted a subrange, flatten and recurse again
-            const flat = [].concat(...longRanges);
-            shortRanges.splice(0, short);
-            //console.log('in f', this);
-            return subtractRanges(flat, shortRanges);
-          }
-        }
+  for (let long in longRanges) {
+    for (let short in shortRanges) {
+      longRanges[long] = longRanges[long].subtract(shortRanges[short]);
+      if (longRanges[long].length === 0) {
+        // Subtracted an entire range, remove it from list
+        longRanges.splice(long, 1);
+        shortRanges.splice(0, short);
+        return subtractRanges(longRanges, shortRanges);
+      } else if (longRanges[long].length === 1) {
+        // No subtraction made, but .subtract always returns arrays
+        longRanges[long] = longRanges[long][0];
+      } else {
+        // Successfully subtracted a subrange, flatten and recurse again
+        const flat = [].concat(...longRanges);
+        shortRanges.splice(0, short);
+        return subtractRanges(flat, shortRanges);
       }
-      return longRanges;
     }
+  }
+  return longRanges;
+}
 
+app.get('/', function(req, res){
 
     query.rooms().then((data) => {
         var floors = {};
-        //var rangeEvents = [{}];
-        let rangeEvents = [{}];
+        let rangeEvents = [];
         data = JSON.parse(JSON.stringify(data));
-
 
         data.map((el) => {
             if (floors[el.floor] === undefined) {
@@ -68,11 +70,6 @@ app.get('/', function(req, res){
             }
             floors[el.floor].push(el);
         })
-
-
-        var startDay = moment.utc('2018-01-17 08:00:00');
-        var endDay   = moment.utc('2018-01-17 23:00:00');
-        var day = moment.range(startDay, endDay);
 
         for (var key in floors) {
             var floor = floors[key];
@@ -83,16 +80,37 @@ app.get('/', function(req, res){
                 events.forEach(item => {
                     var start = moment(`${item.dateStart}`).utc();
                     var end = moment(`${item.dateEnd}`).utc();
-                    console.log('start', start);
-                    console.log('end', end);
                     rangeEvents.push(moment.range(start, end));
 
                 })
 
-                rangeEvents = rangeEvents.splice(1);
-                //console.log(day);
+                //rangeEvents = rangeEvents.splice(1);
                 let newRanges = subtractRanges(day, rangeEvents);
-                console.log(newRanges);
+
+                let newEvents = [];
+
+                newRanges.forEach(item => {
+                    newEvents.push({
+                        type: 'empty',
+                        dateStart: item.start.utc().format(),
+                        dateEnd: item.end.utc().format()
+                    })
+                })
+
+                //console.log(newEvents);
+                //
+                newEvents.forEach(elem => {
+                    item.Events.push(elem);
+                })
+                //item.Events.push(newEvents);
+                //console.log(item.Events);
+
+                item.Events.sort((a,b) => {
+                    return moment(b.dateStart).isBefore(moment(a.dateStart))
+                })
+
+                console.log(item.Events);
+                // console.log(newRanges);
                 console.log('------');
             })
             console.log('~~~~~~');

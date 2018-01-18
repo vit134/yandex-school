@@ -66,13 +66,17 @@
                                 {% if room.Events | length > 0 %}
                                     {% for event in room.Events %}
 
-                                
-                                    <div class="main__events__item js-event-item"
-                                        data-timeStart="{{ event.dateStart | date("H:i") }}"
-                                        data-timeEnd="{{ event.dateEnd | date("H:i") }}"
-                                        style="width: 5.25%;"></div>
-                                                            
-
+                                    {% if event.type and event.type == 'empty' %}
+                                        <div class="main__events__item js-event-item"
+                                            data-timeStart="{{ event.dateStart | date("H:i") }}"
+                                            data-timeEnd="{{ event.dateEnd | date("H:i") }}"
+                                            style="width: 5.25%;"></div>
+                                    {% else %}                       
+                                        <div class="main__events__item js-event-item busy"
+                                            data-timeStart="{{ event.dateStart | date("H:i") }}"
+                                            data-timeEnd="{{ event.dateEnd | date("H:i") }}"
+                                            style="width: 5.25%;"></div>
+                                    {% endif %}
                                     {% endfor %}
                                 {% else %}
                                     <div class="main__events__item js-event-item" style="width: 100%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
