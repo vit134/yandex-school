@@ -227,8 +227,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("r7L21G"))
-},{"r7L21G":3}],3:[function(require,module,exports){
+}).call(this,require("6r38Q7"))
+},{"6r38Q7":3}],3:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8054,7 +8054,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/../../../../node_modules/twig")
+}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
 },{"fs":1,"path":2}],5:[function(require,module,exports){
 "use strict";
 var _twig = require("twig"),
@@ -8065,8 +8065,8 @@ var _twig = require("twig"),
       t = $(".js-calendar-container"),
       s = $(".js-calendar-toggle"),
       i = $(".js-calendar-prev"),
-      o = $(".js-calendar-next"),
-      n = $(".js-tooltip"),
+      n = $(".js-calendar-next"),
+      o = $(".js-tooltip"),
       r = $(".js-tooltip-triangle"),
       a = $(".js-event-item"),
       c = $(".js-schedule"),
@@ -8076,10 +8076,10 @@ var _twig = require("twig"),
       u = ($(".js-add-event-btn"), new Date()),
       f = (u.getHours(), u.getMinutes(), !1);function p() {
     e = h.outerWidth(!0);
-  }function v() {
-    n.hide(), r.css({ left: 160 }), a.removeClass("active");
+  }function g() {
+    o.hide(), r.css({ left: 160 }), a.removeClass("active");
   }!function () {
-    p(), o.on("click", function () {
+    p(), n.on("click", function () {
       var e = t.datepicker("getDate");e.setTime(e.getTime() + 864e5), t.datepicker("setDate", e), t.datepicker("refresh");
     }), i.on("click", function () {
       var e = t.datepicker("getDate");e.setTime(e.getTime() - 864e5), t.datepicker("setDate", e), t.datepicker("refresh");
@@ -8092,14 +8092,16 @@ var _twig = require("twig"),
           t,
           s,
           i,
-          o,
-          c = (e = $(this), t = e.offset().top, s = e.offset().left, i = e.outerWidth(!0), e.outerHeight(!0), { top: t, left: s, width: i });$(this).hasClass("can-open") && ($(this).hasClass("active") ? v() : (a.removeClass("active"), $(this).addClass("active"), o = c, n.css({ top: o.top + 26 + "px", left: o.left + o.width / 2 - 169 + "px" }), $(window).width() < 415 && r.css({ left: o.left + o.width / 2 - 4 + "px" }), n.fadeIn(200)));
+          n,
+          c = (e = $(this), t = e.offset().top, s = e.offset().left, i = e.outerWidth(!0), e.outerHeight(!0), { top: t, left: s, width: i });$(this).hasClass("can-open") && ($(this).hasClass("active") ? g() : (a.removeClass("active"), $(this).addClass("active"), n = c, o.css({ top: n.top + 26 + "px", left: n.left + n.width / 2 - 169 + "px" }), $(window).width() < 415 && r.css({ left: n.left + n.width / 2 - 4 + "px" }), o.fadeIn(200)));
     }), c.on("scroll", function () {
       var t = $(this).scrollLeft();t > e && !f ? (l.show(), d.show(), f = !0) : t <= e && f && (l.hide(), d.hide(), f = !1), l.css({ left: t - e + 5 + "px" }), d.css({ left: t - e + 5 + "px" });
     }), $(window).on("resize", function () {
-      p(), v();
+      p(), g();
     });var h = $.extend({}, $.datepicker.regional.ru, { showOtherMonths: !0, selectOtherMonths: !0, onSelect: function onSelect(e, t) {} }),
-        u = (0, _twig2.default)({ id: "list", data: "{% for value in list %}{{ value }}, {% endfor %}" }).render({ list: ["one", "two", "three"] });$(".js-event").html(u), t.datepicker(h);
+        u = twig.twig({ id: "login", href: "../../../app/blocks/newevent/main.twig", async: !0, load: function load(e) {
+        console.log(e.render());
+      } }).render({ list: ["one", "two", "three"] });$(".js-event").html(u), t.datepicker(h);
   }();
 });
 },{"twig":4}]},{},[5])

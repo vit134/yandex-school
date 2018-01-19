@@ -23,47 +23,6 @@ div {
   margin: 0 auto;
   max-width: 1280px;
 }
-.button {
-  display: block;
-  border-radius: 4px;
-  text-align: center;
-  padding: 0 16px;
-  line-height: 36px;
-  font-size: 13px;
-  letter-spacing: 0;
-  font-weight: 600;
-  cursor: pointer;
-}
-.button_blue {
-  color: #ffffff;
-  background: #007DFF;
-}
-.button_blue:active {
-  background: #0011FE;
-}
-.button_blue:hover {
-  background: #0058FF;
-}
-.button_grey {
-  background: #E9ECEF;
-}
-.button_grey:active {
-  background: #C7CDD3;
-}
-.button_grey:hover {
-  background: #DDE0E4;
-}
-.button_add-event {
-  width: 140px;
-  height: 36px;
-}
-.button_cansel.disabled {
-  opacity: 0.4;
-}
-.button.disabled {
-  background: #E5E5E5;
-  color: #8B8E92;
-}
 .calendar {
   position: relative;
 }
@@ -123,6 +82,47 @@ div {
     width: calc(100% + 48px);
     margin: 0 -24px;
   }
+}
+.button {
+  display: block;
+  border-radius: 4px;
+  text-align: center;
+  padding: 0 16px;
+  line-height: 36px;
+  font-size: 13px;
+  letter-spacing: 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+.button_blue {
+  color: #ffffff;
+  background: #007DFF;
+}
+.button_blue:active {
+  background: #0011FE;
+}
+.button_blue:hover {
+  background: #0058FF;
+}
+.button_grey {
+  background: #E9ECEF;
+}
+.button_grey:active {
+  background: #C7CDD3;
+}
+.button_grey:hover {
+  background: #DDE0E4;
+}
+.button_add-event {
+  width: 140px;
+  height: 36px;
+}
+.button_cansel.disabled {
+  opacity: 0.4;
+}
+.button.disabled {
+  background: #E5E5E5;
+  color: #8B8E92;
 }
 .ui-priority-secondary {
   opacity: 0.3;

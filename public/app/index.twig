@@ -63,24 +63,22 @@
                         {% for room in floor %}
                         <div class="main__events__row">
                         <span class="main__events__room busy js-events-room">{{ room.title }}</span>
-                        {% if room.Events | length > 0 %}
                             {% for event in room.Events %}
 
-                            {% if event.type and event.type == 'empty' %}
-                                <div class="main__events__item js-event-item"
-                                    data-timeStart="{{ event.dateStart }}"
-                                    data-timeEnd="{{ event.dateEnd }}"
-                                    style="width: {{ event.width * 1.5625 }}%;"></div>
-                            {% else %}                       
-                                <div class="main__events__item js-event-item busy"
-                                    data-timeStart="{{ event.dateStart }}"
-                                    data-timeEnd="{{ event.dateEnd }}"
-                                    style="width: {{ event.width * 1.5625 }}%;"></div>
-                            {% endif %}
+                                {% if event.type and event.type == 'empty' %}
+                                    <div class="main__events__item js-event-item {% if event.width == 1 %}main__events__item_small{% endif %}"
+                                        data-timeStart="{{ event.dateStart }}"
+                                        data-timeEnd="{{ event.dateEnd }}"
+                                        style="width: {{ event.width * 1.5625 }}%;">
+                                            <a href="/newevent.html" class="main__events__item__add">+</a>
+                                        </div>
+                                {% else %}
+                                    <div class="main__events__item js-event-item busy"
+                                        data-timeStart="{{ event.dateStart }}"
+                                        data-timeEnd="{{ event.dateEnd }}"
+                                        style="width: {{ event.width * 1.5625 }}%;"></div>
+                                {% endif %}
                             {% endfor %}
-                        {% else %}
-                            <div class="main__events__item js-event-item" style="width: 100%;"><a href="/newevent.html" class="main__events__item__add">+</a></div>
-                        {% endif %}
                         </div>
                         {% endfor %}
                         </div>

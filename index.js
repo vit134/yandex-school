@@ -65,9 +65,7 @@ app.get('/', function(req, res){
         var floors = [];
         var d = {};
 
-        let rangeEvents = [];
         data = JSON.parse(JSON.stringify(data));
-        console.log(data);
         data.forEach(function(value){
             if(typeof d[value.floor] == 'undefined')
                 d[value.floor] = [];
@@ -79,35 +77,33 @@ app.get('/', function(req, res){
             return d[key];
         })
 
-        //console.log(JSON.stringify(floors));
-        //console.log(floors);
-
         floors.forEach(floor => {
             floor.forEach(room => {
                 var events = room.Events;
-                console.log(room.title);
-
+                /**/console.log(room.title);
+                let rangeEvents = [];
                 events.forEach((event, i) => {
-                    let start = moment(`${event.dateStart}`).utc();
-                    let end = moment(`${event.dateEnd}`).utc();
+                    var start = moment(events[i].dateStart).utc(),
+                        end = moment(events[i].dateEnd).utc();
 
-                    console.log('start', start);
-                    console.log('end', end);
+                    /*console.log('start', start);
+                    console.log('end', end);*/
                     rangeEvents.push(moment.range(start, end));
+                    console.log(moment.range(start, end));
 
                     var diff = end.diff(start, 'minute');
                     room.Events[i]['width'] = diff / 15;
                 });
 
-                let newRanges = subtractRanges(day, rangeEvents);
+                var newRanges = subtractRanges(day, rangeEvents);
                 console.log('**');
                 newRanges.forEach(aa => {
-                    console.log('start after', aa.start.utc().format());
+                    /*console.log('start after', aa.start.utc().format());
                     console.log('end after', aa.end.utc().format());
-                    console.log('**');
+                    console.log('**');*/
                 });
 
-                let newEvents = [];
+                var newEvents = [];
 
                 newRanges.forEach(item => {
                     var start = item.start.utc(),
@@ -129,11 +125,11 @@ app.get('/', function(req, res){
                     return moment(b.dateStart).isBefore(moment(a.dateStart))
                 })
 
-                console.log(room.Events);
+                /*console.log(room.Events);
 
-                console.log('------');
+                console.log('------');*/
             })
-            console.log('~~~~~~');
+            //console.log('~~~~~~');
         });
 
         res.render('index', {

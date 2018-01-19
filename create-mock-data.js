@@ -120,7 +120,7 @@ function createData() {
         ]))
         .then(function([users, rooms, events]) {
             let promises = [];
-            promises.push(events[0].setRoom(rooms[0]));
+            /*promises.push(events[0].setRoom(rooms[0]));
             promises.push(events[1].setRoom(rooms[1]));
             promises.push(events[2].setRoom(rooms[2]));
 
@@ -136,7 +136,7 @@ function createData() {
             promises.push(rooms[5].setEvents([events[0], events[2]]));
             promises.push(rooms[6].setEvents([events[0], events[1]]));
             promises.push(rooms[7].setEvents([events[0], events[1], events[2]]));
-            promises.push(rooms[8].setEvents([events[0], events[2]]));
+            promises.push(rooms[8].setEvents([events[0], events[2]]));*/
 
             return Promise.all(promises);
         });
