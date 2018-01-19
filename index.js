@@ -25,6 +25,8 @@ let startDay = moment('2018-01-17T08:00:00.000Z').utc();
 let endDay   = moment('2018-01-17T23:00:00.000Z').utc();
 let day = moment.range(startDay, endDay);
 
+
+
 function subtractRanges(longRanges, shortRanges) {
   // Always return an array
   if (shortRanges.length === 0)
@@ -60,64 +62,63 @@ function subtractRanges(longRanges, shortRanges) {
 app.get('/', function(req, res){
 
     query.rooms().then((data) => {
-        var floors = {};
+        var floors = [];
+        var d = {};
+
         let rangeEvents = [];
         data = JSON.parse(JSON.stringify(data));
+        console.log(data);
+        data.forEach(function(value){
+            if(typeof d[value.floor] == 'undefined')
+                d[value.floor] = [];
 
-        data.map((el) => {
+            d[value.floor].push(value);
+        });
+
+        floors = Object.keys(d).map(key => {
+            return d[key];
+        })
+
+        /*data.map((el) => {
             if (floors[el.floor] === undefined) {
                 floors[el.floor] = []
             }
             floors[el.floor].push(el);
-        })
+        })*/
 
-        for (var key in floors) {
-            var floor = floors[key];
-            floor.forEach((item, i) => {
-                var events = item.Events;
-                console.log(item.title);
+        console.log(JSON.stringify(floors));
+        //console.log(floors);
 
-                events.forEach((value, i) => {
-                    var start = moment(`${value.dateStart}`).utc();
-                    var end = moment(`${value.dateEnd}`).utc();
+        /*Object.keys(floors).map(function(objectKey, index) {
+            let floor = floors[objectKey];
 
+            floor.forEach(room => {
+                var events = room.Events;
+                console.log(room.title);
+
+                events.forEach(event => {
+                    let start = moment(`${event.dateStart}`).utc();
+                    let end = moment(`${event.dateEnd}`).utc();
+
+                    console.log('start', start);
+                    console.log('end', end);
                     rangeEvents.push(moment.range(start, end));
+                });
 
-                    var diff = end.diff(start, 'minute');   
-                    item.Events[i]['width'] = diff / 15; 
-
-                })
-
-                //rangeEvents = rangeEvents.splice(1);
                 let newRanges = subtractRanges(day, rangeEvents);
+                console.log('**');
+                newRanges.forEach(aa => {
+                    console.log('start after', aa.start.utc().format());
+                    console.log('end after', aa.end.utc().format());
+                    console.log('**');
+                });
 
-                let newEvents = [];
 
-                newRanges.forEach(item => {
-                    var start = item.start.utc(),
-                        end = item.end.utc()
-                    newEvents.push({
-                        type: 'empty',
-                        dateStart: start.format(),
-                        dateEnd: end.format(),
-                        width: end.diff(start, 'minute') / 15
-                    })
-                })
 
-                newEvents.forEach(elem => {
-                    item.Events.push(elem);
-                })
-                console.log(item.Events);
-
-                item.Events.sort((a,b) => {
-                    return moment(b.dateStart).isBefore(moment(a.dateStart))
-                })
-
-                //console.log(item.Events);
                 console.log('------');
             })
             console.log('~~~~~~');
-        }
+        });*/
 
         res.render('index', {
             enableAddButton: true,
