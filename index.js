@@ -77,10 +77,14 @@ app.get('/', function(req, res){
                 var events = item.Events;
                 console.log(item.title);
 
-                events.forEach(item => {
-                    var start = moment(`${item.dateStart}`).utc();
-                    var end = moment(`${item.dateEnd}`).utc();
+                events.forEach((value, i) => {
+                    var start = moment(`${value.dateStart}`).utc();
+                    var end = moment(`${value.dateEnd}`).utc();
+
                     rangeEvents.push(moment.range(start, end));
+
+                    var diff = end.diff(start, 'minute');   
+                    item.Events[i]['width'] = diff / 15; 
 
                 })
 
@@ -90,27 +94,26 @@ app.get('/', function(req, res){
                 let newEvents = [];
 
                 newRanges.forEach(item => {
+                    var start = item.start.utc(),
+                        end = item.end.utc()
                     newEvents.push({
                         type: 'empty',
-                        dateStart: item.start.utc().format(),
-                        dateEnd: item.end.utc().format()
+                        dateStart: start.format(),
+                        dateEnd: end.format(),
+                        width: end.diff(start, 'minute') / 15
                     })
                 })
 
-                //console.log(newEvents);
-                //
                 newEvents.forEach(elem => {
                     item.Events.push(elem);
                 })
-                //item.Events.push(newEvents);
-                //console.log(item.Events);
+                console.log(item.Events);
 
                 item.Events.sort((a,b) => {
                     return moment(b.dateStart).isBefore(moment(a.dateStart))
                 })
 
-                console.log(item.Events);
-                // console.log(newRanges);
+                //console.log(item.Events);
                 console.log('------');
             })
             console.log('~~~~~~');
