@@ -92,18 +92,23 @@ function createData() {
 
     let eventsPromise = models.Event.bulkCreate([{
         title: 'ШРИ 2018 - начало',
-        dateStart: twoHoursLater,
-        dateEnd: threeHoursLater
+        dateStart: '2018-01-17T08:00:00.000Z',
+        dateEnd: '2018-01-17T09:30:00.000Z'
     },
     {
-        title: '👾 Хакатон 👾',
-        dateStart: oneHourLater,
-        dateEnd: twoHoursLater
+        title: '👾 15:30 - 16:15 👾',
+        dateStart: '2018-01-17T15:30:00.000Z',
+        dateEnd: '2018-01-17T16:15:00.000Z'
     },
     {
-        title: '🍨 Пробуем kefir.js',
-        dateStart: threeHoursLater,
-        dateEnd: forHoursLater
+        title: '🍨 16:15 - 17:30',
+        dateStart: '2018-01-17T16:15:00.000Z',
+        dateEnd: '2018-01-17T17:30:00.000Z'
+    },
+    {
+        title: '🍨 18:45 - 19:30',
+        dateStart: '2018-01-17T18:45:00.000Z',
+        dateEnd: '2018-01-17T19:30:00.000Z'
     }
     ]);
 

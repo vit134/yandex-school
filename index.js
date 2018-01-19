@@ -79,30 +79,24 @@ app.get('/', function(req, res){
             return d[key];
         })
 
-        /*data.map((el) => {
-            if (floors[el.floor] === undefined) {
-                floors[el.floor] = []
-            }
-            floors[el.floor].push(el);
-        })*/
-
-        console.log(JSON.stringify(floors));
+        //console.log(JSON.stringify(floors));
         //console.log(floors);
 
-        /*Object.keys(floors).map(function(objectKey, index) {
-            let floor = floors[objectKey];
-
+        floors.forEach(floor => {
             floor.forEach(room => {
                 var events = room.Events;
                 console.log(room.title);
 
-                events.forEach(event => {
+                events.forEach((event, i) => {
                     let start = moment(`${event.dateStart}`).utc();
                     let end = moment(`${event.dateEnd}`).utc();
 
                     console.log('start', start);
                     console.log('end', end);
                     rangeEvents.push(moment.range(start, end));
+
+                    var diff = end.diff(start, 'minute');
+                    room.Events[i]['width'] = diff / 15;
                 });
 
                 let newRanges = subtractRanges(day, rangeEvents);
@@ -113,12 +107,34 @@ app.get('/', function(req, res){
                     console.log('**');
                 });
 
+                let newEvents = [];
 
+                newRanges.forEach(item => {
+                    var start = item.start.utc(),
+                        end = item.end.utc()
+                    newEvents.push({
+                        type: 'empty',
+                        dateStart: start.format(),
+                        dateEnd: end.format(),
+                        width: end.diff(start, 'minute') / 15
+                    })
+                })
+
+                newEvents.forEach(elem => {
+                    room.Events.push(elem);
+                })
+
+
+                room.Events.sort((a,b) => {
+                    return moment(b.dateStart).isBefore(moment(a.dateStart))
+                })
+
+                console.log(room.Events);
 
                 console.log('------');
             })
             console.log('~~~~~~');
-        });*/
+        });
 
         res.render('index', {
             enableAddButton: true,
