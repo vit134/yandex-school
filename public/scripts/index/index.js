@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    var twig = require('twig');
+
     var $hours = $('.js-hours'),
         $hoursCurrentItem = $('.js-hours-current'),
         $hoursItem = $('.js-hours-item'),
@@ -7,12 +9,16 @@ $(document).ready(function() {
         $calendarPrevDay = $('.js-calendar-prev'),
         $calendarNextDay = $('.js-calendar-next'),
         $tooltip = $('.js-tooltip'),
+        $tooltipWrapper = $('.js-tooltip-wrapper'),
         $tooltipTriangle = $('.js-tooltip-triangle'),
         $eventItem = $('.js-event-item'),
         $schedule = $('.js-schedule'),
         $eventsRoom = $('.js-events-room'),
         $eventsFloor = $('.js-events-floor'),
         $colLeft = $('.js-col-left');
+
+    //poup vars
+    var $popup = $('.js-popup');
 
     var $addEventBtn = $('.js-add-event-btn');
 
@@ -29,6 +35,7 @@ $(document).ready(function() {
     var scheduleScrollFlag = false;
 
     function init() {
+        console.log(123);
         //removeScroll();
         updateChangeblVars();
         bindEvents();
@@ -50,24 +57,7 @@ $(document).ready(function() {
                 }
             }
         )
-        //var tmp = require('../../../app/blocks/newevent/main.twig');
-
-        var template = twig.twig({
-            id: "login",
-            //namespaces: { 'views_dir': 'js/app/' },
-            href: "../../../app/blocks/newevent/main.twig",
-            async: true,
-            load: function(template) {
-                console.log(template.render());
-            }
-        });
-
-        var output = template.render({
-            list: ["one", "two", "three"]
-        });
-
-        $('.js-event').html(output)
-
+        
         $calendarContainer.datepicker(datepickekerOptions);
     }
 
@@ -76,6 +66,46 @@ $(document).ready(function() {
     }
 
     function bindEvents() {
+        $addEventBtn.on('click', function(e) {
+            e.preventDefault();
+            var $this = $(this),
+                $thisParent = $(this).parent();
+
+            var empty = $this.data('type') ? true : false;
+            console.log(empty);
+
+            var data = {
+                empty: empty
+            };
+
+            if (!empty) {
+                data.dateStart = $thisParent.data('timestart'),
+                data.dateEnd = $thisParent.data('timeend'),
+                data.roomId = $thisParent.data('roomid')
+            }
+
+            console.log(data);
+
+            $.ajax({
+                url: '/newevent',
+                type: 'POST',
+                data: data,
+                success: function(data){
+                    console.log(data);
+
+                    $('.js-popup').html(data.html).show();
+                    updateChangeblVars();
+                }
+            });
+        })
+
+        //popup buttons action 
+        $('body').on('click', '.js-popup-close', function(e) {
+            e.preventDefault();
+            console.log(123);
+            $popup.html('');
+        })
+
         $calendarNextDay.on("click", function () {
             var date = $calendarContainer.datepicker('getDate');
             date.setTime(date.getTime() + (1000*60*60*24))
@@ -114,16 +144,33 @@ $(document).ready(function() {
 
         $eventItem.on('click', function() {
             var position = getEventItemPosition($(this));
+            var eventId = $(this).data('eventid');
 
-            if ($(this).hasClass('can-open')) {
+            var data = {
+                eventId: eventId
+            }
+
+            if ($(this).hasClass('busy')) {
                 if ($(this).hasClass('active')) {
                     closeTooltip();
+                    $tooltipWrapper.html();
                 } else {
-                    $eventItem.removeClass('active');
-                    $(this).addClass('active');
-                    openTooltip(position);
+                    console.log(data);
+
+                    $.ajax({
+                        url: '/tooltip',
+                        type: 'POST',
+                        data: data,
+                        success: function(data){
+                            console.log(data);
+                            $tooltipWrapper.html(data.html);
+                            $eventItem.removeClass('active');
+                            $(this).addClass('active');
+                            openTooltip(position);
+                        }
+                    });
                 }
-            }
+            } 
         })
 
         $schedule.on('scroll', function() {

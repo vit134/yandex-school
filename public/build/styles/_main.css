@@ -84,11 +84,11 @@ div {
   }
 }
 .button {
-  display: block;
+  display: inline-block;
+  vertical-align: middle;
   border-radius: 4px;
   text-align: center;
-  padding: 0 16px;
-  line-height: 36px;
+  padding: 12px 24px;
   font-size: 13px;
   letter-spacing: 0;
   font-weight: 600;
@@ -681,9 +681,8 @@ div {
   top: 0;
   left: 0;
   background: #FFFFFF;
-  border-bottom: 1px solid #E9ECEF;
-  box-sizing: border-box;
   z-index: 11;
+  border-bottom: 1px solid #E9ECEF;
 }
 .header__inner {
   display: flex;
@@ -695,6 +694,7 @@ div {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 .header__logo {
   width: 174px;
@@ -864,7 +864,7 @@ div {
   border-radius: 2px;
   background: #2B50FD;
   text-align: center;
-  line-height: 28px;
+  line-height: 24px;
   color: #fff;
   font-weight: bold;
   font-size: 20px;
@@ -1049,7 +1049,7 @@ div {
     max-width: 100%;
   }
 }
-.newevent {
+.newevent__inner {
   position: relative;
   max-width: 872px;
   margin: 0 auto;
@@ -1197,12 +1197,12 @@ div {
   color: #bababa;
 }
 .newevent__room-item {
+  position: relative;
   border: 2px solid #E9ECEF;
   border-radius: 4px;
   height: 38px;
   background: #E9ECEF;
-  line-height: 38px;
-  padding: 0 10px;
+  padding: 8px 10px;
   font-size: 13px;
   margin-bottom: 8px;
   cursor: pointer;
@@ -1210,6 +1210,30 @@ div {
 .newevent__room-item__time {
   font-weight: 700;
   margin-right: 16px;
+}
+.newevent__room-item__close {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  background: url('/styles/blocks//newevent/images/close_white.svg') center no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+}
+.newevent__room-item.active {
+  background: #007DFF;
+  border-color: #007DFF;
+  color: #fff;
+}
+.newevent__room-item.active .newevent__room-item__close {
+  display: block;
+}
+.newevent__room-item:hover {
+  background: #0058FF;
+  border-color: #0058FF;
+  color: #fff;
 }
 .newevent__close {
   position: absolute;
@@ -1224,6 +1248,7 @@ div {
   background-repeat: no-repeat;
   background-size: 11px;
   opacity: 0.6;
+  cursor: pointer;
 }
 .newevent__close:hover {
   opacity: 1;
@@ -1270,6 +1295,21 @@ div {
   background-size: 12px;
   cursor: pointer;
   opacity: 0.6;
+}
+.newevent__footer {
+  border-top: 1px solid #E9ECEF;
+  box-sizing: border-box;
+  background: #fff;
+}
+.newevent__footer__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+.newevent__footer__button {
+  margin-right: 16px;
 }
 [data-simplebar] {
   z-index: 10;
@@ -1336,6 +1376,13 @@ div {
 .popup {
   display: none;
   position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  background: #fff;
+  z-index: 999;
+}
+.popup_small {
   top: 30%;
   left: 50%;
   margin-left: -222px;
@@ -1567,7 +1614,7 @@ div {
   width: auto;
 }
 .tooltip {
-  display: none;
+  display: block;
   position: absolute;
   top: 232px;
   width: 338px;

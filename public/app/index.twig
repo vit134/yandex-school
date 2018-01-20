@@ -1,7 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block Main %}
-    <!-- <pre>{{ dump(data) }}</pre> -->
+    {#<pre>{{ dump(data) }}</pre>#}
     <div class="main__calendar">
         <div class="main__calendar__inner">
             <div class="calendar">
@@ -69,13 +69,17 @@
                                     <div class="main__events__item js-event-item {% if event.width == 1 %}main__events__item_small{% endif %}"
                                         data-timeStart="{{ event.dateStart }}"
                                         data-timeEnd="{{ event.dateEnd }}"
+                                        data-roomId="{{ room.id }}"
+                                        data-eventId="{{ event.id }}"
                                         style="width: {{ event.width * 1.5625 }}%;">
-                                            <a href="/newevent.html" class="main__events__item__add">+</a>
+                                            <a href="" class="main__events__item__add js-add-event-btn">+</a>
                                         </div>
                                 {% else %}
                                     <div class="main__events__item js-event-item busy"
                                         data-timeStart="{{ event.dateStart }}"
                                         data-timeEnd="{{ event.dateEnd }}"
+                                        data-roomId="{{ room.id }}"
+                                        data-eventId="{{ event.id }}"
                                         style="width: {{ event.width * 1.5625 }}%;"></div>
                                 {% endif %}
                             {% endfor %}
@@ -88,7 +92,6 @@
             </div>
         </div>
     </div>
-    <div class="js-event"></div>
 {% endblock %}
 
 {% block pageScript %}

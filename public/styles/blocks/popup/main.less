@@ -1,15 +1,23 @@
 .popup {
     display: none;
     position: absolute;
-    top: 30%;
-    left: 50%;
-    margin-left: -222px;
-    width: 444px;
-    padding: 32px;
-    text-align: center;
-    border-radius: 8px;
+    top: 72px;
+    left: 0;
+    right: 0;
     background: #fff;
-    box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+    z-index: 999;
+
+    &_small {
+        top: 30%;
+        left: 50%;
+        margin-left: -222px;
+        width: 444px;
+        padding: 32px;
+        text-align: center;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+    }
 
     &__wrapper {
         display: none;

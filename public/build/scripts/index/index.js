@@ -227,8 +227,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("6r38Q7"))
-},{"6r38Q7":3}],3:[function(require,module,exports){
+}).call(this,require("r7L21G"))
+},{"r7L21G":3}],3:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8054,54 +8054,62 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
+}).call(this,"/../../../../node_modules/twig")
 },{"fs":1,"path":2}],5:[function(require,module,exports){
 "use strict";
-var _twig = require("twig"),
-    _twig2 = _interopRequireDefault(_twig);function _interopRequireDefault(e) {
-  return e && e.__esModule ? e : { default: e };
-}$(document).ready(function () {
-  $(".js-hours"), $(".js-hours-current"), $(".js-hours-item");var e,
+$(document).ready(function () {
+  require("twig"), $(".js-hours"), $(".js-hours-current"), $(".js-hours-item");var e,
       t = $(".js-calendar-container"),
       s = $(".js-calendar-toggle"),
-      i = $(".js-calendar-prev"),
-      n = $(".js-calendar-next"),
-      o = $(".js-tooltip"),
-      r = $(".js-tooltip-triangle"),
-      a = $(".js-event-item"),
-      c = $(".js-schedule"),
-      l = $(".js-events-room"),
-      d = $(".js-events-floor"),
-      h = $(".js-col-left"),
-      u = ($(".js-add-event-btn"), new Date()),
-      f = (u.getHours(), u.getMinutes(), !1);function p() {
-    e = h.outerWidth(!0);
-  }function g() {
-    o.hide(), r.css({ left: 160 }), a.removeClass("active");
+      o = $(".js-calendar-prev"),
+      i = $(".js-calendar-next"),
+      n = $(".js-tooltip"),
+      a = $(".js-tooltip-wrapper"),
+      c = $(".js-tooltip-triangle"),
+      l = $(".js-event-item"),
+      r = $(".js-schedule"),
+      d = $(".js-events-room"),
+      h = $(".js-events-floor"),
+      p = $(".js-col-left"),
+      u = $(".js-popup"),
+      f = $(".js-add-event-btn"),
+      v = new Date(),
+      m = (v.getHours(), v.getMinutes(), !1);function g() {
+    e = p.outerWidth(!0);
+  }function j() {
+    n.hide(), c.css({ left: 160 }), l.removeClass("active");
   }!function () {
-    p(), n.on("click", function () {
-      var e = t.datepicker("getDate");e.setTime(e.getTime() + 864e5), t.datepicker("setDate", e), t.datepicker("refresh");
+    console.log(123), g(), f.on("click", function (e) {
+      e.preventDefault();var t = $(this),
+          s = $(this).parent(),
+          o = !!t.data("type");console.log(o);var i = { empty: o };o || (i.dateStart = s.data("timestart"), i.dateEnd = s.data("timeend"), i.roomId = s.data("roomid")), console.log(i), $.ajax({ url: "/newevent", type: "POST", data: i, success: function success(e) {
+          console.log(e), $(".js-popup").html(e.html).show(), g();
+        } });
+    }), $("body").on("click", ".js-popup-close", function (e) {
+      e.preventDefault(), console.log(123), u.html("");
     }), i.on("click", function () {
+      var e = t.datepicker("getDate");e.setTime(e.getTime() + 864e5), t.datepicker("setDate", e), t.datepicker("refresh");
+    }), o.on("click", function () {
       var e = t.datepicker("getDate");e.setTime(e.getTime() - 864e5), t.datepicker("setDate", e), t.datepicker("refresh");
     }), s.on("click", function () {
       $(this).hasClass("open") ? ($(this).removeClass("open"), t.datepicker("hide").hide()) : ($(this).addClass("open"), t.datepicker("show").show());
     }), $(document).mouseup(function (e) {
       s.is(e.target) || 0 !== t.has(e.target).length || (s.removeClass("open"), t.datepicker("hide").hide());
-    }), a.on("click", function () {
+    }), l.on("click", function () {
       var e,
           t,
           s,
-          i,
-          n,
-          c = (e = $(this), t = e.offset().top, s = e.offset().left, i = e.outerWidth(!0), e.outerHeight(!0), { top: t, left: s, width: i });$(this).hasClass("can-open") && ($(this).hasClass("active") ? g() : (a.removeClass("active"), $(this).addClass("active"), n = c, o.css({ top: n.top + 26 + "px", left: n.left + n.width / 2 - 169 + "px" }), $(window).width() < 415 && r.css({ left: n.left + n.width / 2 - 4 + "px" }), o.fadeIn(200)));
-    }), c.on("scroll", function () {
-      var t = $(this).scrollLeft();t > e && !f ? (l.show(), d.show(), f = !0) : t <= e && f && (l.hide(), d.hide(), f = !1), l.css({ left: t - e + 5 + "px" }), d.css({ left: t - e + 5 + "px" });
+          o,
+          i = (e = $(this), t = e.offset().top, s = e.offset().left, o = e.outerWidth(!0), e.outerHeight(!0), { top: t, left: s, width: o }),
+          r = $(this).data("eventid"),
+          d = { eventId: r };$(this).hasClass("busy") && ($(this).hasClass("active") ? (j(), a.html()) : (console.log(d), $.ajax({ url: "/tooltip", type: "POST", data: d, success: function success(e) {
+          var t;console.log(e), a.html(e.html), l.removeClass("active"), $(this).addClass("active"), t = i, n.css({ top: t.top + 26 + "px", left: t.left + t.width / 2 - 169 + "px" }), $(window).width() < 415 && c.css({ left: t.left + t.width / 2 - 4 + "px" }), n.fadeIn(200);
+        } })));
+    }), r.on("scroll", function () {
+      var t = $(this).scrollLeft();t > e && !m ? (d.show(), h.show(), m = !0) : t <= e && m && (d.hide(), h.hide(), m = !1), d.css({ left: t - e + 5 + "px" }), h.css({ left: t - e + 5 + "px" });
     }), $(window).on("resize", function () {
-      p(), g();
-    });var h = $.extend({}, $.datepicker.regional.ru, { showOtherMonths: !0, selectOtherMonths: !0, onSelect: function onSelect(e, t) {} }),
-        u = twig.twig({ id: "login", href: "../../../app/blocks/newevent/main.twig", async: !0, load: function load(e) {
-        console.log(e.render());
-      } }).render({ list: ["one", "two", "three"] });$(".js-event").html(u), t.datepicker(h);
+      g(), j();
+    });var p = $.extend({}, $.datepicker.regional.ru, { showOtherMonths: !0, selectOtherMonths: !0, onSelect: function onSelect(e, t) {} });t.datepicker(p);
   }();
 });
 },{"twig":4}]},{},[5])

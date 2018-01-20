@@ -33,7 +33,7 @@ var path = {
 gulp.task('sync', function() {
     browserSync.init({
         proxy: "localhost:3000",
-        open: true,
+        open: false,
         notify: true,
         socket: {
             namespace: '/someothername'

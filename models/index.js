@@ -11,7 +11,7 @@ const sequelize = new Sequelize('database', 'username', 'password', {
         $and: Op.and
     },
 
-    logging: false
+    logging: true
 });
 
 scheme(sequelize);

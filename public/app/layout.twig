@@ -17,30 +17,13 @@
             {% include 'blocks/footer/footer.twig' %}
         {% endif %}
     </div>
-    <div class="tooltip js-tooltip">
-        <div class="tooltip__triangle js-tooltip-triangle"></div>
-        <div class="tooltip__title">Рассуждения о высоком</div>
-        <div class="tooltip__description">
-            <span>28 декабря,</span>
-            <span>15:00&#8212;17:00</span>
-            <span> &#183; </span>
-            <span>Желтый дом</span>
-        </div>
-        <div class="tooltip__members">
-            <div class="tooltip__members__item">
-                <img src="https://cdn.dribbble.com/users/588874/screenshots/2249528/dribbble_1x.png" class="tooltip__members__image">
-                <span class="tooltip__members__name">Дарт Вейдер</span>
-            </div>
-            <span class="tooltip__members__also">
-                и <span>12</span> участников
-            </span>
-        </div>
-        <a href="/editevent.html" class="tooltip__edit"></a>
+    <div class="popup-wrapper js-popup-wrapper">
+        <div class="popup js-popup"></div>
     </div>
+    <div class="js-tooltip-wrapper"></div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/scripts/vendor/datepicker-ru.js"></script>
-    <script src="/scripts/vendor/twig.js"></script>
     {% block pageScript %}{% endblock %}
 </body>
 </html>

@@ -6,7 +6,8 @@ const moment = MomentRange.extendMoment(Moment);
 const path = require('path');
 const query = require('./graphql/resolvers/query.js');
 const express = require('express');
-const {twig} = require('twig');
+const Twig = require('twig');
+const twig = Twig.twig;
 
 const bodyParser = require('body-parser');
 
@@ -14,6 +15,9 @@ const graphqlRoutes = require('./graphql/routes');
 
 const app = express();
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 
 console.log(moment().format());
@@ -80,31 +84,20 @@ app.get('/', function(req, res){
         floors.forEach(floor => {
             floor.forEach(room => {
                 var events = room.Events;
-                /**/console.log(room.title);
+                //console.log(room.title);
                 let rangeEvents = [];
                 events.forEach((event, i) => {
                     var start = moment(events[i].dateStart).utc(),
                         end = moment(events[i].dateEnd).utc();
 
-                    /*console.log('start', start);
-                    console.log('end', end);*/
                     rangeEvents.push(moment.range(start, end));
-                    console.log(moment.range(start, end));
 
                     var diff = end.diff(start, 'minute');
                     room.Events[i]['width'] = diff / 15;
                 });
 
                 var newRanges = subtractRanges(day, rangeEvents);
-                console.log('**');
-                newRanges.forEach(aa => {
-                    /*console.log('start after', aa.start.utc().format());
-                    console.log('end after', aa.end.utc().format());
-                    console.log('**');*/
-                });
-
                 var newEvents = [];
-
                 newRanges.forEach(item => {
                     var start = item.start.utc(),
                         end = item.end.utc()
@@ -120,16 +113,10 @@ app.get('/', function(req, res){
                     room.Events.push(elem);
                 })
 
-
                 room.Events.sort((a,b) => {
                     return moment(b.dateStart).isBefore(moment(a.dateStart))
                 })
-
-                /*console.log(room.Events);
-
-                console.log('------');*/
             })
-            //console.log('~~~~~~');
         });
 
         res.render('index', {
@@ -139,13 +126,41 @@ app.get('/', function(req, res){
     })
 });
 
-app.get('/newevent', function(req, res){
-    res.render('new-event', {
-        enableAddButton: false,
-        footer: true,
-        newEvent: true
-    });
+app.post('/newevent', function(req, res){
+    var data = req.body;
+
+    query.users().then((users) => {
+        users = JSON.parse(JSON.stringify(users));
+
+        console.log(data);
+        //console.log(data.roomId);
+        query.room(1, {id: data.roomId}).then(room => {
+            Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data}, (err, html) => {
+                res.json({html: html, room: room})
+            });
+        })
+    })
 });
+
+app.post('/tooltip', function(req, res){
+    var data = req.body;
+    console.log(data);
+    query.event(1, {id: data.eventId}).then((event) => {
+        event = JSON.parse(JSON.stringify(event));
+        console.log(event);
+        Twig.renderFile('./public/app/blocks/tooltip/main.twig', {event: event}, (err, html) => {
+            res.json({html: html})
+        });
+    })
+});
+
+// app.get('/newevent', function(req, res){
+//     res.render('new-event', {
+//         enableAddButton: false,
+//         footer: true,
+//         newEvent: true
+//     });
+// })
 
 app.use('/graphql', graphqlRoutes.router);
 app.use(express.static(path.join(__dirname, 'public')));
