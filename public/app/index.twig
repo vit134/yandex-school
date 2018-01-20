@@ -1,7 +1,6 @@
 {% extends 'layout.twig' %}
 
 {% block Main %}
-    {#<pre>{{ dump(data) }}</pre>#}
     <div class="main__calendar">
         <div class="main__calendar__inner">
             <div class="calendar">
@@ -14,83 +13,8 @@
             </div>
         </div>
     </div>
-    <div class="main__schedule js-schedule">
-        <div class="main__schedule__inner">
-            <div class="main__schedule__col-left js-col-left">
-                {% for key, floor in data %}
-                    <div class="main__floor" data-id="{{ key }}">
-                        <div class="main__floor__title">{{ key }} этаж</div>
-                        {% for room in floor %}
-                            <div class="main__schedule__room" data-id="{{ room.id }}">
-                                <div class="main__schedule__room__name">{{ room.title }}</div>
-                                <div class="main__schedule__room__capacity">
-                                    {% if room.capacityMin == 0 %}
-                                        до {{ room.capacityMax }} человек
-                                    {% else %}
-                                        {{ room.capacityMin }}—{{ room.capacityMax }} человек
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="main__schedule__col-right">
-                <div class="main__schedule__col-right__inner">
-                    <div class="main__hours">
-                        {% for i in 8..23 %}
-                            {% if loop.index == 1 %}
-                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}:00</div>
-                            {% else %}
-                                <div class="main__hours__item js-hours-item" data-time="{{ i }}:00">{{ i }}</div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="main__lines">
-                        <span class="main__lines__current" style="left: 9.375%">
-                            <span class="main__lines__current__label">{{ "now"|date("H:i") }}</span>
-                        </span>
-                        {% for i in 8..23 %}
-                            <span class="main__lines__item"></span>
-                        {% endfor %}
-                    </div>
-                    <div class="main__events">
-                    {% for key, floor in data %}
-                        <div class="main__events__floor">
-                        <div class="main__events__row main__events__row_empty">
-                            <div class="main__events__floor__title js-events-floor">{{ key }} этаж</div>
-                        </div>
-                        {% for room in floor %}
-                        <div class="main__events__row">
-                        <span class="main__events__room busy js-events-room">{{ room.title }}</span>
-                            {% for event in room.Events %}
-
-                                {% if event.type and event.type == 'empty' %}
-                                    <div class="main__events__item js-event-item {% if event.width == 1 %}main__events__item_small{% endif %}"
-                                        data-timeStart="{{ event.dateStart }}"
-                                        data-timeEnd="{{ event.dateEnd }}"
-                                        data-roomId="{{ room.id }}"
-                                        data-eventId="{{ event.id }}"
-                                        style="width: {{ event.width * 1.5625 }}%;">
-                                            <a href="" class="main__events__item__add js-add-event-btn">+</a>
-                                        </div>
-                                {% else %}
-                                    <div class="main__events__item js-event-item busy"
-                                        data-timeStart="{{ event.dateStart }}"
-                                        data-timeEnd="{{ event.dateEnd }}"
-                                        data-roomId="{{ room.id }}"
-                                        data-eventId="{{ event.id }}"
-                                        style="width: {{ event.width * 1.5625 }}%;"></div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        {% endfor %}
-                        </div>
-                    {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="main__schedule-wrapper js-schedule-wrapper">
+        {% include 'blocks/main/schedule.twig' %}
     </div>
 {% endblock %}
 

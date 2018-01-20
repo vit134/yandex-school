@@ -5,6 +5,7 @@ const moment = MomentRange.extendMoment(Moment);
 
 const path = require('path');
 const query = require('./graphql/resolvers/query.js');
+const mutation = require('./graphql/resolvers/mutation.js');
 const express = require('express');
 const Twig = require('twig');
 const twig = Twig.twig;
@@ -84,7 +85,6 @@ app.get('/', function(req, res){
         floors.forEach(floor => {
             floor.forEach(room => {
                 var events = room.Events;
-                //console.log(room.title);
                 let rangeEvents = [];
                 events.forEach((event, i) => {
                     var start = moment(events[i].dateStart).utc(),
@@ -132,8 +132,6 @@ app.post('/newevent', function(req, res){
     query.users().then((users) => {
         users = JSON.parse(JSON.stringify(users));
 
-        console.log(data);
-        //console.log(data.roomId);
         query.room(1, {id: data.roomId}).then(room => {
             Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data}, (err, html) => {
                 res.json({html: html, room: room})
@@ -144,13 +142,28 @@ app.post('/newevent', function(req, res){
 
 app.post('/tooltip', function(req, res){
     var data = req.body;
-    console.log(data);
+
     query.event(1, {id: data.eventId}).then((event) => {
         event = JSON.parse(JSON.stringify(event));
-        console.log(event);
-        Twig.renderFile('./public/app/blocks/tooltip/main.twig', {event: event}, (err, html) => {
-            res.json({html: html})
-        });
+        query.room(1, {id: event.RoomId}).then(room => {
+            Twig.renderFile('./public/app/blocks/tooltip/main.twig', {event: event, room: room}, (err, html) => {
+                res.json({html: html, room: room})
+            });
+        })
+    })
+});
+
+app.post('/createevent', function(req, res){
+    console.log('createevent');
+    var data = req.body;
+    console.log(data);
+
+    mutation.createEvent(1, {input: {
+        title: data.eventTitle,
+        dateStart: data.dateStart,
+        dateEnd: data.dateEnd
+    }, usersIds: data.members, roomId: data.room}).then(event => {
+        res.json({event: event});
     })
 });
 

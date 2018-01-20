@@ -2,7 +2,14 @@ const {models} = require('../../models');
 
 module.exports = {
     event(root, {id}) {
-        return models.Event.findById(id);
+        return models.Event.find({
+            where: {id: id},
+            include: [{
+                model: models.User
+            }]
+        }).then(res => {
+            return res;
+        });
     },
     events(root, args, context) {
         return models.Event.findAll({

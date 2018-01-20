@@ -1,82 +1,85 @@
 <div class="newevent">
     <div class="newevent__inner">
         <div class="newevent__title">Новая встреча</div>
-        <div class="newevent__main">
-            <div class="newevent__col">
-                <div class="newevent__field-block">
-                    <div class="newevent__label">Тема</div>
-                    <input type="text" name="newevent_topic" class="newevent__input" placeholder="О чем будете говорить?">
-                </div>
-                <div class="newevent__field-block">
-                    <div class="newevent__label">Участники</div>
-                    <input type="text" name="newevent_memmbers" class="newevent__input newevent__input_dropdown js-dropdown-input" placeholder="Участники">
-                    <select class="hidden js-newevent-select" multiple="true">
-                        {% for item in members %}
-                            <option value="{{ item.id }}">{{ item.name }}</option>
-                        {% endfor %}
-                    </select>
-                    <div id="js-dropdown-container" class="newevent__dropdown">
-                        {% for item in members %}
-                            <div class="newevent__dropdown__item js-dropdown-item" data-id="{{ item.id }}">
-                                <img src="{{ item.image }}" class="newevent__dropdown__image">
-                                <span class="newevent__dropdown__member">{{ item.name }} ·</span>
-                                <span class="newevent__dropdown__floor"> {{ item.floor }} этаж</span>
-                            </div>
-                        {% endfor %}
+        <div class="">
+            <form class="js-newevent-form newevent__main">
+                <div class="newevent__col">
+                    <div class="newevent__field-block">
+                        <div class="newevent__label">Тема</div>
+                        <input type="text" name="newevent_topic" class="newevent__input" placeholder="О чем будете говорить?">
                     </div>
-                    <div class="newevent__members js-members-container">
-                        {% for item in members %}
-                            <span class="newevent__members__item hidden js-members-item" data-id="{{ item.id }}">
-                                <img src="http://prosportphysiotherapy.co.uk/wp-content/uploads/2014/09/Male-Face-F5.png" class="newevent__members__image">
-                                <span class="newevent__members__name">{{ item.name }}</span>
-                                <span class="newevent__members__remove js-remove-member"></span>
-                            </span>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <div class="newevent__col">
-                <div class="newevent__fields-wrapper">
-                    <div class="newevent__field-block newevent__field-block_date">
-                        <div class="newevent__label">Дата</div>
-                        <input type="text" name="newevent_date" class="newevent__input" id="datepicker" value="{{ data.dateStart|date("d M\, Y") }}">
-                        <div class="newevent__calendar js-calendar-container"></div>
-                    </div>
-                    <div class="newevent__field-block newevent__field-block_start">
-                        <div class="newevent__label">Начало</div>
-                        <input type="text" name="newevent_start" class="newevent__input" value="{% if data.emty == 'true' %}{{ data.dateStart|date_modify('-3 hour')|date('H:i') }}{% else %}8:00{% endif %}">
-                    </div>
-                    <span class="newevent__tire">&#8212;</span>
-                    <div class="newevent__field-block newevent__field-block_end">
-                        <div class="newevent__label">Конец</div>
-                        <input type="text" name="newevent_end" class="newevent__input" value="{% if data.emty == 'true' %}{{ data.dateEnd|date_modify('-3 hour')|date('H:i') }}{% else %}23:00{% endif %}">
-                    </div>
-                </div>
-                <div class="newevent__field-block">
-                    <div class="newevent__room-recommend {% if data.empty == 'false' %}hidden{% endif %}">
-                        <div class="newevent__label">Рекомендованные переговорки</div>
-                        {% for i in 1..3 %}
-                            <div class="newevent__room-item ">
-                                <span class="newevent__room-item__time">16:00&#8212;16:30</span>
-                                <span class="newevent__room-item__name">Готем</span>
-                                &#183;
-                                <span class="newevent__room-item__floor">4 этаж</span>
-                                <span class="newevent__room-item__close"></span>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="newevent__room-current {% if data.empty == 'true' %}hidden{% endif %}">
-                        <div class="newevent__label">Ваша переговорка</div>
-                        <div class="newevent__room-item active">
-                            <span class="newevent__room-item__time">{{ data.dateStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ data.dateEnd|date_modify("-3 hour")|date("H:i") }}</span>
-                            <span class="newevent__room-item__name">{{ room.title }}</span>
-                            &#183;
-                            <span class="newevent__room-item__floor">{{ room.floor }} этаж</span>
-                            <span class="newevent__room-item__close"></span>
+                    <div class="newevent__field-block">
+                        <div class="newevent__label">Участники</div>
+                        <input type="text" name="newevent_memmbers" class="newevent__input newevent__input_dropdown js-dropdown-input" placeholder="Участники">
+                        <select class="hidden js-newevent-select" multiple="true">
+                            {% for item in members %}
+                                <option value="{{ item.id }}"" class="js-newevent-select-option">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div id="js-dropdown-container" class="newevent__dropdown">
+                            {% for item in members %}
+                                <div class="newevent__dropdown__item js-dropdown-item" data-id="{{ item.id }}">
+                                    <img src="{{ item.avatarUrl }}" class="newevent__dropdown__image">
+                                    <span class="newevent__dropdown__member">{{ item.login }} ·</span>
+                                    <span class="newevent__dropdown__floor"> {{ item.homeFloor }} этаж</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="newevent__members js-members-container">
+                            {% for item in members %}
+                                <span class="newevent__members__item hidden js-members-item" data-id="{{ item.id }}">
+                                    <img src="{{ item.avatarUrl }}" class="newevent__members__image">
+                                    <span class="newevent__members__name">{{ item.login }}</span>
+                                    <span class="newevent__members__remove js-remove-member"></span>
+                                </span>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="newevent__col">
+                    <div class="newevent__fields-wrapper">
+                        <div class="newevent__field-block newevent__field-block_date">
+                            <div class="newevent__label">Дата</div>
+                            <input type="text" name="newevent_date" class="newevent__input" id="datepicker" value="{{ data.dateStart|date("d M\, Y") }}">
+                            <div class="newevent__calendar js-calendar-container"></div>
+                        </div>
+                        <div class="newevent__field-block newevent__field-block_start">
+                            <div class="newevent__label">Начало</div>
+                            <input type="text" name="newevent_start" class="newevent__input" value="{% if data.empty == 'false' %}{{ data.dateStart|date_modify('-3 hour')|date('H:i') }}{% else %}8:00{% endif %}">
+                        </div>
+                        <span class="newevent__tire">&#8212;</span>
+                        <div class="newevent__field-block newevent__field-block_end">
+                            <div class="newevent__label">Конец</div>
+                            <input type="text" name="newevent_end" class="newevent__input" value="{% if data.empty == 'false' %}{{ data.dateEnd|date_modify('-3 hour')|date('H:i') }}{% else %}23:00{% endif %}">
+                        </div>
+                    </div>
+                    <div class="newevent__field-block">
+                        <div class="newevent__room-recommend {% if data.empty == 'false' %}hidden{% endif %}">
+                            <div class="newevent__label">Рекомендованные переговорки</div>
+                            {% for i in 1..3 %}
+                                <div class="newevent__room-item ">
+                                    <span class="newevent__room-item__time">16:00&#8212;16:30</span>
+                                    <span class="newevent__room-item__name">Готем</span>
+                                    &#183;
+                                    <span class="newevent__room-item__floor">4 этаж</span>
+                                    <span class="newevent__room-item__close"></span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="newevent__room-current {% if data.empty == 'true' %}hidden{% endif %}">
+                            <div class="newevent__label">Ваша переговорка</div>
+                            <div class="newevent__room-item active">
+                                <span class="newevent__room-item__time">{{ data.dateStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ data.dateEnd|date_modify("-3 hour")|date("H:i") }}</span>
+                                <span class="newevent__room-item__name">{{ room.title }}</span>
+                                &#183;
+                                <span class="newevent__room-item__floor">{{ room.floor }} этаж</span>
+                                <span class="newevent__room-item__close"></span>
+                            </div>
+                        </div>
+                        <input type="hidden" name="newevent_room" value="{{ room.id }}">
+                    </div>
+                </div>
+            </form>
         </div>
         <span class="newevent__close js-popup-close"></span>
     </div>

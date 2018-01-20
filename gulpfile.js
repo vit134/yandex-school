@@ -66,11 +66,11 @@ gulp.task('scripts', function() {
         path.dev.js
     ])
     //.pipe(concat('__main.js'))
-    .pipe(babel({presets: [preset]}))
+    //.pipe(babel({presets: [preset]}))
     .pipe(gulp.dest(path.build.scripts))
-    .pipe(uglify().on('error', function(e) {
-        console.log(e);
-    }))
+    // .pipe(uglify().on('error', function(e) {
+    //     console.log(e);
+    // }))
     //.pipe(rename('_main.js'))
     .pipe(babel({presets: [preset]}))
     .pipe(browserify())

@@ -1,6 +1,11 @@
-$(document).ready(function() {
-    var twig = require('twig');
+import SimpleBar from 'SimpleBar';
 
+$(document).ready(function() {
+    var twig = require('twig'); 
+    var $body = $('body');
+
+
+    // index vars
     var $hours = $('.js-hours'),
         $hoursCurrentItem = $('.js-hours-current'),
         $hoursItem = $('.js-hours-item'),
@@ -34,9 +39,22 @@ $(document).ready(function() {
 
     var scheduleScrollFlag = false;
 
+
+    //newevent vars 
+    var $dropdowmContainer,
+        $dropdownItem,
+        $dropdowmInput,
+        $dropdownSelect,
+        $dropdownSelectOption,
+        $membersItem,
+        $removeMemberBtn,
+        $calendarContainer,
+        $neweventFrom,
+        $neweventSaveBtn,
+
+        scrollBar;
+
     function init() {
-        console.log(123);
-        //removeScroll();
         updateChangeblVars();
         bindEvents();
         //setCurrentTime();
@@ -61,6 +79,162 @@ $(document).ready(function() {
         $calendarContainer.datepicker(datepickekerOptions);
     }
 
+    function neweventInit() {
+        updateNeweventVars();
+        bindNeweventEvents();
+
+        scrollBar = new SimpleBar($dropdowmContainer[0], {
+            autoHide: false
+        });
+
+        var datepickekerOptions = $.extend(
+            {},
+            $.datepicker.regional[ "ru" ],
+            {
+                showOn: "both",
+                buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
+                defaultDate: new Date($('#datepicker').val()),
+                buttonImageOnly: true,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                beforeShow:function(textbox, instance){
+                    $calendarContainer.append($(instance.dpDiv)).show();
+                },
+                onClose: function() {
+                    $calendarContainer.hide();
+                }
+            }
+        )
+
+        $('#datepicker').datepicker(datepickekerOptions);
+    }
+
+    function updateNeweventVars() {
+        $dropdowmContainer = $('#js-dropdown-container');
+        $dropdownItem = $('.js-dropdown-item');
+        $dropdowmInput = $('.js-dropdown-input');
+        $dropdownSelect = $('.js-newevent-select');
+        $dropdownSelectOption = $dropdownSelect.find('option');
+        $membersItem = $('.js-members-item');
+        $removeMemberBtn = $('.js-remove-member');
+        $calendarContainer = $('.js-calendar-container');
+        $neweventFrom = $('.js-newevent-form');
+
+        $neweventSaveBtn = $('.js-create-event-btn');
+    }
+
+    function bindNeweventEvents() {
+        $neweventSaveBtn.on('click', function(e) {
+            e.preventDefault();
+            var data = getNeweventData();
+            console.log(data);
+
+            $.ajax({
+                url: '/createevent',
+                type: 'POST',
+                data: data,
+                beforeSend: function() {
+                    console.log('beforesend')
+                },
+                success: function(data){
+                    console.log(data);
+                }
+            });
+        })
+
+        $dropdowmInput.on('click', function() {
+            $dropdowmContainer.addClass('active');
+        })
+
+        $(document).mouseup(function(e) {
+            if (!$dropdowmContainer.is(e.target) && $dropdowmContainer.has(e.target).length === 0) {
+                $dropdowmContainer.removeClass('active');
+            }
+        });
+
+        $dropdownItem.on('click', function(e) {
+            e.preventDefault();
+            getMember($(this).data('id'));
+            $(this).addClass('hidden')
+        });
+
+        $removeMemberBtn.on('click', function(e) {
+            e.preventDefault();
+            removemembers($(this).parent().data('id'));
+            $(this).parent().addClass('hidden');
+        })
+
+        $dropdowmInput.on('click keyup paste', liveSearch);
+    }
+
+    // -- newevent Functions -- //
+    function getNeweventData() {
+        var data = {};
+
+        data.eventTitle = $neweventFrom.find('input[name="newevent_topic"]').val();
+        data.members = [];
+        $neweventFrom.find('.js-newevent-select-option').map((i, elem) => {
+            if ($(elem).is(":selected")) {
+                data.members.push($(elem).val());
+            }
+        });
+
+        var DATE = new Date($('#datepicker').datepicker( "getDate" ));
+        var year = DATE.getFullYear(),
+            month = DATE.getMonth() < 10 ? 0 + '' + (DATE.getMonth() + 1) : DATE.getMonth(),
+            date = DATE.getDate();
+
+        var timeStart = $neweventFrom.find('input[name="newevent_start"]').val(),
+            timeEnd = $neweventFrom.find('input[name="newevent_end"]').val();
+
+        data.dateStart  = year + '-' + (month) + '-' + date + 'T' + timeStart + ':00.000Z';
+        data.dateEnd  = year + '-' + (month) + '-' + date + 'T' + timeEnd + ':00.000Z';
+
+        data.room = $neweventFrom.find('input[name="newevent_room"]').val();
+        
+        return data;
+    }
+
+    function getMember(id) {
+        $(this).addClass('hidden');
+
+        $dropdownSelectOption.filter(function(){
+            return $(this).val() == id
+        }).attr('selected', 'selected');
+
+        $membersItem.filter(function(){
+            return $(this).data('id') == id
+        }).removeClass('hidden');
+
+        $dropdowmContainer.removeClass('active');
+        $dropdowmInput.val('');
+    }
+
+    function removemembers(id) {
+        $dropdownSelectOption.filter(function(){
+            return $(this).val() == id
+        }).attr('selected', false);
+
+        $dropdownItem.filter(function(){
+            return $(this).data('id') == id
+        }).removeClass('hidden');
+    }
+
+    function liveSearch() {
+        var filter = $dropdowmInput.val();
+
+        $dropdownItem.each(function(){
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).fadeOut();
+            } else {
+                $(this).show();
+            }
+        });
+
+        scrollBar.recalculate();
+    }
+    // -- newevent Functions -- //
+
     function updateChangeblVars() {
         _colLeftWidth = $colLeft.outerWidth(true);
     }
@@ -72,7 +246,6 @@ $(document).ready(function() {
                 $thisParent = $(this).parent();
 
             var empty = $this.data('type') ? true : false;
-            console.log(empty);
 
             var data = {
                 empty: empty
@@ -84,17 +257,14 @@ $(document).ready(function() {
                 data.roomId = $thisParent.data('roomid')
             }
 
-            console.log(data);
-
             $.ajax({
                 url: '/newevent',
                 type: 'POST',
                 data: data,
                 success: function(data){
-                    console.log(data);
-
+                    $body.addClass('overflow');
                     $('.js-popup').html(data.html).show();
-                    updateChangeblVars();
+                    neweventInit();
                 }
             });
         })
@@ -102,8 +272,8 @@ $(document).ready(function() {
         //popup buttons action 
         $('body').on('click', '.js-popup-close', function(e) {
             e.preventDefault();
-            console.log(123);
             $popup.html('');
+            $body.removeClass('overflow');
         })
 
         $calendarNextDay.on("click", function () {
@@ -145,15 +315,15 @@ $(document).ready(function() {
         $eventItem.on('click', function() {
             var position = getEventItemPosition($(this));
             var eventId = $(this).data('eventid');
+            var $this = $(this);
 
             var data = {
                 eventId: eventId
             }
 
-            if ($(this).hasClass('busy')) {
-                if ($(this).hasClass('active')) {
+            if ($this.hasClass('busy')) {
+                if ($this.hasClass('active')) {
                     closeTooltip();
-                    $tooltipWrapper.html();
                 } else {
                     console.log(data);
 
@@ -163,9 +333,9 @@ $(document).ready(function() {
                         data: data,
                         success: function(data){
                             console.log(data);
-                            $tooltipWrapper.html(data.html);
+                            $tooltipWrapper.html(data.html).addClass('active');
                             $eventItem.removeClass('active');
-                            $(this).addClass('active');
+                            $this.addClass('active');
                             openTooltip(position);
                         }
                     });
@@ -228,12 +398,12 @@ $(document).ready(function() {
     }
 
     function openTooltip(position) {
-        $tooltip.css({
+        $('.js-tooltip').css({
             top: position.top + 26 + 'px',
             left: position.left + position.width / 2 - 338 / 2 + 'px'
         })
         if ($(window).width() < 415) {
-            $tooltipTriangle.css({
+            $('.js-tooltip-triangle').css({
                 left: position.left + position.width / 2 - 4 + 'px'
             })
         }
@@ -242,22 +412,22 @@ $(document).ready(function() {
     }
 
     function closeTooltip() {
-        $tooltip.hide();
-        $tooltipTriangle.css({left: 160})
+        console.log(123);
+        $tooltipWrapper.html('').removeClass('active');;
         $eventItem.removeClass('active');
     }
 
-    function removeScroll() {
-        var _mainHeight = $('.main').height();
-        console.log(_mainHeight);
-        $('.main').css({
-            overflow: 'hidden'
-        })
-        $('.js-schedule').css({
-            'height': _mainHeight - 20 + 'px',
-            'paddin-bottom': '20px'
-        })
-    }
+    // function removeScroll() {
+    //     var _mainHeight = $('.main').height();
+    //     console.log(_mainHeight);
+    //     $('.main').css({
+    //         overflow: 'hidden'
+    //     })
+    //     $('.js-schedule').css({
+    //         'height': _mainHeight - 20 + 'px',
+    //         'paddin-bottom': '20px'
+    //     })
+    // }
 
     init();
 

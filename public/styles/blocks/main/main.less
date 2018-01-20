@@ -242,11 +242,11 @@
             width: calc(~'100% / 16');
             height: 100%;
 
-            &:nth-child(2) {
-                &:after {
-                    z-index: 999;
-                }
-            }
+            // &:nth-child(2) {
+            //     &:after {
+            //         z-index: 999;
+            //     }
+            // }
 
             &:after {
                 content: "";
@@ -297,7 +297,7 @@
     }
 }
 
-@media screen and (min-width: @maxWidth) {
+@media screen and (min-width: @tabletWidth) {
     .main {
         &__events {
             &__item {
