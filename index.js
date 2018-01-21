@@ -1,11 +1,7 @@
-const Moment = require('moment');
-const MomentRange = require('moment-range');
-
-const moment = MomentRange.extendMoment(Moment);
-
 const path = require('path');
 const query = require('./graphql/resolvers/query.js');
 const mutation = require('./graphql/resolvers/mutation.js');
+const getFloors = require('./modules/getfloors.js');
 const express = require('express');
 const Twig = require('twig');
 const twig = Twig.twig;
@@ -21,14 +17,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-console.log(moment().format());
-
 app.set('view engine', 'twig');
 app.set('views', 'public/app/');
-
-let startDay = moment('2018-01-17T08:00:00.000Z').utc();
-let endDay   = moment('2018-01-17T23:00:00.000Z').utc();
-let day = moment.range(startDay, endDay);
 
 
 
@@ -67,58 +57,8 @@ function subtractRanges(longRanges, shortRanges) {
 app.get('/', function(req, res){
 
     query.rooms().then((data) => {
-        var floors = [];
-        var d = {};
-
         data = JSON.parse(JSON.stringify(data));
-        data.forEach(function(value){
-            if(typeof d[value.floor] == 'undefined')
-                d[value.floor] = [];
-
-            d[value.floor].push(value);
-        });
-
-        floors = Object.keys(d).map(key => {
-            return d[key];
-        })
-
-        floors.forEach(floor => {
-            floor.forEach(room => {
-                var events = room.Events;
-                let rangeEvents = [];
-                events.forEach((event, i) => {
-                    var start = moment(events[i].dateStart).utc(),
-                        end = moment(events[i].dateEnd).utc();
-
-                    rangeEvents.push(moment.range(start, end));
-
-                    var diff = end.diff(start, 'minute');
-                    room.Events[i]['width'] = diff / 15;
-                });
-
-                var newRanges = subtractRanges(day, rangeEvents);
-                var newEvents = [];
-                newRanges.forEach(item => {
-                    var start = item.start.utc(),
-                        end = item.end.utc()
-                    newEvents.push({
-                        type: 'empty',
-                        dateStart: start.format(),
-                        dateEnd: end.format(),
-                        width: end.diff(start, 'minute') / 15
-                    })
-                })
-
-                newEvents.forEach(elem => {
-                    room.Events.push(elem);
-                })
-
-                room.Events.sort((a,b) => {
-                    return moment(b.dateStart).isBefore(moment(a.dateStart))
-                })
-            })
-        });
-
+        var floors = getFloors.getData(data, '2018-01-17');
         res.render('index', {
             enableAddButton: true,
             data: floors
@@ -163,7 +103,19 @@ app.post('/createevent', function(req, res){
         dateStart: data.dateStart,
         dateEnd: data.dateEnd
     }, usersIds: data.members, roomId: data.room}).then(event => {
-        res.json({event: event});
+        event = JSON.parse(JSON.stringify(event));
+        query.rooms().then((data) => {
+            data = JSON.parse(JSON.stringify(data));
+            var floors = getFloors.getData(data, '2018-01-17');
+
+            query.room(1, {id: event.RoomId}).then(room => {
+                Twig.renderFile('./public/app/blocks/main/schedule.twig', {data: floors}, (err, scheduleHtml) => {
+                    Twig.renderFile('./public/app/blocks/popup/event_create.twig', {event: event, room: room}, (err, popupHtml) => {
+                        res.json({scheduleHtml: scheduleHtml, popupHtml: popupHtml, event: event})
+                    });
+                });
+            })
+        })
     })
 });
 

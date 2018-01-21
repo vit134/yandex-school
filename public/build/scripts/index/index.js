@@ -8187,17 +8187,18 @@ $(document).ready(function () {
         $neweventSaveBtn.on('click', function (e) {
             e.preventDefault();
             var data = getNeweventData();
-            console.log(data);
 
             $.ajax({
                 url: '/createevent',
                 type: 'POST',
                 data: data,
-                beforeSend: function beforeSend() {
-                    console.log('beforesend');
-                },
                 success: function success(data) {
-                    console.log(data);
+                    var scheduleHtml = data.scheduleHtml,
+                        poupHtml = data.popupHtml;
+
+                    $('.js-schedule-wrapper').html(scheduleHtml);
+
+                    $('.js-popup').html(poupHtml).addClass('small'); //.show();
                 }
             });
         });
@@ -8330,7 +8331,7 @@ $(document).ready(function () {
         //popup buttons action 
         $('body').on('click', '.js-popup-close', function (e) {
             e.preventDefault();
-            $popup.html('');
+            $popup.removeClass('small').html('');
             $body.removeClass('overflow');
         });
 
@@ -8403,7 +8404,7 @@ $(document).ready(function () {
 
         $schedule.on('scroll', function () {
             var scrollLeft = $(this).scrollLeft();
-
+            closeTooltip();
             if (scrollLeft > _colLeftWidth && !scheduleScrollFlag) {
                 $eventsRoom.show();
                 $eventsFloor.show();

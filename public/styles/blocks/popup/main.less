@@ -8,7 +8,7 @@
     background: #fff;
     z-index: 999;
 
-    &_small {
+    &.small {
         top: 30%;
         left: 50%;
         margin-left: -222px;
@@ -78,7 +78,12 @@
 
 @media screen and (max-width: @bigMobileWidth) {
     .popup {
-        top: auto;
+        // top: auto;
+        // bottom: @defaultPadding;
+
+        &.small {
+            top: auto;
         bottom: @defaultPadding;
+        }
     }
 }
