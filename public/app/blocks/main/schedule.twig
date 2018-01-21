@@ -31,7 +31,7 @@
                     {% endfor %}
                 </div>
                 <div class="main__lines">
-                    <span class="main__lines__current" style="left: 9.375%">
+                    <span class="main__lines__current js-hours-current" style="left: 9.375%">
                         <span class="main__lines__current__label">{{ "now"|date("H:i") }}</span>
                     </span>
                     {% for i in 8..23 %}
@@ -50,7 +50,7 @@
                         {% for event in room.Events %}
 
                             {% if event.type and event.type == 'empty' %}
-                                <div class="main__events__item js-event-item {% if event.width == 1 %}main__events__item_small{% endif %}"
+                                <div class="main__events__item js-event-item js-add-event-btn {% if event.width == 1 %}main__events__item_small{% endif %}"
                                     data-timeStart="{{ event.dateStart }}"
                                     data-timeEnd="{{ event.dateEnd }}"
                                     data-roomId="{{ room.id }}"

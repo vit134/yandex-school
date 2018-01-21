@@ -1,4 +1,4 @@
-<div class="tooltip js-tooltip">
+<div class="tooltip js-tooltip" data-eventId="{{ event.id }}">
     <div class="tooltip__triangle js-tooltip-triangle"></div>
     <div class="tooltip__title">{{ event.title }}</div>
     <div class="tooltip__description">
@@ -19,5 +19,5 @@
             </span>
         </div>
     {% endif %}
-    <a href="/editevent.html" class="tooltip__edit"></a>
+    <a href="#" class="tooltip__edit js-edit-event-btn"></a>
 </div>

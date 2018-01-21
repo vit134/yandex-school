@@ -1,0 +1,29 @@
+{% if editEvent %}
+    {% set data = event %}
+{% endif %}
+
+<div class="field-block field-block_right field-block_rooms">
+    <div class="field-block__room-recommend {% if data.empty == 'false' or editEvent %}hidden{% endif %}">
+        <div class="field-block__label">Рекомендованные переговорки</div>
+        {% for i in 1..3 %}
+            <div class="field-block__room-item ">
+                <span class="field-block__room-item__time">16:00&#8212;16:30</span>
+                <span class="field-block__room-item__name">Готем</span>
+                &#183;
+                <span class="field-block__room-item__floor">4 этаж</span>
+                <span class="field-block__room-item__close"></span>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="field-block__room-current {% if data.empty == 'true' %}hidden{% endif %}">
+        <div class="field-block__label">Ваша переговорка</div>
+        <div class="field-block__room-item active">
+            <span class="field-block__room-item__time">{{ data.dateStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ data.dateEnd|date_modify("-3 hour")|date("H:i") }}</span>
+            <span class="field-block__room-item__name">{{ room.title }}</span>
+            &#183;
+            <span class="field-block__room-item__floor">{{ room.floor }} этаж</span>
+            <span class="field-block__room-item__close"></span>
+        </div>
+    </div>
+    <input type="hidden" name="newevent_room" value="{{ room.id }}">
+</div>

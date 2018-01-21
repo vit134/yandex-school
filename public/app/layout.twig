@@ -17,8 +17,10 @@
             {% include 'blocks/footer/footer.twig' %}
         {% endif %}
     </div>
-    <div class="popup-wrapper js-popup-wrapper">
-        <div class="popup js-popup"></div>
+    <div class="popup-wrapper js-popup-wrapper"></div>
+    <div class="popup js-popup"></div>
+    <div class="popup popup_delete small js-popup-delete">
+        {% include 'blocks/popup/event_delete.twig' %}
     </div>
     <div class="js-tooltip-wrapper"></div>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>

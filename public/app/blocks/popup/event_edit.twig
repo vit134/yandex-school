@@ -1,0 +1,11 @@
+<div data-id="event_create">
+    <div class="popup__img popup__img_create"></div>
+    <div class="popup__title">Встреча отредактирована!</div>
+    <div class="popup__text">{{ event.dateStart|date("d M") }}, {{ event.dateStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ event.dateEnd|date_modify("-3 hour")|date("H:i") }}</div>
+    <div class="popup__text">{{ room.title }} &#183; {{ room.floor }} этаж</div>    
+    <div class="popup__buttons">
+        <div class="popup__buttons__item">
+            <div class="button button_blue js-popup-close">Хорошо</div>
+        </div>
+    </div>
+</div>

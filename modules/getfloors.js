@@ -57,10 +57,13 @@ var aa = module.exports = {
             floor.forEach(room => {
                 var events = room.Events;
                 let rangeEvents = [];
+                console.log('------');
+                console.log(room.title);
                 events.forEach((event, i) => {
                     var start = moment(events[i].dateStart).utc(),
                         end = moment(events[i].dateEnd).utc();
-                    
+                    console.log('date', moment(date).format('YYYY-MM-DD'));
+                    console.log('eventdate', moment(event.dateStart).utc().format('YYYY-MM-DD'));
                     if ( moment(event.dateStart).utc().format('YYYY-MM-DD') == moment(date).format('YYYY-MM-DD')) {
                         rangeEvents.push(moment.range(start, end));
 

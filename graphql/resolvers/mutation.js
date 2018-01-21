@@ -45,9 +45,16 @@ module.exports = {
             });
     },
 
-    updateEvent(root, {id, input}) {
+    updateEvent(root, {id, input, usersIds}) {
         return models.Event.findById(id)
-            .then(event => event.update(input));
+            .then(event => {
+                return event.update(input).then((event) => {
+                    return event.setUsers(usersIds)
+                    .then(() => {
+                        return event;
+                    })
+                })
+            });
     },
 
     removeUserFromEvent(root, {id, userId}) {

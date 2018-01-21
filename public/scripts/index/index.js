@@ -20,12 +20,13 @@ $(document).ready(function() {
         $schedule = $('.js-schedule'),
         $eventsRoom = $('.js-events-room'),
         $eventsFloor = $('.js-events-floor'),
-        $colLeft = $('.js-col-left');
+        $colLeft = $('.js-col-left'),
+
+        $addEventBtn = $('.js-add-event-btn'),
+        $editEventBtn = $('.js-edit-event-btn');
 
     //poup vars
     var $popup = $('.js-popup');
-
-    var $addEventBtn = $('.js-add-event-btn');
 
     var currentTime = new Date,
         currentHour = currentTime.getHours(),
@@ -49,15 +50,21 @@ $(document).ready(function() {
         $membersItem,
         $removeMemberBtn,
         $calendarContainer,
+
         $neweventFrom,
         $neweventSaveBtn,
+        $editeventSaveBtn,
+        $deleteEventBtn,
+
+        $popupDeleteCanselBtn,
+        $popupDeleteSaveBtn,
 
         scrollBar;
 
     function init() {
         updateIndexVars();
         bindEvents();
-        //setCurrentTime();
+        setCurrentTime();
 
         var datepickekerOptions = $.extend(
             {},
@@ -68,11 +75,13 @@ $(document).ready(function() {
                 defaultDate: new Date(),
                 onSelect: function(date, obj) {
 
-                    /*var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
+                    var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
                     var currentDate = obj.currentDay + '-' + obj.currentMonth + '-' + obj.currentYear;
 
                     $calendarToogle.html(date).removeClass('open');
-                    $calendarContainer.datepicker('hide').hide();*/
+                    $calendarContainer.datepicker('hide').hide();
+
+                    changeSchedule($calendarContainer.datepicker('getDate'));
                 }
             }
         )
@@ -122,6 +131,11 @@ $(document).ready(function() {
         $neweventFrom = $('.js-newevent-form');
 
         $neweventSaveBtn = $('.js-create-event-btn');
+        $editeventSaveBtn = $('.js-saveedit-event-btn');
+        $deleteEventBtn = $('.js-delete-event-btn');
+
+        $popupDeleteCanselBtn = $('.js-popup-delete-cansel-btn');
+        $popupDeleteSaveBtn = $('.js-popup-delete-save-btn');
     }
 
     function bindNeweventEvents() {
@@ -139,12 +153,77 @@ $(document).ready(function() {
 
                     $('.js-schedule-wrapper').html(scheduleHtml);
 
-                    $('.js-popup').html(poupHtml).addClass('small')//.show();
+                    $popup.html(poupHtml).addClass('small')//.show();
                     updateIndexVars();
                     bindEvents();
-                    console.log($eventItem);
                 }
             });
+        })
+
+        $editeventSaveBtn.on('click', function(e) {
+            e.preventDefault();
+            var data = getNeweventData();
+            console.log(data);
+            $.ajax({
+                url: '/editeventSave',
+                type: 'POST',
+                data: data,
+                success: function(data){
+                    var scheduleHtml = data.scheduleHtml,
+                        poupHtml = data.popupHtml;
+
+                    $('.js-schedule-wrapper').html(scheduleHtml);
+
+                    $popup.html(poupHtml).addClass('small')//.show();
+                    updateIndexVars();
+                    bindEvents();
+                }
+            });
+        })
+
+        $deleteEventBtn.on('click', function(e) {
+            e.preventDefault();
+
+            var eventID = $neweventFrom.find('input[name="event_id"]').val();
+
+            $('.js-popup-wrapper').addClass('active');
+            $('.js-popup-delete').show().find('input[name="event_id"]').val(eventID);
+        })
+
+        $popupDeleteCanselBtn.on('click', function(e) {
+            e.preventDefault();
+
+            $('.js-popup-wrapper').removeClass('active');
+            $('.js-popup-delete').hide().find('input[name="event_id"]').val('');
+        })
+
+        $popupDeleteSaveBtn.on('click', function(e) {
+            e.preventDefault();
+
+            var eventId = $(this).closest('.js-popup-delete').find('input[name="event_id"]').val();
+            console.log(eventId);
+
+            $.ajax({
+                url: '/deleteEvent',
+                type: 'POST',
+                data: {eventId: eventId},
+                success: function(data){
+                    var scheduleHtml = data.scheduleHtml;
+
+                    $('.js-schedule-wrapper').html(scheduleHtml);
+
+                    $popup.html('').hide();
+                    $('.js-popup-wrapper').removeClass('active');
+                    $('.js-popup-delete').hide().find('input[name="event_id"]').val('');
+                    updateIndexVars();
+                    bindEvents();
+                }
+            });
+
+
+
+            $('.js-popup-wrapper').removeClass('active');
+            $('.js-popup-delete').hide().find('input[name="event_id"]').val('');
         })
 
         $dropdowmInput.on('click', function() {
@@ -175,7 +254,7 @@ $(document).ready(function() {
     // -- newevent Functions -- //
     function getNeweventData() {
         var data = {};
-
+        data.eventId = $neweventFrom.find('input[name="event_id"]').val();
         data.eventTitle = $neweventFrom.find('input[name="newevent_topic"]').val();
         data.members = [];
         $neweventFrom.find('.js-newevent-select-option').map((i, elem) => {
@@ -259,7 +338,8 @@ $(document).ready(function() {
         $eventsFloor = $('.js-events-floor');
         $colLeft = $('.js-col-left');
 
-        console.log($eventItem);
+        $addEventBtn = $('.js-add-event-btn'),
+        $editEventBtn = $('.js-edit-event-btn');
     }
 
     function bindEvents() {
@@ -275,9 +355,9 @@ $(document).ready(function() {
             };
 
             if (!empty) {
-                data.dateStart = $thisParent.data('timestart'),
-                data.dateEnd = $thisParent.data('timeend'),
-                data.roomId = $thisParent.data('roomid')
+                data.dateStart = $this.data('timestart'),
+                data.dateEnd = $this.data('timeend'),
+                data.roomId = $this.data('roomid')
             }
 
             $.ajax({
@@ -301,6 +381,7 @@ $(document).ready(function() {
 
         $calendarNextDay.on("click", function () {
             var date = $calendarContainer.datepicker('getDate');
+
             date.setTime(date.getTime() + (1000*60*60*24))
             $calendarContainer.datepicker("setDate", date);
             $calendarContainer.datepicker( "refresh" );
@@ -329,10 +410,13 @@ $(document).ready(function() {
                 $calendarContainer.datepicker('hide').hide();
             }
 
-            /*if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0) {
+
+            if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
                 $eventItem.removeClass('active');
                 closeTooltip();
-            }*/
+            } else if ($editEventBtn.is(e.target)) {
+                $editEventBtn.trigger('click');
+            }
         });
 
         $eventItem.on('click', function() {
@@ -346,9 +430,10 @@ $(document).ready(function() {
 
             if ($this.hasClass('busy')) {
                 if ($this.hasClass('active')) {
+                    console.log('close')
                     closeTooltip();
                 } else {
-                    console.log(data);
+                    console.log('open');
 
                     $.ajax({
                         url: '/tooltip',
@@ -360,6 +445,27 @@ $(document).ready(function() {
                             $eventItem.removeClass('active');
                             $this.addClass('active');
                             openTooltip(position);
+
+                            updateIndexVars();
+
+                            $editEventBtn.on('click', function(e) {
+                                e.preventDefault();
+                                console.log(123);
+                                var eventId = $(this).parent().data('eventid')
+
+                                $.ajax({
+                                    url: '/editevent',
+                                    type: 'POST',
+                                    data: {eventId: eventId},
+                                    success: function(data){
+                                        console.log(data);
+                                        closeTooltip();
+                                        $body.addClass('overflow');
+                                        $('.js-popup').html(data.html).show();
+                                        neweventInit();
+                                    }
+                                });
+                            })
                         }
                     });
                 }
@@ -395,20 +501,43 @@ $(document).ready(function() {
         });
     }
 
-    function setCurrentTime() {
-        $hoursCurrentItem.animate({
-            left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%'
-        }, 500);
 
-        $hoursItem.map((key, item) => {
-            var $item = $(item),
-                _itemTime = $(item).data('time').split(':')[0];
+    //index functions
+    
+    function changeSchedule(date) {
+        $.ajax({
+            url: '/getFloors',
+            type: 'POST',
+            data: {date: date},
+            success: function(data){
+                console.log(data);
+                // var scheduleHtml = data.scheduleHtml;
 
-            if (currentHour > _itemTime) {
-                $item.addClass('past');
+                // $('.js-schedule-wrapper').html(scheduleHtml);
+
+                // updateIndexVars();
+                // bindEvents();
             }
-
         });
+    }
+
+    function setCurrentTime() {
+        if (currentHour > 8 && currentHour < 23 ) {
+
+            $hoursCurrentItem.show().animate({
+                left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%'
+            }, 500);
+
+            $hoursItem.map((key, item) => {
+                var $item = $(item),
+                    _itemTime = $(item).data('time').split(':')[0];
+
+                if (currentHour > _itemTime) {
+                    $item.addClass('past');
+                }
+
+            });
+        }
     }
 
     function getEventItemPosition($item) {
@@ -426,31 +555,28 @@ $(document).ready(function() {
             left: position.left + position.width / 2 - 338 / 2 + 'px'
         })
         if ($(window).width() < 415) {
-            $('.js-tooltip-triangle').css({
-                left: position.left + position.width / 2 - 4 + 'px'
-            })
+            console.log(position.left)
+
+            if (position.left + position.width > $(window).width()) {
+                //$('.js-schedule').scrollLeft(position.left + position.width / 2)
+
+                $('.js-tooltip-triangle').css({
+                    left: position.left + 20  + 'px'
+                })
+            } else {
+                $('.js-tooltip-triangle').css({
+                    left: position.left + position.width / 2 - 4 + 'px'
+                })
+            }
         }
 
         $tooltip.fadeIn(200);
     }
 
     function closeTooltip() {
-        console.log(123);
         $tooltipWrapper.html('').removeClass('active');;
         $eventItem.removeClass('active');
     }
-
-    // function removeScroll() {
-    //     var _mainHeight = $('.main').height();
-    //     console.log(_mainHeight);
-    //     $('.main').css({
-    //         overflow: 'hidden'
-    //     })
-    //     $('.js-schedule').css({
-    //         'height': _mainHeight - 20 + 'px',
-    //         'paddin-bottom': '20px'
-    //     })
-    // }
 
     init();
 

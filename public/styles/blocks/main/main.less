@@ -242,12 +242,6 @@
             width: calc(~'100% / 16');
             height: 100%;
 
-            // &:nth-child(2) {
-            //     &:after {
-            //         z-index: 999;
-            //     }
-            // }
-
             &:after {
                 content: "";
                 display: block;
@@ -262,6 +256,7 @@
         }
 
         &__current {
+            display: none;
             position: absolute;
             top: 13px;
             z-index: 10;
@@ -408,6 +403,10 @@
 
                 &:active {
                     background: #005CFF;
+                }
+
+                &.busy:active {
+                    background: #98A9B9;
                 }
 
                 &:nth-of-type(1) {
