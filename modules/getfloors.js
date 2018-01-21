@@ -60,9 +60,8 @@ var aa = module.exports = {
                 events.forEach((event, i) => {
                     var start = moment(events[i].dateStart).utc(),
                         end = moment(events[i].dateEnd).utc();
-
-                    //console.log(moment(date).format('YYYY-MM-DD'));
-                    if ( moment(event.dateStart).format('YYYY-MM-DD') == moment(date).format('YYYY-MM-DD')) {
+                    
+                    if ( moment(event.dateStart).utc().format('YYYY-MM-DD') == moment(date).format('YYYY-MM-DD')) {
                         rangeEvents.push(moment.range(start, end));
 
                         var diff = end.diff(start, 'minute');

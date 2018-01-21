@@ -31,11 +31,6 @@ module.exports = {
                 [ {model: models.Event, as: 'Events'}, 'dateStart', 'ASC' ]
             ],
             include: [{
-                
-                // where: {
-                //     //dateStart: sequelize.fn('strftime', sequelize.literal("'%Y-%m-%d'"), '2018-01-17')
-                //     [sequelize.fn('strftime', sequelize.literal("'%Y-%m-%d'"), sequelize.col('dateStart')), 'dateStart']
-                // },
                 model: models.Event,
                 //where: sequelize.where(sequelize.fn('strftime', sequelize.literal("'%Y-%m-%d'"), sequelize.col('dateStart')), '2018-01-17'),
                 include: {

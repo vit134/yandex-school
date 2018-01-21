@@ -8124,13 +8124,14 @@ $(document).ready(function () {
     var $dropdowmContainer, $dropdownItem, $dropdowmInput, $dropdownSelect, $dropdownSelectOption, $membersItem, $removeMemberBtn, $calendarContainer, $neweventFrom, $neweventSaveBtn, scrollBar;
 
     function init() {
-        updateChangeblVars();
+        updateIndexVars();
         bindEvents();
         //setCurrentTime();
 
         var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
             showOtherMonths: true,
             selectOtherMonths: true,
+            defaultDate: new Date(),
             onSelect: function onSelect(date, obj) {
 
                 /*var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
@@ -8199,6 +8200,9 @@ $(document).ready(function () {
                     $('.js-schedule-wrapper').html(scheduleHtml);
 
                     $('.js-popup').html(poupHtml).addClass('small'); //.show();
+                    updateIndexVars();
+                    bindEvents();
+                    console.log($eventItem);
                 }
             });
         });
@@ -8296,8 +8300,26 @@ $(document).ready(function () {
     }
     // -- newevent Functions -- //
 
-    function updateChangeblVars() {
+    function updateIndexVars() {
         _colLeftWidth = $colLeft.outerWidth(true);
+
+        $hours = $('.js-hours');
+        $hoursCurrentItem = $('.js-hours-current');
+        $hoursItem = $('.js-hours-item');
+        $calendarContainer = $('.js-calendar-container');
+        $calendarToogle = $('.js-calendar-toggle');
+        $calendarPrevDay = $('.js-calendar-prev');
+        $calendarNextDay = $('.js-calendar-next');
+        $tooltip = $('.js-tooltip');
+        $tooltipWrapper = $('.js-tooltip-wrapper');
+        $tooltipTriangle = $('.js-tooltip-triangle');
+        $eventItem = $('.js-event-item');
+        $schedule = $('.js-schedule');
+        $eventsRoom = $('.js-events-room');
+        $eventsFloor = $('.js-events-floor');
+        $colLeft = $('.js-col-left');
+
+        console.log($eventItem);
     }
 
     function bindEvents() {
@@ -8425,7 +8447,7 @@ $(document).ready(function () {
         });
 
         $(window).on('resize', function () {
-            updateChangeblVars();
+            updateIndexVars();
             closeTooltip();
         });
     }
