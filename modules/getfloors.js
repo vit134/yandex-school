@@ -2,9 +2,7 @@ const Moment = require('moment');
 const MomentRange = require('moment-range');
 
 const moment = MomentRange.extendMoment(Moment);
-let startDay =  moment('2018-01-17T08:00:00.000Z').utc(),
-    endDay = moment('2018-01-17T23:00:00.000Z').utc(),
-    day = moment.range(startDay, endDay);
+
 
 var aa = module.exports = {
     subtractRanges(longRanges, shortRanges) {
@@ -39,6 +37,12 @@ var aa = module.exports = {
       return longRanges;
     },
     getData(data, date) {
+        console.log('date req', date);
+        console.log('date req moment', moment(date).format('YYYY-MM-DD'));
+        let startDay =  moment(moment(date).format('YYYY-MM-DD') + 'T08:00:00.000Z').utc(),
+            endDay = moment(moment(date).format('YYYY-MM-DD') + 'T23:00:00.000Z').utc(),
+            day = moment.range(startDay, endDay);
+
         var floors = [];
         var d = {};
 
@@ -57,24 +61,33 @@ var aa = module.exports = {
             floor.forEach(room => {
                 var events = room.Events;
                 let rangeEvents = [];
-                console.log('------');
-                console.log(room.title);
-                events.forEach((event, i) => {
-                    var start = moment(events[i].dateStart).utc(),
-                        end = moment(events[i].dateEnd).utc();
-                    console.log('date', moment(date).format('YYYY-MM-DD'));
-                    console.log('eventdate', moment(event.dateStart).utc().format('YYYY-MM-DD'));
-                    if ( moment(event.dateStart).utc().format('YYYY-MM-DD') == moment(date).format('YYYY-MM-DD')) {
+
+                var needDateEvents = [];
+                // console.log('-----');
+                // console.log(room.title);
+
+                events.forEach(event => {
+                    if (moment(date).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
+                        needDateEvents.push(event);
+                    }
+                })
+
+                //console.log(needDateEvents);
+                //console.log(room.title + ' events ' + events);
+
+                needDateEvents.forEach((event, i) => {
+                    var start = moment(event.dateStart).utc(),
+                        end = moment(event.dateEnd).utc();
                         rangeEvents.push(moment.range(start, end));
 
-                        var diff = end.diff(start, 'minute');
-                        room.Events[i]['width'] = diff / 15;
-                    } else {
-                        events.splice(i, 1);
-                    }
+                    var diff = end.diff(start, 'minute');
+                    event['width'] = diff / 15;
+
+                    //console.log('needDateEvents', i);
                 });
 
                 var newRanges = aa.subtractRanges(day, rangeEvents);
+                //console.log(newRanges);
                 var newEvents = [];
                 newRanges.forEach(item => {
                     var start = item.start.utc(),
@@ -87,13 +100,25 @@ var aa = module.exports = {
                     })
                 })
 
+                //console.log(newEvents);
+
+                // newEvents.forEach(elem => {
+                //     room.Events.push(elem);
+                // })
+                // 
                 newEvents.forEach(elem => {
-                    room.Events.push(elem);
+                    needDateEvents.push(elem);
                 })
+
+                room.Events = needDateEvents;
+
+                
 
                 room.Events.sort((a,b) => {
                     return moment(b.dateStart).isBefore(moment(a.dateStart))
                 })
+
+                //console.log(room.Events);
             })
         });
 

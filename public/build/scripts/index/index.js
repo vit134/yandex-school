@@ -8557,12 +8557,12 @@ $(document).ready(function () {
             data: { date: date },
             success: function success(data) {
                 console.log(data);
-                // var scheduleHtml = data.scheduleHtml;
+                var scheduleHtml = data.scheduleHtml;
 
-                // $('.js-schedule-wrapper').html(scheduleHtml);
+                $('.js-schedule-wrapper').html(scheduleHtml);
 
-                // updateIndexVars();
-                // bindEvents();
+                updateIndexVars();
+                bindEvents();
             }
         });
     }

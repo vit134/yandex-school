@@ -63,6 +63,7 @@ app.post('/tooltip', function(req, res){
 app.post('/createevent', function(req, res){
     console.log('createevent');
     var data = req.body;
+    var needDate = data.dateStart
     console.log(data);
 
     mutation.createEvent(1, {input: {
@@ -73,7 +74,7 @@ app.post('/createevent', function(req, res){
         event = JSON.parse(JSON.stringify(event));
         query.rooms().then((data) => {
             data = JSON.parse(JSON.stringify(data));
-            var floors = getFloors.getData(data, '2018-01-17');
+            var floors = getFloors.getData(data, needDate);
 
             query.room(1, {id: event.RoomId}).then(room => {
                 Twig.renderFile('./public/app/blocks/main/schedule.twig', {data: floors}, (err, scheduleHtml) => {
@@ -167,14 +168,13 @@ app.post('/deleteEvent', function(req, res){
 
 app.post('/getFloors', function(req, res){
     var date = req.body.date;
-    console.log('index date', date);
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
         var floors = getFloors.getData(data, new Date(date));
 
-        res.json({
-            data: floors
-        })
+        Twig.renderFile('./public/app/blocks/main/schedule.twig', {data: floors}, (err, scheduleHtml) => {
+            res.json({scheduleHtml: scheduleHtml, data: floors})
+        });
     })
 })
 
