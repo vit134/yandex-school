@@ -8156,25 +8156,22 @@ $(document).ready(function () {
             autoHide: false
         });
 
-        /*var datepickekerOptions = $.extend(
-            {},
-            $.datepicker.regional[ "ru" ],
-            {
-                showOn: "both",
-                buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
-                defaultDate: new Date($('#datepicker').val()),
-                buttonImageOnly: true,
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                beforeShow:function(textbox, instance){
-                    //$calendarContainer.append($(instance.dpDiv)).show();
-                },
-                onClose: function() {
-                    //$calendarContainer.hide();
-                }
+        var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
+            showOn: "both",
+            buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
+            defaultDate: new Date($('#datepicker').val()),
+            buttonImageOnly: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            beforeShow: function beforeShow(textbox, instance) {
+                $neweventFrom.find($calendarContainer).append($(instance.dpDiv)).show();
+            },
+            onClose: function onClose() {
+                $neweventFrom.find($calendarContainer).hide();
             }
-        )
-         $('#datepicker').datepicker(datepickekerOptions);*/
+        });
+
+        $('#datepicker').datepicker(datepickekerOptions);
     }
 
     function updateNeweventVars() {
@@ -8201,21 +8198,21 @@ $(document).ready(function () {
             e.preventDefault();
             var data = getNeweventData();
 
-            $.ajax({
+            validateForm($neweventFrom);
+
+            /*$.ajax({
                 url: '/createevent',
                 type: 'POST',
                 data: data,
-                success: function success(data) {
+                success: function(data){
                     var scheduleHtml = data.scheduleHtml,
                         poupHtml = data.popupHtml;
-
-                    $('.js-schedule-wrapper').html(scheduleHtml);
-
-                    $popup.html(poupHtml).addClass('small'); //.show();
+                     $('.js-schedule-wrapper').html(scheduleHtml);
+                     $popup.html(poupHtml).addClass('small')//.show();
                     updateIndexVars();
                     bindEvents();
                 }
-            });
+            });*/
         });
 
         $editeventSaveBtn.on('click', function (e) {
@@ -8308,6 +8305,26 @@ $(document).ready(function () {
     }
 
     // -- newevent Functions -- //
+
+    function validateForm($form) {
+        var timeRegExp = /^(([0,1][0-9])|(2[0-3])):[0-5][0-9]$/;
+
+        var $eventStart = $form.find('input[name="newevent_start"]');
+        var $eventEnd = $form.find('input[name="newevent_end"]');
+
+        if (!timeRegExp.test($eventStart.val())) {
+            $eventStart.addClass('error');
+        } else {
+            $eventStart.removeClass('error');
+        }
+
+        if (!timeRegExp.test($eventEnd.val())) {
+            $eventEnd.addClass('error');
+        } else {
+            $eventEnd.removeClass('error');
+        }
+    }
+
     function getNeweventData() {
         var data = {};
         data.eventId = $neweventFrom.find('input[name="event_id"]').val();
@@ -8400,9 +8417,10 @@ $(document).ready(function () {
     function bindCalendarIndexEvents() {
         $calendarNextDay.on("click", function () {
             var date = $calendarContainer.datepicker('getDate');
-
             date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
+            console.log(date);
             $calendarContainer.datepicker("setDate", date);
+            $('.ui-datepicker-current-day').click();
             $calendarContainer.datepicker("refresh");
         });
 
@@ -8410,11 +8428,11 @@ $(document).ready(function () {
             var date = $calendarContainer.datepicker('getDate');
             date.setTime(date.getTime() - 1000 * 60 * 60 * 24);
             $calendarContainer.datepicker("setDate", date);
+            $('.ui-datepicker-current-day').click();
             $calendarContainer.datepicker("refresh");
         });
 
         $calendarToogle.on('click', function () {
-            console.log(123);
             if (!$(this).hasClass('open')) {
                 $(this).addClass('open');
                 $calendarContainer.datepicker('show').show();
@@ -8453,6 +8471,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function success(data) {
+                    console.log(data);
                     $body.addClass('overflow');
                     $('.js-popup').html(data.html).show();
                     neweventInit();
@@ -8578,7 +8597,6 @@ $(document).ready(function () {
     }
 
     function setCurrentTime() {
-        console.log($hoursCurrentItem);
         if (currentHour > 8 && currentHour < 23) {
 
             $hoursCurrentItem.css({ left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%' }).show();
@@ -8591,8 +8609,6 @@ $(document).ready(function () {
                     $item.addClass('past');
                 }
             });
-        } else {
-            console.log('hide current time');
         }
     }
 
@@ -8611,11 +8627,8 @@ $(document).ready(function () {
             left: position.left + position.width / 2 - 338 / 2 + 'px'
         });
         if ($(window).width() < 415) {
-            console.log(position.left);
 
             if (position.left + position.width > $(window).width()) {
-                //$('.js-schedule').scrollLeft(position.left + position.width / 2)
-
                 $('.js-tooltip-triangle').css({
                     left: position.left + 20 + 'px'
                 });

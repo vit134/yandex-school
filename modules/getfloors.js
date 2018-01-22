@@ -37,27 +37,22 @@ var aa = module.exports = {
       return longRanges;
     },
     getData(data, date) {
-        console.log('date req', date);
-        console.log('date req moment', moment(date).format('YYYY-MM-DD'));
         let startDay =  moment(moment(date).format('YYYY-MM-DD') + 'T08:00:00.000Z').utc(),
             endDay = moment(moment(date).format('YYYY-MM-DD') + 'T23:00:00.000Z').utc(),
             day = moment.range(startDay, endDay);
 
-        var floors = [];
-        var d = {};
+        var floors = {};
 
         data.forEach(function(value){
-            if(typeof d[value.floor] == 'undefined')
-                d[value.floor] = [];
+            if(typeof floors[value.floor] == 'undefined')
+                floors[value.floor] = [];
 
-            d[value.floor].push(value);
+            floors[value.floor].push(value);
         });
 
-        floors = Object.keys(d).map(key => {
-            return d[key];
-        })
+        for (var floor in floors) {
+            floor = floors[floor];
 
-        floors.forEach(floor => {
             floor.forEach(room => {
                 var events = room.Events;
                 let rangeEvents = [];
@@ -105,14 +100,14 @@ var aa = module.exports = {
                 // newEvents.forEach(elem => {
                 //     room.Events.push(elem);
                 // })
-                // 
+                //
                 newEvents.forEach(elem => {
                     needDateEvents.push(elem);
                 })
 
                 room.Events = needDateEvents;
 
-                
+
 
                 room.Events.sort((a,b) => {
                     return moment(b.dateStart).isBefore(moment(a.dateStart))
@@ -120,7 +115,7 @@ var aa = module.exports = {
 
                 //console.log(room.Events);
             })
-        });
+        }
 
         return floors;
     }
