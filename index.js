@@ -2,6 +2,7 @@ const path = require('path');
 const query = require('./graphql/resolvers/query.js');
 const mutation = require('./graphql/resolvers/mutation.js');
 const getFloors = require('./modules/getfloors.js');
+const getRecommendation = require('./modules/getRecommendation.js');
 const express = require('express');
 const Twig = require('twig');
 const twig = Twig.twig;
@@ -11,6 +12,31 @@ const bodyParser = require('body-parser');
 const graphqlRoutes = require('./graphql/routes');
 
 const app = express();
+var usArr = [
+    {
+        id: 1,
+        login: 'vit134',
+        homeFloor: 3
+    },
+    {
+        id: 2,
+        login: 'ksenia',
+        homeFloor: 8
+    },
+    {
+        id: 3,
+        login: 'igor',
+        homeFloor: 1
+     }//,
+    // {
+    //     id: 4,
+    //     login: 'marina',
+    //     homeFloor: 5
+    // }
+]
+query.rooms().then((data) => {
+    console.log(getRecommendation(data, '2018-01-22T08:00:00.000Z', '2018-01-22T10:00:00.000Z', usArr));
+})
 
 app.use(bodyParser.urlencoded({
     extended: true

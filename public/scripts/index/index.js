@@ -144,9 +144,9 @@ $(document).ready(function() {
             e.preventDefault();
             var data = getNeweventData();
 
-            validateForm($neweventFrom);
+            //validateForm($neweventFrom);
 
-            /*$.ajax({
+            $.ajax({
                 url: '/createevent',
                 type: 'POST',
                 data: data,
@@ -160,7 +160,7 @@ $(document).ready(function() {
                     updateIndexVars();
                     bindEvents();
                 }
-            });*/
+            });
         })
 
         $editeventSaveBtn.on('click', function(e) {

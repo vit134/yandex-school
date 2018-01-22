@@ -94,13 +94,7 @@ var aa = module.exports = {
                         width: end.diff(start, 'minute') / 15
                     })
                 })
-
-                //console.log(newEvents);
-
-                // newEvents.forEach(elem => {
-                //     room.Events.push(elem);
-                // })
-                //
+                
                 newEvents.forEach(elem => {
                     needDateEvents.push(elem);
                 })
