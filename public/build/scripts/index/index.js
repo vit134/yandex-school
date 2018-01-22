@@ -245,8 +245,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("r7L21G"))
-},{"r7L21G":4}],4:[function(require,module,exports){
+}).call(this,require("6r38Q7"))
+},{"6r38Q7":4}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8072,7 +8072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/../../../../node_modules/twig")
+}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
 },{"fs":2,"path":3}],6:[function(require,module,exports){
 'use strict';
 
@@ -8120,12 +8120,13 @@ $(document).ready(function () {
 
     var scheduleScrollFlag = false;
 
-    //newevent vars 
+    //newevent vars
     var $dropdowmContainer, $dropdownItem, $dropdowmInput, $dropdownSelect, $dropdownSelectOption, $membersItem, $removeMemberBtn, $calendarContainer, $neweventFrom, $neweventSaveBtn, $editeventSaveBtn, $deleteEventBtn, $popupDeleteCanselBtn, $popupDeleteSaveBtn, scrollBar;
 
     function init() {
         updateIndexVars();
         bindEvents();
+        bindCalendarIndexEvents();
         setCurrentTime();
 
         var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
@@ -8155,22 +8156,25 @@ $(document).ready(function () {
             autoHide: false
         });
 
-        var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
-            showOn: "both",
-            buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
-            defaultDate: new Date($('#datepicker').val()),
-            buttonImageOnly: true,
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            beforeShow: function beforeShow(textbox, instance) {
-                $calendarContainer.append($(instance.dpDiv)).show();
-            },
-            onClose: function onClose() {
-                $calendarContainer.hide();
+        /*var datepickekerOptions = $.extend(
+            {},
+            $.datepicker.regional[ "ru" ],
+            {
+                showOn: "both",
+                buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
+                defaultDate: new Date($('#datepicker').val()),
+                buttonImageOnly: true,
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                beforeShow:function(textbox, instance){
+                    //$calendarContainer.append($(instance.dpDiv)).show();
+                },
+                onClose: function() {
+                    //$calendarContainer.hide();
+                }
             }
-        });
-
-        $('#datepicker').datepicker(datepickekerOptions);
+        )
+         $('#datepicker').datepicker(datepickekerOptions);*/
     }
 
     function updateNeweventVars() {
@@ -8393,6 +8397,41 @@ $(document).ready(function () {
         $addEventBtn = $('.js-add-event-btn'), $editEventBtn = $('.js-edit-event-btn');
     }
 
+    function bindCalendarIndexEvents() {
+        $calendarNextDay.on("click", function () {
+            var date = $calendarContainer.datepicker('getDate');
+
+            date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
+            $calendarContainer.datepicker("setDate", date);
+            $calendarContainer.datepicker("refresh");
+        });
+
+        $calendarPrevDay.on("click", function () {
+            var date = $calendarContainer.datepicker('getDate');
+            date.setTime(date.getTime() - 1000 * 60 * 60 * 24);
+            $calendarContainer.datepicker("setDate", date);
+            $calendarContainer.datepicker("refresh");
+        });
+
+        $calendarToogle.on('click', function () {
+            console.log(123);
+            if (!$(this).hasClass('open')) {
+                $(this).addClass('open');
+                $calendarContainer.datepicker('show').show();
+            } else {
+                $(this).removeClass('open');
+                $calendarContainer.datepicker('hide').hide();
+            }
+        });
+
+        $(document).mouseup(function (e) {
+            if (!$calendarToogle.is(e.target) && $calendarContainer.has(e.target).length === 0) {
+                $calendarToogle.removeClass('open');
+                $calendarContainer.datepicker('hide').hide();
+            }
+        });
+    }
+
     function bindEvents() {
         $addEventBtn.on('click', function (e) {
             e.preventDefault();
@@ -8421,44 +8460,14 @@ $(document).ready(function () {
             });
         });
 
-        //popup buttons action 
+        //popup buttons action
         $('body').on('click', '.js-popup-close', function (e) {
             e.preventDefault();
             $popup.removeClass('small').html('');
             $body.removeClass('overflow');
         });
 
-        $calendarNextDay.on("click", function () {
-            var date = $calendarContainer.datepicker('getDate');
-
-            date.setTime(date.getTime() + 1000 * 60 * 60 * 24);
-            $calendarContainer.datepicker("setDate", date);
-            $calendarContainer.datepicker("refresh");
-        });
-
-        $calendarPrevDay.on("click", function () {
-            var date = $calendarContainer.datepicker('getDate');
-            date.setTime(date.getTime() - 1000 * 60 * 60 * 24);
-            $calendarContainer.datepicker("setDate", date);
-            $calendarContainer.datepicker("refresh");
-        });
-
-        $calendarToogle.on('click', function () {
-            if (!$(this).hasClass('open')) {
-                $(this).addClass('open');
-                $calendarContainer.datepicker('show').show();
-            } else {
-                $(this).removeClass('open');
-                $calendarContainer.datepicker('hide').hide();
-            }
-        });
-
         $(document).mouseup(function (e) {
-            if (!$calendarToogle.is(e.target) && $calendarContainer.has(e.target).length === 0) {
-                $calendarToogle.removeClass('open');
-                $calendarContainer.datepicker('hide').hide();
-            }
-
             if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
                 $eventItem.removeClass('active');
                 closeTooltip();
@@ -8563,25 +8572,27 @@ $(document).ready(function () {
 
                 updateIndexVars();
                 bindEvents();
+                setCurrentTime();
             }
         });
     }
 
     function setCurrentTime() {
+        console.log($hoursCurrentItem);
         if (currentHour > 8 && currentHour < 23) {
 
-            $hoursCurrentItem.show().animate({
-                left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%'
-            }, 500);
+            $hoursCurrentItem.css({ left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%' }).show();
 
             $hoursItem.map(function (key, item) {
                 var $item = $(item),
                     _itemTime = $(item).data('time').split(':')[0];
 
-                if (currentHour > _itemTime) {
+                if (currentHour >= _itemTime) {
                     $item.addClass('past');
                 }
             });
+        } else {
+            console.log('hide current time');
         }
     }
 

@@ -1,7 +1,7 @@
 import SimpleBar from 'SimpleBar';
 
 $(document).ready(function() {
-    var twig = require('twig'); 
+    var twig = require('twig');
     var $body = $('body');
 
 
@@ -28,7 +28,7 @@ $(document).ready(function() {
     //poup vars
     var $popup = $('.js-popup');
 
-    var currentTime = new Date,
+    var currentTime = new Date(),
         currentHour = currentTime.getHours(),
         currentMinute = currentTime.getMinutes();
 
@@ -41,7 +41,7 @@ $(document).ready(function() {
     var scheduleScrollFlag = false;
 
 
-    //newevent vars 
+    //newevent vars
     var $dropdowmContainer,
         $dropdownItem,
         $dropdowmInput,
@@ -64,6 +64,7 @@ $(document).ready(function() {
     function init() {
         updateIndexVars();
         bindEvents();
+        bindCalendarIndexEvents();
         setCurrentTime();
 
         var datepickekerOptions = $.extend(
@@ -85,7 +86,7 @@ $(document).ready(function() {
                 }
             }
         )
-        
+
         $calendarContainer.datepicker(datepickekerOptions);
     }
 
@@ -97,7 +98,7 @@ $(document).ready(function() {
             autoHide: false
         });
 
-        var datepickekerOptions = $.extend(
+        /*var datepickekerOptions = $.extend(
             {},
             $.datepicker.regional[ "ru" ],
             {
@@ -108,15 +109,15 @@ $(document).ready(function() {
                 showOtherMonths: true,
                 selectOtherMonths: true,
                 beforeShow:function(textbox, instance){
-                    $calendarContainer.append($(instance.dpDiv)).show();
+                    //$calendarContainer.append($(instance.dpDiv)).show();
                 },
                 onClose: function() {
-                    $calendarContainer.hide();
+                    //$calendarContainer.hide();
                 }
             }
         )
 
-        $('#datepicker').datepicker(datepickekerOptions);
+        $('#datepicker').datepicker(datepickekerOptions);*/
     }
 
     function updateNeweventVars() {
@@ -275,7 +276,7 @@ $(document).ready(function() {
         data.dateEnd  = year + '-' + (month) + '-' + date + 'T' + timeEnd + ':00.000Z';
 
         data.room = $neweventFrom.find('input[name="newevent_room"]').val();
-        
+
         return data;
     }
 
@@ -342,6 +343,41 @@ $(document).ready(function() {
         $editEventBtn = $('.js-edit-event-btn');
     }
 
+    function bindCalendarIndexEvents() {
+        $calendarNextDay.on("click", function () {
+            var date = $calendarContainer.datepicker('getDate');
+
+            date.setTime(date.getTime() + (1000*60*60*24))
+            $calendarContainer.datepicker("setDate", date);
+            $calendarContainer.datepicker( "refresh" );
+        });
+
+        $calendarPrevDay.on("click", function () {
+            var date = $calendarContainer.datepicker('getDate');
+            date.setTime(date.getTime() - (1000*60*60*24))
+            $calendarContainer.datepicker("setDate", date);
+            $calendarContainer.datepicker( "refresh" );
+        });
+
+        $calendarToogle.on('click', function() {
+            console.log(123);
+            if (!$(this).hasClass('open')) {
+                $(this).addClass('open')
+                $calendarContainer.datepicker('show').show();
+            } else {
+                $(this).removeClass('open')
+                $calendarContainer.datepicker('hide').hide();
+            }
+        })
+
+        $(document).mouseup(function(e) {
+            if (!$calendarToogle.is(e.target) && $calendarContainer.has(e.target).length === 0) {
+                $calendarToogle.removeClass('open')
+                $calendarContainer.datepicker('hide').hide();
+            }
+        })
+    }
+
     function bindEvents() {
         $addEventBtn.on('click', function(e) {
             e.preventDefault();
@@ -372,45 +408,14 @@ $(document).ready(function() {
             });
         })
 
-        //popup buttons action 
+        //popup buttons action
         $('body').on('click', '.js-popup-close', function(e) {
             e.preventDefault();
             $popup.removeClass('small').html('');
             $body.removeClass('overflow');
         })
 
-        $calendarNextDay.on("click", function () {
-            var date = $calendarContainer.datepicker('getDate');
-
-            date.setTime(date.getTime() + (1000*60*60*24))
-            $calendarContainer.datepicker("setDate", date);
-            $calendarContainer.datepicker( "refresh" );
-        });
-
-        $calendarPrevDay.on("click", function () {
-            var date = $calendarContainer.datepicker('getDate');
-            date.setTime(date.getTime() - (1000*60*60*24))
-            $calendarContainer.datepicker("setDate", date);
-            $calendarContainer.datepicker( "refresh" );
-        });
-
-        $calendarToogle.on('click', function() {
-            if (!$(this).hasClass('open')) {
-                $(this).addClass('open')
-                $calendarContainer.datepicker('show').show();
-            } else {
-                $(this).removeClass('open')
-                $calendarContainer.datepicker('hide').hide();
-            }
-        })
-
         $(document).mouseup(function(e) {
-            if (!$calendarToogle.is(e.target) && $calendarContainer.has(e.target).length === 0) {
-                $calendarToogle.removeClass('open')
-                $calendarContainer.datepicker('hide').hide();
-            }
-
-
             if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
                 $eventItem.removeClass('active');
                 closeTooltip();
@@ -469,7 +474,7 @@ $(document).ready(function() {
                         }
                     });
                 }
-            } 
+            }
         })
 
         $schedule.on('scroll', function() {
@@ -503,7 +508,7 @@ $(document).ready(function() {
 
 
     //index functions
-    
+
     function changeSchedule(date) {
         $.ajax({
             url: '/getFloors',
@@ -517,26 +522,28 @@ $(document).ready(function() {
 
                 updateIndexVars();
                 bindEvents();
+                setCurrentTime();
             }
         });
     }
 
     function setCurrentTime() {
+        console.log($hoursCurrentItem);
         if (currentHour > 8 && currentHour < 23 ) {
 
-            $hoursCurrentItem.show().animate({
-                left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%'
-            }, 500);
+            $hoursCurrentItem.css({left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%'}).show();
 
             $hoursItem.map((key, item) => {
                 var $item = $(item),
                     _itemTime = $(item).data('time').split(':')[0];
 
-                if (currentHour > _itemTime) {
+                if (currentHour >= _itemTime) {
                     $item.addClass('past');
                 }
 
             });
+        } else {
+            console.log('hide current time');
         }
     }
 

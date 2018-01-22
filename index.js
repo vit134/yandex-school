@@ -24,7 +24,7 @@ app.get('/', function(req, res){
 
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
-        var floors = getFloors.getData(data, '2018-01-17');
+        var floors = getFloors.getData(data, new Date());
 
         res.render('index', {
             enableAddButton: true,
