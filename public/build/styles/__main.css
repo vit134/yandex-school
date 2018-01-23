@@ -811,6 +811,9 @@ div {
   font-size: 13px;
   line-height: 17px;
 }
+.main__schedule__room.active .main__schedule__room__name {
+  color: #007DFF;
+}
 .main__schedule__room.busy .main__schedule__room__name,
 .main__schedule__room.busy .main__schedule__room__capacity {
   color: #858E98;

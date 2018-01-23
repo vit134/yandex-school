@@ -8098,6 +8098,8 @@ $(document).ready(function () {
         $tooltipWrapper = $('.js-tooltip-wrapper'),
         $tooltipTriangle = $('.js-tooltip-triangle'),
         $eventItem = $('.js-event-item'),
+        $eventRow = $('.js-main-events-row'),
+        $eventRoom = $('.js-main-events-room'),
         $schedule = $('.js-schedule'),
         $eventsRoom = $('.js-events-room'),
         $eventsFloor = $('.js-events-floor'),
@@ -8121,7 +8123,7 @@ $(document).ready(function () {
     var scheduleScrollFlag = false;
 
     //newevent vars
-    var $dropdowmContainer, $dropdownItem, $dropdowmInput, $dropdownSelect, $dropdownSelectOption, $membersItem, $removeMemberBtn, $calendarContainer, $neweventFrom, $neweventSaveBtn, $editeventSaveBtn, $deleteEventBtn, $popupDeleteCanselBtn, $popupDeleteSaveBtn, scrollBar;
+    var $dropdowmContainer, $dropdownItem, $dropdowmInput, $dropdownSelect, $dropdownSelectOption, $membersItem, $removeMemberBtn, $calendarContainer, $neweventFrom, $neweventSaveBtn, $editeventSaveBtn, $deleteEventBtn, $popupDeleteCanselBtn, $popupDeleteSaveBtn, $removeRoom, $roomRecommendBlock, $roomCurrentBlock, $roomRecommendItem, scrollBar;
 
     function init() {
         updateIndexVars();
@@ -8191,9 +8193,35 @@ $(document).ready(function () {
 
         $popupDeleteCanselBtn = $('.js-popup-delete-cansel-btn');
         $popupDeleteSaveBtn = $('.js-popup-delete-save-btn');
+
+        $removeRoom = $('.js-newevent-remove-room');
+        $roomRecommendBlock = $('.js-room-recommend');
+        $roomCurrentBlock = $('.js-room-current');
+        $roomRecommendItem = $('.js-room-recommend-item');
     }
 
     function bindNeweventEvents() {
+        $roomRecommendItem.on('click', function (e) {
+            e.preventDefault();
+            $roomRecommendItem.removeClass('active');
+
+            if (!$(this).hasClass('active')) {
+                $(this).addClass('active');
+                $neweventFrom.find('input[name="newevent_room"]').val($(this).data('room-id'));
+            } else {
+                $(this).removeClass('active');
+                $neweventFrom.find('input[name="newevent_room"]').val('');
+            }
+        });
+        $removeRoom.on('click', function (e) {
+            e.preventDefault();
+
+            $roomCurrentBlock.hide();
+            $roomRecommendBlock.removeClass('hidden');
+
+            $neweventFrom.find('input[name="newevent_room"]').val('');
+        });
+
         $neweventSaveBtn.on('click', function (e) {
             e.preventDefault();
             var data = getNeweventData();
@@ -8408,7 +8436,7 @@ $(document).ready(function () {
         $tooltipWrapper = $('.js-tooltip-wrapper');
         $tooltipTriangle = $('.js-tooltip-triangle');
         $eventItem = $('.js-event-item');
-        $schedule = $('.js-schedule');
+        $eventRow = $('.js-main-events-row'), $eventRoom = $('.js-main-events-room'), $schedule = $('.js-schedule');
         $eventsRoom = $('.js-events-room');
         $eventsFloor = $('.js-events-floor');
         $colLeft = $('.js-col-left');
@@ -8453,7 +8481,18 @@ $(document).ready(function () {
     }
 
     function bindEvents() {
+        $eventItem.on('mouseover', function () {
+            var roomId = $(this).closest($eventRow).data('room-id');
+            $eventRoom.filter('[data-room-id="' + roomId + '"]').addClass('active');
+        });
+
+        $eventItem.on('mouseout', function () {
+            var roomId = $(this).closest($eventRow).data('room-id');
+            $eventRoom.filter('[data-room-id="' + roomId + '"]').removeClass('active');
+        });
+
         $addEventBtn.on('click', function (e) {
+            console.log(123);
             e.preventDefault();
             var $this = $(this),
                 $thisParent = $(this).parent();

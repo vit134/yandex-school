@@ -34,9 +34,9 @@ var usArr = [
     //     homeFloor: 5
     // }
 ]
-query.rooms().then((data) => {
-    console.log(getRecommendation(data, '2018-01-22T08:00:00.000Z', '2018-01-22T10:00:00.000Z', usArr));
-})
+// query.rooms().then((data) => {
+//     console.log(getRecommendation(data, '2018-01-22T08:00:00.000Z', '2018-01-22T10:00:00.000Z', usArr));
+// })
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -66,9 +66,19 @@ app.post('/newevent', function(req, res){
         users = JSON.parse(JSON.stringify(users));
 
         query.room(1, {id: data.roomId}).then(room => {
-            Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data}, (err, html) => {
-                res.json({html: html, room: room})
-            });
+            query.rooms().then(rooms => {
+                rooms = JSON.parse(JSON.stringify(rooms));
+                var recommendRooms = [];
+
+                if (data.dateStart) {
+                    recommendRooms = getRecommendation(rooms, data.dateStart, data.dateEnd, [])
+                }
+
+                Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data, recommendRooms: recommendRooms}, (err, html) => {
+                    res.json({html: html, room: room, recommendRooms: recommendRooms})
+                });
+            })
+            
         })
     })
 });

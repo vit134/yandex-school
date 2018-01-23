@@ -9,9 +9,9 @@ module.exports = (function(data, start, end, users) {
     var date = moment(start).format('YYYY-MM-DD');
     var suitableRanges = [];
 
-    // console.log('range', needRange);
-    // console.log('date', date);
-
+    console.log('range', needRange);
+    console.log('date', date);
+    //console.log(data);
     data = JSON.parse(JSON.stringify(data));
     var floors = getFloors.getData(data, date);
 

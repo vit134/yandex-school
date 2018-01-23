@@ -50,13 +50,20 @@
                 cursor: pointer;
 
                 &:hover {
-                    color:  @blueColor;
+                    color: @blueColor;
                 }
             }
 
             &__capacity {
                 font-size: 13px;
                 line-height: 17px;
+            }
+
+
+            &.active & {
+                &__name {
+                    color: @blueColor;
+                }
             }
 
             &.busy & {
