@@ -449,54 +449,8 @@ $(document).ready(function() {
             $eventRoom.filter('[data-room-id="'+ roomId +'"]').removeClass('active');
         })
 
-        $addEventBtn.on('click', function(e) {
-            console.log(123);
-            e.preventDefault();
-            var $this = $(this),
-                $thisParent = $(this).parent();
-
-            var empty = $this.data('type') ? true : false;
-
-            var data = {
-                empty: empty
-            };
-
-            if (!empty) {
-                data.dateStart = $this.data('timestart'),
-                data.dateEnd = $this.data('timeend'),
-                data.roomId = $this.data('roomid')
-            }
-
-            $.ajax({
-                url: '/newevent',
-                type: 'POST',
-                data: data,
-                success: function(data){
-                    console.log(data);
-                    $body.addClass('overflow');
-                    $('.js-popup').html(data.html).show();
-                    neweventInit();
-                }
-            });
-        })
-
-        //popup buttons action
-        $('body').on('click', '.js-popup-close', function(e) {
-            e.preventDefault();
-            $popup.removeClass('small').html('');
-            $body.removeClass('overflow');
-        })
-
-        $(document).mouseup(function(e) {
-            if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
-                $eventItem.removeClass('active');
-                closeTooltip();
-            } else if ($editEventBtn.is(e.target)) {
-                $editEventBtn.trigger('click');
-            }
-        });
-
         $eventItem.on('click', function() {
+            console.log('$eventItem click');
             var position = getEventItemPosition($(this));
             var eventId = $(this).data('eventid');
             var $this = $(this);
@@ -526,16 +480,17 @@ $(document).ready(function() {
                             updateIndexVars();
 
                             $editEventBtn.on('click', function(e) {
+                                console.log('editeventbtn click');
                                 e.preventDefault();
-                                console.log(123);
-                                var eventId = $(this).parent().data('eventid')
+                                var eventId = $(this).parent().data('eventid');
+                                var from = $(this).data('from');
 
                                 $.ajax({
                                     url: '/editevent',
                                     type: 'POST',
-                                    data: {eventId: eventId},
+                                    data: {eventId: eventId, from: from},
                                     success: function(data){
-                                        console.log(data);
+                                        console.log('data edit',data);
                                         closeTooltip();
                                         $body.addClass('overflow');
                                         $('.js-popup').html(data.html).show();
@@ -548,6 +503,54 @@ $(document).ready(function() {
                 }
             }
         })
+
+        $addEventBtn.on('click', function(e) {
+            e.preventDefault();
+            var $this = $(this),
+                $thisParent = $(this).parent();
+
+            if (!$this.hasClass('busy')) {
+                console.log('$addEventBtn click');
+                var from = $this.data('from')
+                var data = {
+                    from: from
+                };
+
+                data.dateStart = $this.data('timestart'),
+                data.dateEnd = $this.data('timeend'),
+                data.roomId = $this.data('roomid')
+
+
+                $.ajax({
+                    url: '/newevent',
+                    type: 'POST',
+                    data: data,
+                    success: function(data){
+                        console.log('data add', data);
+                        $body.addClass('overflow');
+                        $('.js-popup').html(data.html).show();
+                        closeTooltip();
+                        neweventInit();
+                    }
+                });
+            }
+        })
+
+        //popup buttons action
+        $('body').on('click', '.js-popup-close', function(e) {
+            e.preventDefault();
+            $popup.removeClass('small').html('');
+            $body.removeClass('overflow');
+        })
+
+        $(document).mouseup(function(e) {
+            if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
+                $eventItem.removeClass('active');
+                closeTooltip();
+            } /*else if ($editEventBtn.is(e.target)) {
+                $editEventBtn.trigger('click');
+            }*/
+        });
 
         $schedule.on('scroll', function() {
             var scrollLeft = $(this).scrollLeft();

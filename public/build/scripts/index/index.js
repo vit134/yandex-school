@@ -245,8 +245,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("r7L21G"))
-},{"r7L21G":4}],4:[function(require,module,exports){
+}).call(this,require("6r38Q7"))
+},{"6r38Q7":4}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5623,7 +5623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var jsdate, f;
 	  // Keep this here (works, but for code commented-out below for file size reasons)
 	  // var tal= [];
-	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 	  // trailing backslash -> (dropped)
 	  // a backslash followed by any character (including backslash) -> the character
 	  // empty string -> empty string
@@ -8072,7 +8072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/../../../../node_modules/twig")
+}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
 },{"fs":2,"path":3}],6:[function(require,module,exports){
 'use strict';
 
@@ -8491,52 +8491,8 @@ $(document).ready(function () {
             $eventRoom.filter('[data-room-id="' + roomId + '"]').removeClass('active');
         });
 
-        $addEventBtn.on('click', function (e) {
-            console.log(123);
-            e.preventDefault();
-            var $this = $(this),
-                $thisParent = $(this).parent();
-
-            var empty = $this.data('type') ? true : false;
-
-            var data = {
-                empty: empty
-            };
-
-            if (!empty) {
-                data.dateStart = $this.data('timestart'), data.dateEnd = $this.data('timeend'), data.roomId = $this.data('roomid');
-            }
-
-            $.ajax({
-                url: '/newevent',
-                type: 'POST',
-                data: data,
-                success: function success(data) {
-                    console.log(data);
-                    $body.addClass('overflow');
-                    $('.js-popup').html(data.html).show();
-                    neweventInit();
-                }
-            });
-        });
-
-        //popup buttons action
-        $('body').on('click', '.js-popup-close', function (e) {
-            e.preventDefault();
-            $popup.removeClass('small').html('');
-            $body.removeClass('overflow');
-        });
-
-        $(document).mouseup(function (e) {
-            if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
-                $eventItem.removeClass('active');
-                closeTooltip();
-            } else if ($editEventBtn.is(e.target)) {
-                $editEventBtn.trigger('click');
-            }
-        });
-
         $eventItem.on('click', function () {
+            console.log('$eventItem click');
             var position = getEventItemPosition($(this));
             var eventId = $(this).data('eventid');
             var $this = $(this);
@@ -8566,16 +8522,17 @@ $(document).ready(function () {
                             updateIndexVars();
 
                             $editEventBtn.on('click', function (e) {
+                                console.log('editeventbtn click');
                                 e.preventDefault();
-                                console.log(123);
                                 var eventId = $(this).parent().data('eventid');
+                                var from = $(this).data('from');
 
                                 $.ajax({
                                     url: '/editevent',
                                     type: 'POST',
-                                    data: { eventId: eventId },
+                                    data: { eventId: eventId, from: from },
                                     success: function success(data) {
-                                        console.log(data);
+                                        console.log('data edit', data);
                                         closeTooltip();
                                         $body.addClass('overflow');
                                         $('.js-popup').html(data.html).show();
@@ -8587,6 +8544,51 @@ $(document).ready(function () {
                     });
                 }
             }
+        });
+
+        $addEventBtn.on('click', function (e) {
+            e.preventDefault();
+            var $this = $(this),
+                $thisParent = $(this).parent();
+
+            if (!$this.hasClass('busy')) {
+                console.log('$addEventBtn click');
+                var from = $this.data('from');
+                var data = {
+                    from: from
+                };
+
+                data.dateStart = $this.data('timestart'), data.dateEnd = $this.data('timeend'), data.roomId = $this.data('roomid');
+
+                $.ajax({
+                    url: '/newevent',
+                    type: 'POST',
+                    data: data,
+                    success: function success(data) {
+                        console.log('data add', data);
+                        $body.addClass('overflow');
+                        $('.js-popup').html(data.html).show();
+                        closeTooltip();
+                        neweventInit();
+                    }
+                });
+            }
+        });
+
+        //popup buttons action
+        $('body').on('click', '.js-popup-close', function (e) {
+            e.preventDefault();
+            $popup.removeClass('small').html('');
+            $body.removeClass('overflow');
+        });
+
+        $(document).mouseup(function (e) {
+            if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
+                $eventItem.removeClass('active');
+                closeTooltip();
+            } /*else if ($editEventBtn.is(e.target)) {
+                $editEventBtn.trigger('click');
+              }*/
         });
 
         $schedule.on('scroll', function () {

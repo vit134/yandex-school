@@ -9,7 +9,7 @@
     </div>
     {% if event.Users and event.Users|length > 0 %}
         <div class="tooltip__members">
-            
+
             <div class="tooltip__members__item">
                 <img src="{{ event.Users[0].avatarUrl }}" class="tooltip__members__image">
                 <span class="tooltip__members__name">{{ event.Users[0].login }}</span>
@@ -19,5 +19,5 @@
             </span>
         </div>
     {% endif %}
-    <a href="#" class="tooltip__edit js-edit-event-btn"></a>
+    <a href="#" class="tooltip__edit js-edit-event-btn" data-from="edit"></a>
 </div>

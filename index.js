@@ -61,7 +61,8 @@ app.get('/', function(req, res){
 
 app.post('/newevent', function(req, res){
     var data = req.body;
-
+    console.log(data);
+    console.log(data.from);
     query.users().then((users) => {
         users = JSON.parse(JSON.stringify(users));
 
@@ -74,11 +75,10 @@ app.post('/newevent', function(req, res){
                     recommendRooms = getRecommendation(rooms, data.dateStart, data.dateEnd, [])
                 }
 
-                Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data, recommendRooms: recommendRooms}, (err, html) => {
-                    res.json({html: html, room: room, recommendRooms: recommendRooms})
+                Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data, recommendRooms: recommendRooms, from: data.from}, (err, html) => {
+                    res.json({html: html, room: room, recommendRooms: recommendRooms, from: data.from})
                 });
             })
-            
         })
     })
 });
@@ -97,10 +97,8 @@ app.post('/tooltip', function(req, res){
 });
 
 app.post('/createevent', function(req, res){
-    console.log('createevent');
     var data = req.body;
     var needDate = data.dateStart
-    console.log(data);
 
     mutation.createEvent(1, {input: {
         title: data.eventTitle,
@@ -133,16 +131,16 @@ app.post('/editevent', function(req, res){
             var usersEvent = JSON.parse(JSON.stringify(event.Users));
 
             query.room(1, {id: event.RoomId}).then(room => {
-                usersAll.forEach((userAllItem, i) => {
-                    usersEvent.forEach((userEventItem, i) => {
+                usersAll.forEach((userAllItem) => {
+                    usersEvent.forEach((userEventItem) => {
                         if (userAllItem.id === userEventItem.id) {
                             userAllItem.allready = true;
                         }
                     })
                 })
 
-                Twig.renderFile('./public/app/blocks/editevent/main.twig', {editEvent: true, event: event, members: usersAll, room: room}, (err, html) => {
-                    res.json({html: html, event: event});
+                Twig.renderFile('./public/app/blocks/editevent/main.twig', {editEvent: true, event: event, members: usersAll, room: room, from: data.from}, (err, html) => {
+                    res.json({html: html, event: event, from: data.from});
                 });
             })
         })
@@ -182,7 +180,7 @@ app.post('/deleteEvent', function(req, res){
     var eventId = req.body.eventId;
 
     mutation.removeEvent(1, {id: eventId}).then((event) => {
-        console.log(event);
+        //console.log(event);
         event = JSON.parse(JSON.stringify(event));
         query.rooms().then((data) => {
             data = JSON.parse(JSON.stringify(data));
@@ -192,13 +190,11 @@ app.post('/deleteEvent', function(req, res){
                 res.json({scheduleHtml: scheduleHtml})
             });
         })
-    })
-    .then(event => {
-        console.log(event);
-    })
-    .catch(function(err) {
+    }).then(event => {
+        //console.log(event);
+    }).catch(function(err) {
         // print the error details
-        console.log(err, request.body.email);
+        //console.log(err, request.body.email);
     });
 })
 

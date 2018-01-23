@@ -253,6 +253,7 @@ div {
   background-repeat: no-repeat;
   background-size: 11px;
   opacity: 0.6;
+  cursor: pointer;
 }
 .event__close:hover {
   opacity: 1;
@@ -904,6 +905,7 @@ div {
   vertical-align: middle;
   height: 28px;
   background: #fff;
+  cursor: pointer;
 }
 .main__events__item__add {
   display: none;
