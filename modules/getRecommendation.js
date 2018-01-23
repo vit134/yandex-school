@@ -28,12 +28,15 @@ module.exports = (function(data, start, end, users) {
             })
 
             var emptyRanges = [];
+            var busyEvents = [];
             allEvents.forEach(event => {
                 var eventStart = moment(event.dateStart).utc(),
                     eventEnd = moment(event.dateEnd).utc();
 
                 if (event.type && event.type === 'empty') {
                     emptyRanges.push(moment.range(eventStart, eventEnd));
+                } else {
+                    busyEvents.push(event);
                 }
             })
 
@@ -77,6 +80,12 @@ module.exports = (function(data, start, end, users) {
 
         suitableRanges.sort((a, b) => {
             return a.countFloor - b.countFloor;
+        })
+    }
+
+    if (suitableRanges.length == 0) {
+        busyEvents.forEach(event => {
+
         })
     }
 
