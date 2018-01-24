@@ -551,6 +551,25 @@ div {
 .field-block__room-replace-item {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.field-block__room-replace-item.active .field-block__room-replace-item__busy,
+.field-block__room-replace-item:hover .field-block__room-replace-item__busy,
+.field-block__room-replace-item.active .field-block__room-replace-item__empty,
+.field-block__room-replace-item:hover .field-block__room-replace-item__empty {
+  background: #007DFF;
+  border-color: #007DFF;
+  color: #fff;
+}
+.field-block__room-replace-item.active .field-block__room-replace-item__empty,
+.field-block__room-replace-item:hover .field-block__room-replace-item__empty {
+  position: relative;
+  margin-left: 7px;
+}
+.field-block__room-replace-item.active .field-block__room-replace-item__empty:before,
+.field-block__room-replace-item:hover .field-block__room-replace-item__empty:before {
+  color: #007DFF;
 }
 .field-block__room-replace-item__time {
   font-weight: bold;
@@ -562,11 +581,11 @@ div {
 .field-block__room-replace-item__busy,
 .field-block__room-replace-item__empty {
   width: calc(50% - 7px);
-  background: #007DFF;
-  border: 1px solid #007DFF;
-  color: #fff;
+  background: #E9ECEF;
+  border: 1px solid #E9ECEF;
+  color: #222;
   border-radius: 4px;
-  padding: 3px 5px;
+  padding: 7px 5px;
 }
 .field-block__room-replace-item__busy {
   margin-right: 7px;
@@ -579,15 +598,15 @@ div {
   content: "\2014";
   display: block;
   position: absolute;
-  top: 5px;
+  top: 10px;
   left: -14px;
   font-size: 12px;
-  color: #007DFF;
+  color: #E9ECEF;
   font-weight: bold;
 }
 .field-block__room-replace-item .field-block__room-item__name {
   font-weight: bold;
-  font-size: 11px;
+  font-size: 12px;
 }
 .field-block__room-replace-item .field-block__room-item__floor {
   font-size: 11px;
@@ -635,13 +654,14 @@ div {
   cursor: pointer;
   opacity: 0.6;
 }
+.field-block__dot {
+  display: inline-block;
+  vertical-align: middle;
+}
 .field-wrapper {
   font-size: 0;
   flex: 0 0 50%;
   padding-left: 16px;
-}
-.editevent .field-block_rooms {
-  margin-bottom: 16px;
 }
 @media screen and (max-width: 1280px) {
   .field-block_date {

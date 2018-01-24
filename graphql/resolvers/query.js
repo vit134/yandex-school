@@ -29,9 +29,9 @@ module.exports = {
     },
     rooms(root, args, context) {
         return models.Room.findAll({
-            order: [
-                [ {model: models.Event, as: 'Events'}, 'dateStart', 'ASC' ]
-            ],
+            // order: [
+            //     [ {model: models.Event, as: 'Events'}, 'dateStart', 'ASC' ]
+            // ],
             include: [{
                 model: models.Event,
                 //where: sequelize.where(sequelize.fn('strftime', sequelize.literal("'%Y-%m-%d'"), sequelize.col('dateStart')), '2018-01-17'),

@@ -23,8 +23,11 @@ module.exports = function(sequelize) {
     Event.belongsToMany(User, {through: 'Events_Users'});
     User.belongsToMany(Event, {through: 'Events_Users'});
 
-    Room.belongsToMany(Event, {through: 'Room_Events'});
-    Event.belongsToMany(Room, {through: 'Room_Events'});
+    //Room.belongsToMany(Event, {onDelete: 'cascade', through: 'Room_Events'});
+    //Event.belongsToMany(Room, {onDelete: 'cascade', through: 'Room_Events'});
+
+    Room.hasMany(Event);
+    
 
     //Room.belongsTo(Event);
 

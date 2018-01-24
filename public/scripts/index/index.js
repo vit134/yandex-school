@@ -65,6 +65,7 @@ $(document).ready(function() {
         $roomRecommendBlock,
         $roomCurrentBlock,
         $roomRecommendItem,
+        $roomRecommendReplaceItem,
 
         scrollBar;
 
@@ -149,9 +150,28 @@ $(document).ready(function() {
         $roomRecommendBlock = $('.js-room-recommend');
         $roomCurrentBlock = $('.js-room-current');
         $roomRecommendItem = $('.js-room-recommend-item');
+        $roomRecommendReplaceItem = $('.js-room-recommend-replace');
     }
 
     function bindNeweventEvents() {
+        $('body').on('click', '.js-room-recommend-replace', function(e) {
+            e.preventDefault();
+            $('.js-room-recommend-replace').removeClass('active');
+
+            var eventBusyId = $(this).data('eventbusy-id');
+            var roomEmptyId = $(this).data('roomempty-id');
+
+            if (!$(this).hasClass('active')) {
+                $(this).addClass('active');
+                $neweventFrom.find('input[name="room_replace"]').val(eventBusyId + '_' + roomEmptyId);
+                $neweventFrom.find('input[name="newevent_room"]').val(eventBusyId);
+            } else {
+                $(this).removeClass('active');
+                $neweventFrom.find('input[name="room_replace"]').val('');
+                $neweventFrom.find('input[name="newevent_room"]').val('');
+            }
+        })
+
         $('.js-newevent-time-start').on('blur', function() {
             console.log('start blur')
             var validate = validateForm();
@@ -187,6 +207,7 @@ $(document).ready(function() {
         })
 
         $('body').on('click', '.js-room-recommend-item', function(e) {
+            console.log('js-room-recommend-item click')
             e.preventDefault();
             $roomRecommendItem.removeClass('active');
 
@@ -211,7 +232,7 @@ $(document).ready(function() {
         $neweventSaveBtn.on('click', function(e) {
             e.preventDefault();
             var data = getNeweventData();
-
+            console.log('neweventSave data', data)
             //validateForm($neweventFrom);
 
             $.ajax({
@@ -332,7 +353,7 @@ $(document).ready(function() {
                 console.log('before send', data)
             },
             success: function(data){
-                console.log('data getRecommendation',data);
+                //console.log('data getRecommendation',data);
                 $('.js-room-recommend').html(data.recommendHtml).removeClass('hidden');
                 $('.js-room-current').addClass('hidden');
                 $neweventFrom.find('input[name="newevent_room"]').val('');
@@ -403,6 +424,19 @@ $(document).ready(function() {
         var year = DATE.getFullYear(),
             month = DATE.getMonth() < 10 ? 0 + '' + (DATE.getMonth() + 1) : DATE.getMonth(),
             date = DATE.getDate();
+
+        var $roomReplace = $neweventFrom.find('input[name="room_replace"]');
+
+        if ($roomReplace.val() != '') {
+            var busyEventId = $roomReplace.val().split('_')[0],
+                emptyRoomId = $roomReplace.val().split('_')[1];
+
+            data.roomReplace = {
+                busyEventId: busyEventId,
+                emptyRoomId: emptyRoomId
+            }
+        }
+
 
         var timeStart = $neweventFrom.find('input[name="newevent_start"]').val(),
             timeEnd = $neweventFrom.find('input[name="newevent_end"]').val();

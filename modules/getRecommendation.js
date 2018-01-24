@@ -161,10 +161,10 @@ module.exports = (function(data, start, end, users) {
             })
         })
 
-        console.log('replaceEventMap',replaceEventMap);
+        //console.log('replaceEventMap',replaceEventMap);
         return {type: 'replace', rooms: replaceEventMap};
     } else {
-        console.log('emty', suitableRanges);
+        //console.log('emty', suitableRanges);
         return {type: 'empty', rooms: suitableRanges};
     }
 
