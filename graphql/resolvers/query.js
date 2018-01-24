@@ -19,8 +19,10 @@ module.exports = {
     user(root, {id}) {
         return models.User.findById(id);
     },
-    users(root, args, context) {
-        return models.User.findAll({}, context);
+    users(args, context) {
+        return models.User.findAll({
+            where: []
+        }, context);
     },
     room(root, {id}) {
         return models.Room.findById(id);

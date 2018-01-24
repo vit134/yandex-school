@@ -7,10 +7,12 @@ const moment = MomentRange.extendMoment(Moment);
 module.exports = (function(data, start, end, users) {
     var needRange = moment.range(moment(start).utc(), moment(end).utc())
     var date = moment(start).format('YYYY-MM-DD');
+    var needdEmptyEvents = [];
     var suitableRanges = [];
+    var suitableBusyRanges = [];
 
-    console.log('range', needRange);
-    console.log('date', date);
+    // console.log('range', needRange);
+    // console.log('date', date);
     //console.log(data);
     data = JSON.parse(JSON.stringify(data));
     var floors = getFloors.getData(data, date);
@@ -28,7 +30,7 @@ module.exports = (function(data, start, end, users) {
             })
 
             var emptyRanges = [];
-            var busyEvents = [];
+            var busyRanges = [];
             allEvents.forEach(event => {
                 var eventStart = moment(event.dateStart).utc(),
                     eventEnd = moment(event.dateEnd).utc();
@@ -36,7 +38,7 @@ module.exports = (function(data, start, end, users) {
                 if (event.type && event.type === 'empty') {
                     emptyRanges.push(moment.range(eventStart, eventEnd));
                 } else {
-                    busyEvents.push(event);
+                    busyRanges.push(event);
                 }
             })
 
@@ -52,23 +54,69 @@ module.exports = (function(data, start, end, users) {
                         timeEnd: range.end
                     });
                 }
+
+                if (range.isSame(moment.range(start,end))) {
+                    needdEmptyEvents.push({
+                        floor: floor,
+                        roomTitle: room.title,
+                        roomId: room.id,
+                        capMin: room.capacityMin,
+                        capMax: room.capacityMax,
+                        timeStart: range.start,
+                        timeEnd: range.end
+                    })
+                }
+            })
+
+            busyRanges.forEach(event => {
+                if (moment.range(event.dateStart, event.dateEnd).isSame(needRange)) {
+                    suitableBusyRanges.push({
+                        floor: floor,
+                        roomTitle: room.title,
+                        roomId: room.id,
+                        eventId: event.id,
+                        capMin: room.capacityMin,
+                        capMax: room.capacityMax,
+                        timeStart: event.dateStart,
+                        timeEnd: event.dateEnd
+                    });
+                }
             })
         })
     }
 
-    //console.log(suitableRanges);
 
-    if (users.length > 0) {
+    if (users && users.length > 0) {
         var usersSuitableRanges = [];
+        var usersSuitableBusyRanges = [];
 
         suitableRanges.forEach((item, i) => {
             if (users.length >= item.capMin && users.length <= item.capMax) {
+                //console.log('push');
                 usersSuitableRanges.push(item);
             }
         })
 
+        suitableBusyRanges.forEach((item, i) => {
+            if (users.length >= item.capMin && users.length <= item.capMax) {
+                usersSuitableBusyRanges.push(item);
+            }
+        })
+
         suitableRanges = usersSuitableRanges;
+        suitableBusyRanges = usersSuitableBusyRanges;
+
         suitableRanges.forEach(item => {
+            var countFloor = 0;
+
+            users.forEach(user => {
+                countFloor = countFloor + Math.abs(item.floor - user.homeFloor)
+            })
+
+            item.countFloor = countFloor;
+        })
+
+        suitableBusyRanges.forEach(item => {
             var countFloor = 0;
 
             users.forEach(user => {
@@ -81,13 +129,44 @@ module.exports = (function(data, start, end, users) {
         suitableRanges.sort((a, b) => {
             return a.countFloor - b.countFloor;
         })
+
+        suitableBusyRanges.sort((a, b) => {
+            return a.countFloor - b.countFloor;
+        })
+        
     }
 
     if (suitableRanges.length == 0) {
-        busyEvents.forEach(event => {
+        let replaceEventMap = [];
+        needdEmptyEvents.forEach(itemAll => {
+            suitableBusyRanges.forEach(itemBusy => {
+                var allRange = moment.range(itemAll.timeStart, itemAll.timeEnd),
+                    busyRange = moment.range(itemBusy.timeStart, itemBusy.timeEnd);
 
+                console.log('---');
+                //console.log(busyRange.contains(allRange));
+                
+                if (busyRange.contains(allRange)) {
+
+                    //тут нужно сранивать не сколько юзеров пришло а сколько юзеров в занятом евенте
+                    if (users.length >= itemAll.capMin && users.length <= itemAll.capMax) {
+                        replaceEventMap.push({
+                            empty: itemAll,
+                            busy: itemBusy,
+                            map: [itemAll.eventId, itemBusy.eventId]
+                        });
+                    }
+                }
+            })
         })
+
+        console.log('replaceEventMap',replaceEventMap);
+        return replaceEventMap;
+    } else {
+        console.log('emty', suitableRanges);
+        return suitableRanges;
     }
 
-    return suitableRanges;
+    // console.log('busy', suitableBusyRanges);
+    // return suitableRanges;
 })

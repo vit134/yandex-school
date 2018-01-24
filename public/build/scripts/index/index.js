@@ -245,8 +245,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("6r38Q7"))
-},{"6r38Q7":4}],4:[function(require,module,exports){
+}).call(this,require("r7L21G"))
+},{"r7L21G":4}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5623,7 +5623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var jsdate, f;
 	  // Keep this here (works, but for code commented-out below for file size reasons)
 	  // var tal= [];
-	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 	  // trailing backslash -> (dropped)
 	  // a backslash followed by any character (including backslash) -> the character
 	  // empty string -> empty string
@@ -8072,7 +8072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
+}).call(this,"/../../../../node_modules/twig")
 },{"fs":2,"path":3}],6:[function(require,module,exports){
 'use strict';
 
@@ -8201,7 +8201,41 @@ $(document).ready(function () {
     }
 
     function bindNeweventEvents() {
-        $roomRecommendItem.on('click', function (e) {
+        $('.js-newevent-time-start').on('blur', function () {
+            console.log('start blur');
+            var validate = validateForm();
+
+            if (validate) {
+
+                var data = getNeweventData();
+                console.log(data);
+                getRecommendation(data);
+            }
+        });
+
+        $('.js-newevent-time-end').on('blur', function () {
+            console.log('end blur');
+            var validate = validateForm();
+
+            if (validate) {
+                var data = getNeweventData();
+                console.log(data);
+                getRecommendation(data);
+            }
+        });
+
+        $dropdownSelect.on('change', function () {
+            console.log('users change');
+            var validate = validateForm();
+
+            if (validate) {
+                var data = getNeweventData();
+                console.log(data);
+                getRecommendation(data);
+            }
+        });
+
+        $('body').on('click', '.js-room-recommend-item', function (e) {
             e.preventDefault();
             $roomRecommendItem.removeClass('active');
 
@@ -8335,23 +8369,68 @@ $(document).ready(function () {
     }
 
     // -- newevent Functions -- //
+    function getRecommendation(data) {
+        $.ajax({
+            url: '/getRecommendation',
+            type: 'POST',
+            data: data,
+            beforeSend: function beforeSend() {
+                console.log('before send', data);
+            },
+            success: function success(data) {
+                console.log('data getRecommendation', data);
+                $('.js-room-recommend').html(data.recommendHtml).removeClass('hidden');
+                $('.js-room-current').addClass('hidden');
+                $neweventFrom.find('input[name="newevent_room"]').val('');
+                // closeTooltip();
+                // $body.addClass('overflow');
+                // $('.js-popup').html(data.html).show();
+                // neweventInit();
+            }
+        });
+    }
 
-    function validateForm($form) {
+    function validateForm() {
         var timeRegExp = /^(([0,1][0-9])|(2[0-3])):[0-5][0-9]$/;
 
-        var $eventStart = $form.find('input[name="newevent_start"]');
-        var $eventEnd = $form.find('input[name="newevent_end"]');
+        var $eventStart = $neweventFrom.find('input[name="newevent_start"]');
+        var $eventEnd = $neweventFrom.find('input[name="newevent_end"]');
+        var $eventRoom = $neweventFrom.find('input[name="newevent_room"]');
+        var $eventTitle = $neweventFrom.find('input[name="newevent_topic"]');
+        var status = 0;
 
         if (!timeRegExp.test($eventStart.val())) {
             $eventStart.addClass('error');
         } else {
             $eventStart.removeClass('error');
+            status++;
         }
 
         if (!timeRegExp.test($eventEnd.val())) {
             $eventEnd.addClass('error');
         } else {
             $eventEnd.removeClass('error');
+            status++;
+        }
+
+        // if ($eventRoom.val() === '') {
+        //     alert('вы не выбрали переговорку');
+        // } else {
+        //     status++;
+        // }
+
+        // if ($eventTitle.val() === '') {
+        //     $eventTitle.addClass('error');
+        //     alert('вы не указали тему встречи');
+        // } else {
+        //     $eventTitle.removeClass('error');
+        //     status++;
+        // }
+
+        if (status === 2) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -8362,7 +8441,7 @@ $(document).ready(function () {
         data.members = [];
         $neweventFrom.find('.js-newevent-select-option').map(function (i, elem) {
             if ($(elem).is(":selected")) {
-                data.members.push($(elem).val());
+                data.members.push({ id: $(elem).val(), homeFloor: $(elem).data('floor') });
             }
         });
 
@@ -8389,6 +8468,8 @@ $(document).ready(function () {
             return $(this).val() == id;
         }).attr('selected', 'selected');
 
+        $dropdownSelect.trigger('change');
+
         $membersItem.filter(function () {
             return $(this).data('id') == id;
         }).removeClass('hidden');
@@ -8401,6 +8482,7 @@ $(document).ready(function () {
         $dropdownSelectOption.filter(function () {
             return $(this).val() == id;
         }).attr('selected', false);
+        $dropdownSelect.trigger('change');
 
         $dropdownItem.filter(function () {
             return $(this).data('id') == id;

@@ -5,16 +5,16 @@
 <div class="field-wrapper">
     <div class="field-block field-block_date">
         <div class="field-block__label">Дата</div>
-        <input type="text" name="newevent_date" class="field-block__input" id="datepicker" value="{{ data.dateStart|date("d M\, Y") }}">
+        <input type="text" name="newevent_date" class="field-block__input js-newevent-date" id="datepicker" value="{{ data.dateStart|date("d M\, Y") }}">
         <div class="field-block__calendar js-calendar-container"></div>
     </div>
     <div class="field-block field-block_start">
         <div class="field-block__label">Начало</div>
-        <input type="text" name="newevent_start" class="field-block__input" value="{% if from == 'schedule' or editEvent %}{{ data.dateStart|date_modify('-3 hour')|date('H:i') }}{% else %}8:00{% endif %}">
+        <input type="text" name="newevent_start" class="field-block__input js-newevent-time-start" value="{% if from == 'schedule' or editEvent %}{{ data.dateStart|date_modify('-3 hour')|date('H:i') }}{% else %}8:00{% endif %}">
     </div>
     <span class="field-block__tire">&#8212;</span>
     <div class="field-block field-block_end">
         <div class="field-block__label">Конец</div>
-        <input type="text" name="newevent_end" class="field-block__input" value="{% if from == 'schedule' or editEvent %}{{ data.dateEnd|date_modify('-3 hour')|date('H:i') }}{% else %}23:00{% endif %}">
+        <input type="text" name="newevent_end" class="field-block__input js-newevent-time-end" value="{% if from == 'schedule' or editEvent %}{{ data.dateEnd|date_modify('-3 hour')|date('H:i') }}{% else %}23:00{% endif %}">
     </div>
 </div>

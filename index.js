@@ -72,7 +72,7 @@ app.post('/newevent', function(req, res){
                 var recommendRooms = [];
 
                 if (data.dateStart) {
-                    recommendRooms = getRecommendation(rooms, data.dateStart, data.dateEnd, [])
+                    //recommendRooms = getRecommendation(rooms, data.dateStart, data.dateEnd, [])
                 }
 
                 Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data, recommendRooms: recommendRooms, from: data.from}, (err, html) => {
@@ -210,7 +210,29 @@ app.post('/getFloors', function(req, res){
     })
 })
 
+app.post('/getRecommendation', function(req, res){
+    var reqData = req.body;
+    //console.log('reqData', reqData);
 
+    query.rooms().then((data) => {
+        data = JSON.parse(JSON.stringify(data));
+        var floors = getFloors.getData(data, reqData.dateStart);
+
+        var recommendRooms = getRecommendation(data, reqData.dateStart, reqData.dateEnd, reqData.members);
+
+        Twig.renderFile('./public/app/blocks/fields/room_recommend.twig', {
+            recommendRooms: recommendRooms,
+            data: {
+                dateStart: reqData.dateStart,
+                dateEnd: reqData.dateEnd
+            }
+        }, (err, html) => {
+            res.json({recommendHtml: html, recommendRooms: recommendRooms})
+        });
+        //res.json({recommendRooms: recommendRooms});
+    })
+
+});
 
 // app.get('/newevent', function(req, res){
 //     res.render('new-event', {

@@ -3,17 +3,7 @@
 {% endif %}
 {# <div>{{ dump(data) }}</div> #}
 <div class="field-block field-block_right field-block_rooms">
-    <div class="field-block__room-recommend js-room-recommend {% if from == 'schedule' or from == 'edit' %}hidden{% endif %}">
-        <div class="field-block__label">Рекомендованные переговорки</div>
-        {% for item in recommendRooms %}
-            <div class="field-block__room-item js-room-recommend-item" data-room-id="{{ item.roomId }}">
-                <span class="field-block__room-item__time">{{ data.dateStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ data.dateEnd|date_modify("-3 hour")|date("H:i") }}</span>
-                <span class="field-block__room-item__name">{{ item.roomTitle }}</span>
-                &#183;
-                <span class="field-block__room-item__floor">{{ item.floor }} этаж</span>
-            </div>
-        {% endfor %}
-    </div>
+    {% include 'room_recommend.twig' %}
     <div class="field-block__room-current js-room-current {% if from == 'new' %}hidden{% endif %}">
         <div class="field-block__label">Ваша переговорка</div>
         <div class="field-block__room-item active">
