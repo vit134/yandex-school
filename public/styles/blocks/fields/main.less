@@ -251,56 +251,112 @@
             }
         }
 
-    &__members {
-        position: absolute;
-        top: calc(~"100% + 1px");
-        width: 100%;
-        padding: 12px 0;
+        &__room-replace-item {
+            display: flex;
+            flex-wrap: wrap;
 
-        &__item {
-            position: relative;
-            display: inline-block;
-            vertical-align: middle;
-            background: #E9ECEF;
-            border-radius: 16px;
-            margin: 0 8px 8px 0;
-            padding-right: 36px;
-        }
+            &__time {
+                font-weight: bold;
+                font-size: 11px;
+                color: #858E98;
+                width: 100%;
+                margin-bottom: 3px;
+            }
 
-        &__item:hover & {
-            &__remove {
-                opacity: 1;
+            &__busy,
+            &__empty {
+                width: calc(~'50% - 7px');
+                background: @blueColor;
+                border: 1px solid @blueColor;
+                color: #fff;
+                border-radius: 4px;
+                padding: 3px 5px;
+            }
+
+            &__busy {
+                margin-right: 7px;
+            }
+
+            &__empty {
+                position: relative;
+                margin-left: 7px;
+
+                &:before {
+                    content: "\2014";
+                    display: block;
+                    position: absolute;
+                    top: 5px;
+                    left: -14px;
+                    font-size: 12px;
+                    color: @blueColor;
+                    font-weight: bold;
+                }
             }
         }
 
-        &__name {
-            display: inline-block;
-            vertical-align: middle;
-            font-size: 13px;
+        &__room-replace-item & {
+            &__room-item {
+                &__name {
+                    font-weight: bold;
+                    font-size: 11px;
+                }
+
+                &__floor {
+                    font-size: 11px;
+                }
+            }
         }
 
-        &__image {
-            display: inline-block;
-            vertical-align: middle;
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-            border-radius: 50%;
-            background: #222;
-        }
-
-        &__remove {
+        &__members {
             position: absolute;
-            width: 16px;
-            height: 16px;
-            right: 5px;
-            top: 5px;
-            background: url('@{blocksPath}/event/images/close.svg') center no-repeat;
-            background-size: 12px;
-            cursor: pointer;
-            opacity: 0.6;
+            top: calc(~"100% + 1px");
+            width: 100%;
+            padding: 12px 0;
+
+            &__item {
+                position: relative;
+                display: inline-block;
+                vertical-align: middle;
+                background: #E9ECEF;
+                border-radius: 16px;
+                margin: 0 8px 8px 0;
+                padding-right: 36px;
+            }
+
+            &__item:hover & {
+                &__remove {
+                    opacity: 1;
+                }
+            }
+
+            &__name {
+                display: inline-block;
+                vertical-align: middle;
+                font-size: 13px;
+            }
+
+            &__image {
+                display: inline-block;
+                vertical-align: middle;
+                width: 24px;
+                height: 24px;
+                margin-right: 8px;
+                border-radius: 50%;
+                background: #222;
+            }
+
+            &__remove {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                right: 5px;
+                top: 5px;
+                background: url('@{blocksPath}/event/images/close.svg') center no-repeat;
+                background-size: 12px;
+                cursor: pointer;
+                opacity: 0.6;
+            }
         }
-    }
     }
 
     &-wrapper {

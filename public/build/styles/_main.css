@@ -548,6 +548,50 @@ div {
   border-color: #0058FF;
   color: #fff;
 }
+.field-block__room-replace-item {
+  display: flex;
+  flex-wrap: wrap;
+}
+.field-block__room-replace-item__time {
+  font-weight: bold;
+  font-size: 11px;
+  color: #858E98;
+  width: 100%;
+  margin-bottom: 3px;
+}
+.field-block__room-replace-item__busy,
+.field-block__room-replace-item__empty {
+  width: calc(50% - 7px);
+  background: #007DFF;
+  border: 1px solid #007DFF;
+  color: #fff;
+  border-radius: 4px;
+  padding: 3px 5px;
+}
+.field-block__room-replace-item__busy {
+  margin-right: 7px;
+}
+.field-block__room-replace-item__empty {
+  position: relative;
+  margin-left: 7px;
+}
+.field-block__room-replace-item__empty:before {
+  content: "\2014";
+  display: block;
+  position: absolute;
+  top: 5px;
+  left: -14px;
+  font-size: 12px;
+  color: #007DFF;
+  font-weight: bold;
+}
+.field-block__room-replace-item .field-block__room-item__name {
+  font-weight: bold;
+  font-size: 11px;
+}
+.field-block__room-replace-item .field-block__room-item__floor {
+  font-size: 11px;
+}
 .field-block__members {
   position: absolute;
   top: calc(100% + 1px);

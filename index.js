@@ -12,31 +12,6 @@ const bodyParser = require('body-parser');
 const graphqlRoutes = require('./graphql/routes');
 
 const app = express();
-var usArr = [
-    {
-        id: 1,
-        login: 'vit134',
-        homeFloor: 3
-    },
-    {
-        id: 2,
-        login: 'ksenia',
-        homeFloor: 8
-    },
-    {
-        id: 3,
-        login: 'igor',
-        homeFloor: 1
-     }//,
-    // {
-    //     id: 4,
-    //     login: 'marina',
-    //     homeFloor: 5
-    // }
-]
-// query.rooms().then((data) => {
-//     console.log(getRecommendation(data, '2018-01-22T08:00:00.000Z', '2018-01-22T10:00:00.000Z', usArr));
-// })
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -220,15 +195,29 @@ app.post('/getRecommendation', function(req, res){
 
         var recommendRooms = getRecommendation(data, reqData.dateStart, reqData.dateEnd, reqData.members);
 
-        Twig.renderFile('./public/app/blocks/fields/room_recommend.twig', {
-            recommendRooms: recommendRooms,
-            data: {
-                dateStart: reqData.dateStart,
-                dateEnd: reqData.dateEnd
-            }
-        }, (err, html) => {
-            res.json({recommendHtml: html, recommendRooms: recommendRooms})
-        });
+        if (recommendRooms.type === 'empty') {
+            Twig.renderFile('./public/app/blocks/fields/room_recommend.twig', {
+                recommendRooms: recommendRooms.rooms,
+                data: {
+                    dateStart: reqData.dateStart,
+                    dateEnd: reqData.dateEnd
+                }
+            }, (err, html) => {
+                res.json({recommendHtml: html, recommendRooms: recommendRooms.rooms})
+            });
+        } else if (recommendRooms.type === 'replace') {
+            Twig.renderFile('./public/app/blocks/fields/room_recommend_replace.twig', {
+                recommendRooms: recommendRooms.rooms,
+                data: {
+                    dateStart: reqData.dateStart,
+                    dateEnd: reqData.dateEnd
+                }
+            }, (err, html) => {
+                res.json({recommendHtml: html, recommendRooms: recommendRooms.rooms})
+            });
+        }
+
+
         //res.json({recommendRooms: recommendRooms});
     })
 

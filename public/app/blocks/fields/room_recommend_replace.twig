@@ -1,0 +1,18 @@
+<div class="field-block__room-recommend js-room-recommend {% if from == 'schedule' or from == 'edit' %}hidden{% endif %}">
+    <div class="field-block__label">Возможные варианты замены</div>
+    {% for item in recommendRooms %}
+        <div class="field-block__room-replace-item js-room-recommend-item" data-room-id="{{ item.empty.roomId }}">
+            <div class="field-block__room-replace-item__time">{{ item.busy.timeStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ item.busy.timeEnd|date_modify("-3 hour")|date("H:i") }}</div>
+            <div class="field-block__room-replace-item__busy">
+                <span class="field-block__room-item__name">{{ item.busy.roomTitle }}</span>
+                &#183;
+                <span class="field-block__room-item__floor">{{ item.busy.floor }} этаж</span>
+            </div>
+            <div class="field-block__room-replace-item__empty">
+                <span class="field-block__room-item__name">{{ item.empty.roomTitle }}</span>
+                &#183;
+                <span class="field-block__room-item__floor">{{ item.empty.floor }} этаж</span>
+            </div>
+        </div>
+    {% endfor %}
+</div>

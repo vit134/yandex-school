@@ -78,7 +78,8 @@ module.exports = (function(data, start, end, users) {
                         capMin: room.capacityMin,
                         capMax: room.capacityMax,
                         timeStart: event.dateStart,
-                        timeEnd: event.dateEnd
+                        timeEnd: event.dateEnd,
+                        users: event.Users.length
                     });
                 }
             })
@@ -133,7 +134,7 @@ module.exports = (function(data, start, end, users) {
         suitableBusyRanges.sort((a, b) => {
             return a.countFloor - b.countFloor;
         })
-        
+
     }
 
     if (suitableRanges.length == 0) {
@@ -145,15 +146,15 @@ module.exports = (function(data, start, end, users) {
 
                 console.log('---');
                 //console.log(busyRange.contains(allRange));
-                
+                console.log(itemBusy.users);
                 if (busyRange.contains(allRange)) {
 
                     //тут нужно сранивать не сколько юзеров пришло а сколько юзеров в занятом евенте
-                    if (users.length >= itemAll.capMin && users.length <= itemAll.capMax) {
+                    if (itemBusy.users >= itemAll.capMin && itemBusy.users <= itemAll.capMax) {
                         replaceEventMap.push({
                             empty: itemAll,
                             busy: itemBusy,
-                            map: [itemAll.eventId, itemBusy.eventId]
+                            map: [itemAll.roomId, itemBusy.eventId]
                         });
                     }
                 }
@@ -161,10 +162,10 @@ module.exports = (function(data, start, end, users) {
         })
 
         console.log('replaceEventMap',replaceEventMap);
-        return replaceEventMap;
+        return {type: 'replace', rooms: replaceEventMap};
     } else {
         console.log('emty', suitableRanges);
-        return suitableRanges;
+        return {type: 'empty', rooms: suitableRanges};
     }
 
     // console.log('busy', suitableBusyRanges);
