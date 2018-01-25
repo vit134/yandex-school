@@ -176,20 +176,18 @@
 
 @media screen and (max-width: @bigMobileWidth) {
     .event {
-        //height: calc(~"100vh - @{headerSmallHeight}");
         height: auto;
-
-        &_edit & {
-            &__footer {
-                position: static;
-            }
-        }
 
         &__inner {
             padding: 20px 16px;
         }
+
         &__title {
             margin-bottom: 16px;
+        }
+
+        &__footer {
+            position: static;
         }
     }
 

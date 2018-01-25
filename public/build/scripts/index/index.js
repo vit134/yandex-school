@@ -8791,10 +8791,26 @@ $(document).ready(function () {
     }
 
     function openTooltip(position) {
+        console.log(position);
+        console.log($(window).scrollTop());
+        console.log($(window).outerHeight());
+
+        var tooltipHeight;
+
         $('.js-tooltip').css({
             top: position.top + 26 + 'px',
-            left: position.left + position.width / 2 - 338 / 2 + 'px'
-        });
+            left: position.left + position.width / 2 - 338 / 2 + 'px',
+            visibility: 'hidden'
+        }).show();
+
+        tooltipHeight = $('.js-tooltip').outerHeight();
+        console.log('tooltipHeight', tooltipHeight);
+
+        console.log();
+        if ($(window).scrollTop() + $(window).outerHeight() < position.top + tooltipHeight + 20 + 26) {
+            $('.js-tooltip').addClass('bottom');
+        }
+
         if ($(window).width() < 415) {
 
             if (position.left + position.width > $(window).width()) {
@@ -8808,7 +8824,7 @@ $(document).ready(function () {
             }
         }
 
-        $tooltip.fadeIn(200);
+        $('.js-tooltip').css({ visibility: 'visible' });
     }
 
     function closeTooltip() {
