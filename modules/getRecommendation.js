@@ -4,15 +4,15 @@ const Moment = require('moment');
 const MomentRange = require('moment-range');
 const moment = MomentRange.extendMoment(Moment);
 
-module.exports = (function(data, start, end, users) {
+module.exports = (function(data, start, end, users, exclude) {
     var needRange = moment.range(moment(start).utc(), moment(end).utc())
     var date = moment(start).format('YYYY-MM-DD');
     var needdEmptyEvents = [];
     var suitableRanges = [];
     var suitableBusyRanges = [];
-
+    
     data = JSON.parse(JSON.stringify(data));
-    var floors = getFloors.getData(data, date);
+    var floors = getFloors.getData(data, date, exclude);
 
     for (var floor in floors) {
         var floorItem = floors[floor];
@@ -36,7 +36,7 @@ module.exports = (function(data, start, end, users) {
 
             var emptyRanges = [];
             var busyRanges = [];
-            allEvents.forEach(event => {
+            allEvents.forEach((event, i) => {
                 var eventStart = moment(event.dateStart).utc(),
                     eventEnd = moment(event.dateEnd).utc();
 
@@ -249,10 +249,10 @@ module.exports = (function(data, start, end, users) {
             })
         })
 
-        console.log('replaceEventMap',replaceEventMap);
+        //console.log('replaceEventMap',replaceEventMap);
         return {type: 'replace', rooms: replaceEventMap};
     } else {
-        console.log('emty', suitableRanges);
+        //console.log('emty', suitableRanges);
         return {type: 'empty', rooms: suitableRanges};
     }
 

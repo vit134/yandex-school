@@ -36,7 +36,8 @@ var aa = module.exports = {
       }
       return longRanges;
     },
-    getData(data, date) {
+    getData(data, date, exclude) {
+        console.log('getdate exclude', exclude);
         let startDay =  moment(moment(date).format('YYYY-MM-DD') + 'T08:00:00.000Z').utc(),
             endDay = moment(moment(date).format('YYYY-MM-DD') + 'T23:00:00.000Z').utc(),
             day = moment.range(startDay, endDay);
@@ -56,7 +57,7 @@ var aa = module.exports = {
             floor.forEach(room => {
                 var events = room.Events;
                 let rangeEvents = [];
-
+                //console.log(room.title);
                 var needDateEvents = [];
                 // console.log('-----');
                 // console.log(room.title);
@@ -67,8 +68,15 @@ var aa = module.exports = {
                     }
                 })
 
-                //console.log(needDateEvents);
-                //console.log(room.title + ' events ' + events);
+                /*
+                если параметр exclude не пустой убираю из массива исключающий эвент
+                 */
+                if (exclude && exclude != '') {
+                    needDateEvents = needDateEvents.filter(event => {
+                        console.log(event.id != exclude);
+                        return event.id != exclude
+                    })
+                }
 
                 needDateEvents.forEach((event, i) => {
                     var start = moment(event.dateStart).utc(),

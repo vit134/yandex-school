@@ -45,9 +45,9 @@ app.post('/newevent', function(req, res){
                 rooms = JSON.parse(JSON.stringify(rooms));
                 var recommendRooms = [];
 
-                if (data.dateStart) {
-                    recommendRooms = getRecommendation(rooms, data.dateStart, data.dateEnd, [])
-                }
+                // if (data.dateStart) {
+                //     recommendRooms = getRecommendation(rooms, data.dateStart, data.dateEnd, [])
+                // }
                 //console.log('recommendRooms',recommendRooms);
                 Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data, recommendRooms: recommendRooms.rooms, from: data.from}, (err, html) => {
                     res.json({
@@ -150,11 +150,14 @@ app.post('/editevent', function(req, res){
     var data = req.body;
 
     query.event(1, {id: data.eventId}).then((event) => {
+
         query.users().then((users) => {
             var usersAll = JSON.parse(JSON.stringify(users));
             var usersEvent = JSON.parse(JSON.stringify(event.Users));
 
             query.room(1, {id: event.RoomId}).then(room => {
+                room = JSON.parse(JSON.stringify(room));
+
                 usersAll.forEach((userAllItem) => {
                     usersEvent.forEach((userEventItem) => {
                         if (userAllItem.id === userEventItem.id) {
@@ -246,10 +249,10 @@ app.post('/getFloors', function(req, res){
 app.post('/getRecommendation', function(req, res){
     var reqData = req.body;
     //console.log('reqData', reqData);
-
+    console.log(reqData.eventId);
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
-        var floors = getFloors.getData(data, reqData.dateStart);
+        var floors = getFloors.getData(data, reqData.dateStart, reqData.eventId);
 
         var recommendRooms = getRecommendation(data, reqData.dateStart, reqData.dateEnd, reqData.members);
 

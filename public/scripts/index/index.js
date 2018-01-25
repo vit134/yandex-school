@@ -43,6 +43,9 @@ $(document).ready(function() {
     var scheduleScrollFlag = false;
 
 
+    var SaveEditEventStart,
+        SaveEditEventEnd;
+
     //newevent vars
     var $dropdowmContainer,
         $dropdownItem,
@@ -180,8 +183,12 @@ $(document).ready(function() {
             if (validate) {
 
                 var data = getNeweventData();
-                console.log(data);
-                getRecommendation(data);
+                //console.log(data);
+                var getRecommend = checkEditRange();
+
+                //if (getRecommend) {
+                    getRecommendation(data);
+                //}
             }
         })
 
@@ -191,8 +198,14 @@ $(document).ready(function() {
 
             if (validate) {
                 var data = getNeweventData();
-                console.log(data);
-                getRecommendation(data);
+                //console.log(data);
+
+                var getRecommend = checkEditRange();
+
+                //if (getRecommend) {
+                    getRecommendation(data);
+                //}
+                
             }
         })
 
@@ -202,8 +215,13 @@ $(document).ready(function() {
 
             if (validate) {
                 var data = getNeweventData();
-                console.log(data);
-                getRecommendation(data);
+                //console.log(data);
+
+                var getRecommend = checkEditRange();
+
+                //if (getRecommend) {
+                    getRecommendation(data);
+                //}
             }
         })
 
@@ -248,6 +266,7 @@ $(document).ready(function() {
                     $('.js-schedule-wrapper').html(scheduleHtml);
 
                     $popup.html(poupHtml).addClass('small')//.show();
+                    $body.addClass('popup-open');
                     updateIndexVars();
                     bindEvents();
                 }
@@ -347,6 +366,45 @@ $(document).ready(function() {
     }
 
     // -- newevent Functions -- //
+    
+    function checkEditRange() {
+        var status = false;
+
+        var timeStatus = false,
+            userStatus = false;
+
+        var inputStartHour = parseInt($('.js-newevent-time-start').val().split(':')[0]),
+            inputEndHour = $('.js-newevent-time-end').val().split(':')[0],
+            initialStartValue = new Date(SaveEditEventStart).getHours() - 3,
+            initialEndValue = new Date(SaveEditEventStart).getHours() - 3;
+
+        var capMin = $('input[name="cap_min"]').val(),
+            capMax = $('input[name="cap_max"]').val();
+
+        var users = [];
+
+        $.each($('.js-newevent-select-option'), function(i, el) {
+            if ($(el).is(':selected')) {
+                users.push(el);
+            }
+        })
+
+        if (inputStartHour >= initialStartValue && inputEndHour >= initialEndValue) {
+            timeStatus = true;
+        }
+
+        if (users.length <= capMax && users.length >= capMin) {
+            userStatus = true;
+        }
+
+        if (timeStatus && userStatus) {
+            return false;
+        } else {
+            return true;
+        }
+
+    } 
+    
     function getRecommendation(data) {
         $.ajax({
             url: '/getRecommendation',
@@ -527,21 +585,24 @@ $(document).ready(function() {
             console.log('editeventbtn click');
             e.preventDefault();
             var eventId = $(this).parent().data('eventid');
+            var roomId = $(this).parent().data('roomid');
             var from = $(this).data('from');
-
-
 
             $.ajax({
                 url: '/editevent',
                 type: 'POST',
-                data: {eventId: eventId, from: from},
+                data: {eventId: eventId, roomId: roomId, from: from},
                 success: function(data){
 
                     console.log('data edit',data);
                     closeTooltip();
-                    $body.addClass('overflow');
+                    $('body').addClass('overflow popup-open');
                     $('.js-popup').html(data.html).show();
                     neweventInit();
+
+                    var editEventDate = getNeweventData();
+                    SaveEditEventStart = editEventDate.dateStart
+                    SaveEditEventEnd = editEventDate.dateEnd
                 }
             });
         })
