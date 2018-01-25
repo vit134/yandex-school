@@ -8258,7 +8258,7 @@ $(document).ready(function () {
         $('body').on('click', '.js-room-recommend-item', function (e) {
             console.log('js-room-recommend-item click');
             e.preventDefault();
-            $roomRecommendItem.removeClass('active');
+            $('.js-room-recommend-item').removeClass('active');
 
             if (!$(this).hasClass('active')) {
                 $(this).addClass('active');
@@ -8288,6 +8288,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function success(data) {
+                    $('.js-popup-wrapper').addClass('active');
                     var scheduleHtml = data.scheduleHtml,
                         poupHtml = data.popupHtml;
 
@@ -8309,6 +8310,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: data,
                 success: function success(data) {
+                    $('.js-popup-wrapper').addClass('active');
                     var scheduleHtml = data.scheduleHtml,
                         poupHtml = data.popupHtml;
 
@@ -8560,6 +8562,29 @@ $(document).ready(function () {
         $addEventBtn = $('.js-add-event-btn'), $editEventBtn = $('.js-edit-event-btn');
     }
 
+    function bindEditEventEvents() {
+        $editEventBtn.on('click', function (e) {
+            console.log('editeventbtn click');
+            e.preventDefault();
+            var eventId = $(this).parent().data('eventid');
+            var from = $(this).data('from');
+
+            $.ajax({
+                url: '/editevent',
+                type: 'POST',
+                data: { eventId: eventId, from: from },
+                success: function success(data) {
+
+                    console.log('data edit', data);
+                    closeTooltip();
+                    $body.addClass('overflow');
+                    $('.js-popup').html(data.html).show();
+                    neweventInit();
+                }
+            });
+        });
+    }
+
     function bindCalendarIndexEvents() {
         $calendarNextDay.on("click", function () {
             var date = $calendarContainer.datepicker('getDate');
@@ -8634,28 +8659,8 @@ $(document).ready(function () {
                             $eventItem.removeClass('active');
                             $this.addClass('active');
                             openTooltip(position);
-
                             updateIndexVars();
-
-                            $editEventBtn.on('click', function (e) {
-                                console.log('editeventbtn click');
-                                e.preventDefault();
-                                var eventId = $(this).parent().data('eventid');
-                                var from = $(this).data('from');
-
-                                $.ajax({
-                                    url: '/editevent',
-                                    type: 'POST',
-                                    data: { eventId: eventId, from: from },
-                                    success: function success(data) {
-                                        console.log('data edit', data);
-                                        closeTooltip();
-                                        $body.addClass('overflow');
-                                        $('.js-popup').html(data.html).show();
-                                        neweventInit();
-                                    }
-                                });
-                            });
+                            bindEditEventEvents();
                         }
                     });
                 }
@@ -8668,6 +8673,7 @@ $(document).ready(function () {
                 $thisParent = $(this).parent();
 
             if (!$this.hasClass('busy')) {
+                console.log($(this));
                 console.log('$addEventBtn click');
                 var from = $this.data('from');
                 var data = {
@@ -8676,13 +8682,15 @@ $(document).ready(function () {
 
                 data.dateStart = $this.data('timestart'), data.dateEnd = $this.data('timeend'), data.roomId = $this.data('roomid');
 
+                console.log(data);
+
                 $.ajax({
                     url: '/newevent',
                     type: 'POST',
                     data: data,
                     success: function success(data) {
                         console.log('data add', data);
-                        $body.addClass('overflow');
+                        $body.addClass('overflow popup-open');
                         $('.js-popup').html(data.html).show();
                         closeTooltip();
                         neweventInit();
@@ -8694,8 +8702,10 @@ $(document).ready(function () {
         //popup buttons action
         $('body').on('click', '.js-popup-close', function (e) {
             e.preventDefault();
-            $popup.removeClass('small').html('');
-            $body.removeClass('overflow');
+            $popup.removeClass('small').html('').hide();
+            $body.removeClass('overflow popup-open');
+            $('.js-popup-wrapper').removeClass('active');
+            updateIndexVars();
         });
 
         $(document).mouseup(function (e) {

@@ -80,9 +80,11 @@ app.post('/createevent', function(req, res){
     var needDate = data.dateStart;
 
     var members = [];
-    data.members.forEach(member => {
-        members.push(member.id);
-    })
+    if (data.members && data.members.length > 0) {
+        data.members.forEach(member => {
+            members.push(member.id);
+        })
+    }
 
     if (!data.roomReplace) {
 
@@ -171,11 +173,14 @@ app.post('/editevent', function(req, res){
 app.post('/editeventSave', function(req, res){
     //res.json({status: 'success'});
     var data = req.body;
+    var needDate = data.dateStart;
 
     var members = [];
-    data.members.forEach(member => {
-        members.push(member.id);
-    })
+    if (data.members && data.members.length > 0) {
+        data.members.forEach(member => {
+            members.push(member.id);
+        })
+    }
 
     mutation.updateEvent(1, {
         id: data.eventId,
@@ -189,7 +194,7 @@ app.post('/editeventSave', function(req, res){
         event = JSON.parse(JSON.stringify(event));
         query.rooms().then((data) => {
             data = JSON.parse(JSON.stringify(data));
-            var floors = getFloors.getData(data, '2018-01-17');
+            var floors = getFloors.getData(data, needDate);
 
             query.room(1, {id: event.RoomId}).then(room => {
                 Twig.renderFile('./public/app/blocks/main/schedule.twig', {data: floors}, (err, scheduleHtml) => {
@@ -205,13 +210,14 @@ app.post('/editeventSave', function(req, res){
 app.post('/deleteEvent', function(req, res){
     //res.json({status: 'success'});
     var eventId = req.body.eventId;
+    var needDate = req.body.dateStart;
 
     mutation.removeEvent(1, {id: eventId}).then((event) => {
         //console.log(event);
         event = JSON.parse(JSON.stringify(event));
         query.rooms().then((data) => {
             data = JSON.parse(JSON.stringify(data));
-            var floors = getFloors.getData(data, '2018-01-17');
+            var floors = getFloors.getData(data, needDate);
 
             Twig.renderFile('./public/app/blocks/main/schedule.twig', {data: floors}, (err, scheduleHtml) => {
                 res.json({scheduleHtml: scheduleHtml})

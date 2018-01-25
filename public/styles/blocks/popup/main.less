@@ -34,6 +34,7 @@
         border-radius: 8px;
         background: #fff;
         box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+        z-index: 9999;
     }
 
     &__wrapper {
@@ -95,10 +96,15 @@
 @media screen and (max-width: @bigMobileWidth) {
     .popup {
         top: @headerSmallHeight + 1;
+        height: calc(~'100% - 48px');
+        overflow-y: scroll;
+        width: calc(~'100% + 20px');
+        padding-right: 20px;
 
         &.small {
             top: auto;
-        bottom: @defaultPadding;
+            bottom: @defaultPadding;
+            height: auto;
         }
     }
 }

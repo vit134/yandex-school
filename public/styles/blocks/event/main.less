@@ -1,5 +1,6 @@
 .event {
     height: calc(~"100vh - @{headerHeight}");
+    position: relative;
 
     &__inner {
         position: relative;
@@ -102,6 +103,42 @@
 
 @media screen and (max-width: @tabletWidth) {
     .event {
+        &_edit & {
+            &__footer {
+                padding: 0;
+                border: none;
+
+                &__inner {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                &__button {
+                    &_delete {
+                        order: 1;
+                        width: 100%;
+                        padding: 16px 0;
+                        border-top: 8px solid @borderColor;
+                        border-bottom: 8px solid @borderColor;
+                        background: #fff;
+                        margin: 0;
+                        border-radius: 0;
+                        color: #FF3333;
+                    }
+
+                    &_cansel {
+                        order: 2;
+                        margin: 16px 16px 16px 0;
+                    }
+
+                    &_save {
+                        order: 3;
+                    }
+                }
+            }
+        }
 
         &__inner {
             padding: 20px @defaultPadding;
@@ -139,7 +176,14 @@
 
 @media screen and (max-width: @bigMobileWidth) {
     .event {
-        height: calc(~"100vh - @{headerSmallHeight}");
+        //height: calc(~"100vh - @{headerSmallHeight}");
+        height: auto;
+
+        &_edit & {
+            &__footer {
+                position: static;
+            }
+        }
 
         &__inner {
             padding: 20px 16px;
