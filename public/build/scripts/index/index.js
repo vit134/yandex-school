@@ -245,8 +245,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("6r38Q7"))
-},{"6r38Q7":4}],4:[function(require,module,exports){
+}).call(this,require("r7L21G"))
+},{"r7L21G":4}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5623,7 +5623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var jsdate, f;
 	  // Keep this here (works, but for code commented-out below for file size reasons)
 	  // var tal= [];
-	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
 	  // trailing backslash -> (dropped)
 	  // a backslash followed by any character (including backslash) -> the character
 	  // empty string -> empty string
@@ -8072,7 +8072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
+}).call(this,"/../../../../node_modules/twig")
 },{"fs":2,"path":3}],6:[function(require,module,exports){
 'use strict';
 
@@ -8806,9 +8806,10 @@ $(document).ready(function () {
         tooltipHeight = $('.js-tooltip').outerHeight();
         console.log('tooltipHeight', tooltipHeight);
 
-        console.log();
         if ($(window).scrollTop() + $(window).outerHeight() < position.top + tooltipHeight + 20 + 26) {
-            $('.js-tooltip').addClass('bottom');
+            $('.js-tooltip').css({
+                top: position.top - tooltipHeight
+            }).addClass('bottom');
         }
 
         if ($(window).width() < 415) {

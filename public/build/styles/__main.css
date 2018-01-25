@@ -1540,6 +1540,11 @@ div {
 .tooltip__edit:hover {
   opacity: 1;
 }
+.tooltip.bottom .tooltip__triangle {
+  top: auto;
+  bottom: -19px;
+  transform: rotate(180deg);
+}
 .tooltip__triangle {
   position: absolute;
   left: 160px;

@@ -775,9 +775,10 @@ $(document).ready(function() {
         tooltipHeight = $('.js-tooltip').outerHeight();
         console.log('tooltipHeight', tooltipHeight);
 
-        console.log();
         if ($(window).scrollTop() + $(window).outerHeight() < position.top + tooltipHeight + 20 + 26) {
-            $('.js-tooltip').addClass('bottom');
+            $('.js-tooltip').css({
+                top: position.top - tooltipHeight
+            }).addClass('bottom');
         }
 
         if ($(window).width() < 415) {
