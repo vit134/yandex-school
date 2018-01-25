@@ -170,6 +170,11 @@ app.post('/editeventSave', function(req, res){
     //res.json({status: 'success'});
     var data = req.body;
 
+    var members = [];
+    data.members.forEach(member => {
+        members.push(member.id);
+    })
+    
     mutation.updateEvent(1, {
         id: data.eventId,
         input: {
@@ -177,7 +182,7 @@ app.post('/editeventSave', function(req, res){
             dateStart: data.dateStart,
             dateEnd: data.dateEnd
         },
-        usersIds: data.members
+        usersIds: members
     }).then(event => {
         event = JSON.parse(JSON.stringify(event));
         query.rooms().then((data) => {

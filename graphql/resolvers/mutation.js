@@ -70,7 +70,6 @@ module.exports = {
             .then(event => {
                 event.setRoom(roomId)
                 event.getRoom().then(room => {
-                    console.log(room);
                     room.addEvent(id)
                     return event;
                 })

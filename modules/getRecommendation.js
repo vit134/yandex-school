@@ -53,7 +53,19 @@ module.exports = (function(data, start, end, users) {
                         timeStart: range.start,
                         timeEnd: range.end
                     });
+
+                    // needdEmptyEvents.push({
+                    //     floor: floor,
+                    //     roomTitle: room.title,
+                    //     roomId: room.id,
+                    //     capMin: room.capacityMin,
+                    //     capMax: room.capacityMax,
+                    //     timeStart: range.start,
+                    //     timeEnd: range.end
+                    // })
                 }
+
+                //var startNE = new Date()
 
                 if (range.isSame(moment.range(start,end))) {
                     needdEmptyEvents.push({
@@ -138,7 +150,10 @@ module.exports = (function(data, start, end, users) {
     }
 
     if (suitableRanges.length == 0) {
+        console.log('suitableRanges === 0');
         let replaceEventMap = [];
+        console.log('suitableBusyRanges',suitableBusyRanges);
+        console.log('needdEmptyEvents',needdEmptyEvents);
         needdEmptyEvents.forEach(itemAll => {
             suitableBusyRanges.forEach(itemBusy => {
                 var allRange = moment.range(itemAll.timeStart, itemAll.timeEnd),
@@ -146,9 +161,8 @@ module.exports = (function(data, start, end, users) {
 
                 console.log('---');
                 //console.log(busyRange.contains(allRange));
-                console.log(itemBusy.users);
                 if (busyRange.contains(allRange)) {
-
+                    console.log('±±±±');
                     //тут нужно сранивать не сколько юзеров пришло а сколько юзеров в занятом евенте
                     if (itemBusy.users >= itemAll.capMin && itemBusy.users <= itemAll.capMax) {
                         replaceEventMap.push({
@@ -161,10 +175,10 @@ module.exports = (function(data, start, end, users) {
             })
         })
 
-        //console.log('replaceEventMap',replaceEventMap);
+        console.log('replaceEventMap',replaceEventMap);
         return {type: 'replace', rooms: replaceEventMap};
     } else {
-        //console.log('emty', suitableRanges);
+        console.log('emty', suitableRanges);
         return {type: 'empty', rooms: suitableRanges};
     }
 

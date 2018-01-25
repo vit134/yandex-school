@@ -425,11 +425,13 @@ $(document).ready(function() {
             month = DATE.getMonth() < 10 ? 0 + '' + (DATE.getMonth() + 1) : DATE.getMonth(),
             date = DATE.getDate();
 
-        var $roomReplace = $neweventFrom.find('input[name="room_replace"]');
+        var $roomReplace = $neweventFrom.find('input[name="room_replace"]'),
+            busyEventId,
+            emptyRoomId;
 
-        if ($roomReplace.val() != '') {
-            var busyEventId = $roomReplace.val().split('_')[0],
-                emptyRoomId = $roomReplace.val().split('_')[1];
+        if ($roomReplace.length > 0 && $roomReplace.val() != '') {
+            busyEventId = $roomReplace.val().split('_')[0],
+            emptyRoomId = $roomReplace.val().split('_')[1];
 
             data.roomReplace = {
                 busyEventId: busyEventId,
