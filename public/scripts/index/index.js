@@ -160,11 +160,12 @@ $(document).ready(function() {
 
             var eventBusyId = $(this).data('eventbusy-id');
             var roomEmptyId = $(this).data('roomempty-id');
+            var roomToNew = $(this).data('room-to-new');
 
             if (!$(this).hasClass('active')) {
                 $(this).addClass('active');
                 $neweventFrom.find('input[name="room_replace"]').val(eventBusyId + '_' + roomEmptyId);
-                $neweventFrom.find('input[name="newevent_room"]').val(eventBusyId);
+                $neweventFrom.find('input[name="newevent_room"]').val(roomToNew);
             } else {
                 $(this).removeClass('active');
                 $neweventFrom.find('input[name="room_replace"]').val('');
@@ -186,7 +187,7 @@ $(document).ready(function() {
 
         $('.js-newevent-time-end').on('blur', function() {
             console.log('end blur')
-            var validate = validateForm(); 
+            var validate = validateForm();
 
             if (validate) {
                 var data = getNeweventData();

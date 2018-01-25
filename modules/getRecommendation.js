@@ -11,9 +11,6 @@ module.exports = (function(data, start, end, users) {
     var suitableRanges = [];
     var suitableBusyRanges = [];
 
-    // console.log('range', needRange);
-    // console.log('date', date);
-    //console.log(data);
     data = JSON.parse(JSON.stringify(data));
     var floors = getFloors.getData(data, date);
 
@@ -23,11 +20,19 @@ module.exports = (function(data, start, end, users) {
             var events = room.Events;
             var allEvents = [];
 
+
+            /*
+            Отбираю все эвенты по нужной дате
+             */
             events.forEach(event => {
                 if (moment(date).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
                     allEvents.push(event);
                 }
             })
+
+            /*
+            Похожусь по всем евентам, возвращаю массив свобоных интервалов и массив занятых евентов
+             */
 
             var emptyRanges = [];
             var busyRanges = [];
@@ -42,7 +47,15 @@ module.exports = (function(data, start, end, users) {
                 }
             })
 
+            /*
+            Прохожусь по массиву свободных евентов
+             */
+
             emptyRanges.forEach(range => {
+
+                /*
+                если нужный интервал попадает в интервал свободного времени добавляю его в массив подходящих переговорок
+                 */
                 if (range.contains(needRange)) {
                     suitableRanges.push({
                         floor: floor,
@@ -65,9 +78,13 @@ module.exports = (function(data, start, end, users) {
                     // })
                 }
 
-                //var startNE = new Date()
+                /*
+                если нужное время равно времени свободного эвента
+                И
+                нужный интервал попадает в интервал свободного времени добавляю его в массив возможно потребующихся свободных интервалов
+                 */
 
-                if (range.isSame(moment.range(start,end))) {
+                if (moment(range.start).isSame(moment(start).utc()) && range.contains(needRange)) {
                     needdEmptyEvents.push({
                         floor: floor,
                         roomTitle: room.title,
@@ -78,9 +95,28 @@ module.exports = (function(data, start, end, users) {
                         timeEnd: range.end
                     })
                 }
+
+                /*if (range.isSame(moment.range(start,end))) {
+                    needdEmptyEvents.push({
+                        floor: floor,
+                        roomTitle: room.title,
+                        roomId: room.id,
+                        capMin: room.capacityMin,
+                        capMax: room.capacityMax,
+                        timeStart: range.start,
+                        timeEnd: range.end
+                    })
+                }*/
             })
 
+            /*
+            прохожусь по массиву занятых эвентов
+             */
+
             busyRanges.forEach(event => {
+                /*
+                если время интервал евента равен нужному интервалу добавляю его в возможно понадобящийся массив занятых переговорок
+                 */
                 if (moment.range(event.dateStart, event.dateEnd).isSame(needRange)) {
                     suitableBusyRanges.push({
                         floor: floor,
@@ -98,27 +134,49 @@ module.exports = (function(data, start, end, users) {
         })
     }
 
-
+    /*
+    если пришел массив с пользователями
+     */
     if (users && users.length > 0) {
         var usersSuitableRanges = [];
         var usersSuitableBusyRanges = [];
 
-        suitableRanges.forEach((item, i) => {
+        /*
+        прохожусь по массиву подходящих свободных интервалов
+         */
+        suitableRanges.forEach((item) => {
+            /*
+            если количество пользователей в новом эвенте подходит, добавляю этот интервал в массив подходящих интервало по времени и пользователям
+             */
             if (users.length >= item.capMin && users.length <= item.capMax) {
                 //console.log('push');
                 usersSuitableRanges.push(item);
             }
         })
 
+        /*
+        прохожусь по массиву подходящих занятых интервалов
+         */
         suitableBusyRanges.forEach((item, i) => {
+            /*
+            если количество пользователей в подходящих занятых эвентах подходит, добавляю этот эвент в массив подходящих занятых интервалов по времени и пользователям
+             */
             if (users.length >= item.capMin && users.length <= item.capMax) {
                 usersSuitableBusyRanges.push(item);
             }
         })
 
+
+        /*
+        приравниваю подходящие массивы
+         */
         suitableRanges = usersSuitableRanges;
         suitableBusyRanges = usersSuitableBusyRanges;
 
+
+        /*
+        считаю сумарное количество пройденых пользователями этажей до всех переговорок в массиве подходящих
+         */
         suitableRanges.forEach(item => {
             var countFloor = 0;
 
@@ -129,6 +187,9 @@ module.exports = (function(data, start, end, users) {
             item.countFloor = countFloor;
         })
 
+        /*
+        считаю сумарное количество пройденых пользователями этажей до всех переговорок в массиве занятых подходящих
+         */
         suitableBusyRanges.forEach(item => {
             var countFloor = 0;
 
@@ -138,6 +199,10 @@ module.exports = (function(data, start, end, users) {
 
             item.countFloor = countFloor;
         })
+
+        /*
+        Сортирую подходящие переговорки по кол-ву пройденных этажей
+         */
 
         suitableRanges.sort((a, b) => {
             return a.countFloor - b.countFloor;
@@ -149,29 +214,38 @@ module.exports = (function(data, start, end, users) {
 
     }
 
+    /*
+    если в массиве подходящих переговорок пусто (Поиск переговорок которые можно перенести)
+     */
     if (suitableRanges.length == 0) {
-        console.log('suitableRanges === 0');
         let replaceEventMap = [];
-        console.log('suitableBusyRanges',suitableBusyRanges);
-        console.log('needdEmptyEvents',needdEmptyEvents);
-        needdEmptyEvents.forEach(itemAll => {
-            suitableBusyRanges.forEach(itemBusy => {
-                var allRange = moment.range(itemAll.timeStart, itemAll.timeEnd),
-                    busyRange = moment.range(itemBusy.timeStart, itemBusy.timeEnd);
 
-                console.log('---');
-                //console.log(busyRange.contains(allRange));
-                if (busyRange.contains(allRange)) {
-                    console.log('±±±±');
-                    //тут нужно сранивать не сколько юзеров пришло а сколько юзеров в занятом евенте
-                    if (itemBusy.users >= itemAll.capMin && itemBusy.users <= itemAll.capMax) {
-                        replaceEventMap.push({
-                            empty: itemAll,
-                            busy: itemBusy,
-                            map: [itemAll.roomId, itemBusy.eventId]
-                        });
-                    }
+        /*
+        прохожусь по массиву подходящих свободных переговорок
+         */
+        needdEmptyEvents.forEach(itemAll => {
+            /*
+            прохожусь по массиву подходящих занятых переговорок
+             */
+            suitableBusyRanges.forEach(itemBusy => {
+                /*var allRange = moment.range(itemAll.timeStart, itemAll.timeEnd),
+                    busyRange = moment.range(itemBusy.timeStart, itemBusy.timeEnd);*/
+
+
+                //if (busyRange.contains(allRange)) {
+
+                /*
+                если количетво пользователей в подходящей занятой переговорке подходит в свободную переговорку
+                добавляю занятый эевент, свободное время в другой переговорке и массив соответсвия ID занятого эвента и свободной переговорки
+                 */
+                if (itemBusy.users >= itemAll.capMin && itemBusy.users <= itemAll.capMax) {
+                    replaceEventMap.push({
+                        empty: itemAll,
+                        busy: itemBusy,
+                        map: [itemAll.roomId, itemBusy.eventId]
+                    });
                 }
+                //}
             })
         })
 

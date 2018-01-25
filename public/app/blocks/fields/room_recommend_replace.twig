@@ -1,7 +1,7 @@
 <div class="field-block__room-recommend js-room-recommend {% if from == 'schedule' or from == 'edit' %}hidden{% endif %}">
     <div class="field-block__label">Варианты переноса переговорок</div>
     {% for item in recommendRooms %}
-        <div class="field-block__room-replace-item js-room-recommend-replace" data-eventBusy-id="{{ item.busy.eventId }}" data-roomEmpty-id="{{ item.empty.roomId }}">
+        <div class="field-block__room-replace-item js-room-recommend-replace" data-room-to-new="{{ item.busy.roomId }}" data-eventBusy-id="{{ item.busy.eventId }}" data-roomEmpty-id="{{ item.empty.roomId }}">
             <div class="field-block__room-replace-item__time">{{ item.busy.timeStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ item.busy.timeEnd|date_modify("-3 hour")|date("H:i") }}</div>
             <div class="field-block__room-replace-item__busy">
                 <span class="field-block__room-item__name">{{ item.busy.roomTitle }}</span>
