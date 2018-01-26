@@ -204,6 +204,25 @@
                 }
             }
 
+            &.last {
+                &:after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: 63px;
+                    left: 100%;
+                    top: 0;
+                    height: 28px;
+                    background: #fff;
+                }
+
+                &.busy {
+                    &:after {
+                        background: #D5DFE9;
+                    }
+                }
+            }
+
             &:nth-of-type(1){
                 &:before {
                     content: "";

@@ -5,7 +5,14 @@
                 <div class="main__floor" data-id="{{ key }}">
                     <div class="main__floor__title">{{ key }} этаж</div>
                     {% for room in floor %}
-                        <div class="main__schedule__room js-main-events-room" data-room-id="{{ room.id }}">
+                        {% set emptyCount = 0 %}
+
+                        {% for event in room.Events %}
+                            {% if event.type == 'empty' %}
+                                {% set emptyCount = emptyCount + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                        <div class="main__schedule__room js-main-events-room {% if emptyCount == 0 %}busy{% endif %}" data-room-id="{{ room.id }}">
                             <div class="main__schedule__room__name">{{ room.title }}</div>
                             <div class="main__schedule__room__capacity">
                                 {% if room.capacityMin == 0 %}
@@ -50,7 +57,7 @@
                         {% for event in room.Events %}
 
                             {% if event.type and event.type == 'empty' %}
-                                <div class="main__events__item js-event-item js-add-event-btn {% if event.width == 1 %}main__events__item_small{% endif %}"
+                                <div class="main__events__item js-event-item js-add-event-btn {% if event.width == 1 %}main__events__item_small{% endif %} {% if loop.last %}last{% endif %}"
                                     data-from="schedule"
                                     data-timeStart="{{ event.dateStart }}"
                                     data-timeEnd="{{ event.dateEnd }}"
@@ -60,7 +67,7 @@
                                         <a href="" class="main__events__item__add">+</a>
                                     </div>
                             {% else %}
-                                <div class="main__events__item js-event-item busy"
+                                <div class="main__events__item js-event-item busy {% if loop.last %}last{% endif %}"
                                     data-timeStart="{{ event.dateStart }}"
                                     data-timeEnd="{{ event.dateEnd }}"
                                     data-roomId="{{ room.id }}"
