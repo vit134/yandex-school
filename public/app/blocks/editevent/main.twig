@@ -1,5 +1,4 @@
 <div class="event event_edit">
-    {# {{ dump(room) }} #}
     <div class="event__inner">
         <div class="event__title">Редактирование встречи</div>
         <form class="js-newevent-form event__main">
@@ -14,6 +13,7 @@
         <span class="event__close js-popup-close"></span>
     </div>
     <div class="event__footer">
+        {% include '../validation/main.twig' %}
         <div class="event__footer__inner">
             <span class="event__footer__button event__footer__button_cansel button button_grey js-popup-close">Отмена</span>
             <a href="" class="event__footer__button event__footer__button_delete button button_grey js-delete-event-btn">Удалить встречу</a>

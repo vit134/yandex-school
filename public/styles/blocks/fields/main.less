@@ -14,6 +14,11 @@
             font-size: 13px;
             font-weight: 700;
             margin-bottom: 4px;
+
+            &:invalid {
+                box-shadow: none; /* FF */
+                outline: 0;       /* IE 10 */
+            }
         }
 
         &__input {

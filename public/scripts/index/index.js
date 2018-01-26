@@ -70,6 +70,9 @@ $(document).ready(function() {
         $roomRecommendItem,
         $roomRecommendReplaceItem,
 
+        $validationBlock,
+        $validationText,
+
         scrollBar;
 
     function init() {
@@ -154,6 +157,9 @@ $(document).ready(function() {
         $roomCurrentBlock = $('.js-room-current');
         $roomRecommendItem = $('.js-room-recommend-item');
         $roomRecommendReplaceItem = $('.js-room-recommend-replace');
+
+        $validationBlock = $('.js-validation');
+        $validationText = $('.js-validation-text');
     }
 
     function bindNeweventEvents() {
@@ -248,51 +254,75 @@ $(document).ready(function() {
             $neweventFrom.find('input[name="newevent_room"]').val('');
         })
 
+        $neweventFrom.on('submit', function(e, url) {
+            console.log(url)
+            e.preventDefault();
+            var data = getNeweventData();
+            if ($(this)[0].checkValidity()) {
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: data,
+                    beforeSend: function() {
+                        console.log('beforeSend neweventfrom submit data', data);
+                    },
+                    success: function success(data) {
+                        $('.js-popup-wrapper').addClass('active');
+                        var scheduleHtml = data.scheduleHtml,
+                            poupHtml = data.popupHtml;
+
+                        $('.js-schedule-wrapper').html(scheduleHtml);
+     
+                        $popup.html(poupHtml).addClass('small'); //.show();
+                        $body.addClass('popup-open');
+                        updateIndexVars();
+                        bindEvents();
+                    }
+                });
+            }
+        })
+
         $neweventSaveBtn.on('click', function(e) {
             e.preventDefault();
             var data = getNeweventData();
-            console.log('neweventSave data', data)
-            //validateForm($neweventFrom);
+            $neweventFrom.trigger('submit', ['/createevent']);
+        })
 
-            $.ajax({
-                url: '/createevent',
-                type: 'POST',
-                data: data,
-                success: function(data){
-                    $('.js-popup-wrapper').addClass('active');
-                    var scheduleHtml = data.scheduleHtml,
-                        poupHtml = data.popupHtml;
+        $('input[name="newevent_topic"]').on('invalid', function() {
+            console.log('input invalid')
+            openValidation($(this).data('validation-text'));
+        })
 
-                    $('.js-schedule-wrapper').html(scheduleHtml);
+        $('input[name="newevent_room"]').on('invalid', function() {
+            console.log('input invalid')
+            openValidation($(this).data('validation-text'));
+        })
 
-                    $popup.html(poupHtml).addClass('small')//.show();
-                    $body.addClass('popup-open');
-                    updateIndexVars();
-                    bindEvents();
-                }
-            });
+        $('input[required]').on('change paste keyup', function() {
+            closeValidation();
         })
 
         $editeventSaveBtn.on('click', function(e) {
             e.preventDefault();
-            var data = getNeweventData();
-            console.log(data);
-            $.ajax({
-                url: '/editeventSave',
-                type: 'POST',
-                data: data,
-                success: function(data){
-                    $('.js-popup-wrapper').addClass('active');
-                    var scheduleHtml = data.scheduleHtml,
-                        poupHtml = data.popupHtml;
+            
+            $neweventFrom.trigger('submit', ['/editeventSave']);
+            // console.log(data);
+            // $.ajax({
+            //     url: '/editeventSave',
+            //     type: 'POST',
+            //     data: data,
+            //     success: function(data){
+            //         $('.js-popup-wrapper').addClass('active');
+            //         var scheduleHtml = data.scheduleHtml,
+            //             poupHtml = data.popupHtml;
 
-                    $('.js-schedule-wrapper').html(scheduleHtml);
+            //         $('.js-schedule-wrapper').html(scheduleHtml);
 
-                    $popup.html(poupHtml).addClass('small')//.show();
-                    updateIndexVars();
-                    bindEvents();
-                }
-            });
+            //         $popup.html(poupHtml).addClass('small')//.show();
+            //         updateIndexVars();
+            //         bindEvents();
+            //     }
+            // });
         })
 
         $deleteEventBtn.on('click', function(e) {
@@ -367,6 +397,17 @@ $(document).ready(function() {
 
     // -- newevent Functions -- //
     
+    function openValidation(text) {
+        console.log(text);
+        console.log($validationText)
+        $validationText.html(text);
+        $validationBlock.addClass('active');
+    }
+
+    function closeValidation(text) {
+        $validationBlock.removeClass('active');
+    }
+
     function checkEditRange() {
         var status = false;
 
