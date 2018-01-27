@@ -75,6 +75,11 @@ $(document).ready(function() {
 
         scrollBar;
 
+    var curentTime = new Date(),
+        timeOffset = curentTime.getTimezoneOffset() / 60;
+    console.log(curentTime)
+    console.log(curentTime - timeOffset);
+
     function init() {
         updateIndexVars();
         bindEvents();
@@ -818,6 +823,7 @@ $(document).ready(function() {
     //index functions
 
     function changeSchedule(date) {
+        console.log(date);
         $.ajax({
             url: '/getFloors',
             type: 'POST',

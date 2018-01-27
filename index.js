@@ -7,6 +7,10 @@ const express = require('express');
 const Twig = require('twig');
 const twig = Twig.twig;
 
+const Moment = require('moment');
+const MomentRange = require('moment-range');
+const moment = MomentRange.extendMoment(Moment);
+
 const bodyParser = require('body-parser');
 
 const graphqlRoutes = require('./graphql/routes');
@@ -22,13 +26,14 @@ app.set('view engine', 'twig');
 app.set('views', 'public/app/');
 
 app.get('/', function(req, res){
-
+    //console.log(new Date() + new Date().getTimezoneOffset() / 60);
+    console.log(moment().format('yy-mm-dd') + 'z');
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
-        var floors = getFloors.getData(data, new Date());
+        //var floors = getFloors.getData(data, '2018-01-28T01:28:49.106');
+        var floors = getFloors.getData(data, moment().format('YYYY-MM-DD') + 'z');
 
         res.render('index', {
-            enableAddButton: true,
             data: floors
         });
     })
@@ -36,7 +41,7 @@ app.get('/', function(req, res){
 
 app.post('/newevent', function(req, res){
     var data = req.body;
-    console.log(data.from);
+    console.log(data);
     query.users().then((users) => {
         users = JSON.parse(JSON.stringify(users));
 
@@ -236,9 +241,10 @@ app.post('/deleteEvent', function(req, res){
 
 app.post('/getFloors', function(req, res){
     var date = req.body.date;
+    console.log('index /getfloors new Date(date)', moment(date));
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
-        var floors = getFloors.getData(data, new Date(date));
+        var floors = getFloors.getData(data, moment(date).format('YYYY-MM-DD') + 'z');
 
         Twig.renderFile('./public/app/blocks/main/schedule.twig', {data: floors}, (err, scheduleHtml) => {
             res.json({scheduleHtml: scheduleHtml, data: floors})
@@ -252,9 +258,10 @@ app.post('/getRecommendation', function(req, res){
     console.log(reqData.eventId);
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
+        console.log('index getRec reqData', reqData.dateStart);
         var floors = getFloors.getData(data, reqData.dateStart, reqData.eventId);
 
-        var recommendRooms = getRecommendation(data, reqData.dateStart, reqData.dateEnd, reqData.members);
+        var recommendRooms = getRecommendation(JSON.parse(JSON.stringify(floors)), reqData.dateStart, reqData.dateEnd, reqData.members);
 
         if (recommendRooms.type === 'empty') {
             Twig.renderFile('./public/app/blocks/fields/room_recommend.twig', {

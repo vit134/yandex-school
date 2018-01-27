@@ -37,12 +37,18 @@ var aa = module.exports = {
       return longRanges;
     },
     getData(data, date, exclude) {
-        console.log('getdate exclude', exclude);
-        let startDay =  moment(moment(date).format('YYYY-MM-DD') + 'T08:00:00.000Z').utc(),
-            endDay = moment(moment(date).format('YYYY-MM-DD') + 'T23:00:00.000Z').utc(),
+        console.log('getFlors script date', date);
+        let startDay =  moment(moment(date).utcOffset(false).format('YYYY-MM-DD') + 'T08:00:00.000Z').utc(),
+            endDay = moment(moment(date).utcOffset(false).format('YYYY-MM-DD') + 'T23:00:00.000Z').utc(),
             day = moment.range(startDay, endDay);
 
+        // console.log('startDay',startDay);
+        // console.log('endDay',endDay);
+        // console.log('day',day);
+
         var floors = {};
+
+        //console.log(data);
 
         data.forEach(function(value){
             if(typeof floors[value.floor] == 'undefined')
@@ -61,9 +67,13 @@ var aa = module.exports = {
                 var needDateEvents = [];
                 // console.log('-----');
                 // console.log(room.title);
-
+                //console.log(events);
+                
                 events.forEach(event => {
-                    if (moment(date).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
+                    console.log(moment(date).utcOffset(false).format('YYYY-MM-DD'));
+                    console.log(moment(event.dateStart).utc().format('YYYY-MM-DD'));
+                    if (moment(date).utcOffset(false).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
+                        console.log(event);
                         needDateEvents.push(event);
                     }
                 })

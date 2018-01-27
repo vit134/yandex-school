@@ -1,35 +1,37 @@
 const getFloors = require('./getfloors.js');
-const query = require('../graphql/resolvers/query.js');
 const Moment = require('moment');
 const MomentRange = require('moment-range');
 const moment = MomentRange.extendMoment(Moment);
 
 module.exports = (function(data, start, end, users, exclude) {
     var needRange = moment.range(moment(start).utc(), moment(end).utc())
-    var date = moment(start).format('YYYY-MM-DD');
+    console.log('needRange',needRange);
+    var date = moment(start).utc().format('YYYY-MM-DD');
+    console.log('date', date);
     var needdEmptyEvents = [];
     var suitableRanges = [];
     var suitableBusyRanges = [];
     
-    data = JSON.parse(JSON.stringify(data));
-    var floors = getFloors.getData(data, date, exclude);
+    var floors = JSON.parse(JSON.stringify(data));
 
+    //var floors = getFloors.getData(data, date, exclude);
     for (var floor in floors) {
         var floorItem = floors[floor];
         floorItem.forEach(room => {
             var events = room.Events;
             var allEvents = [];
-
-
+            console.log(room.title);
+            console.log(events);
             /*
             Отбираю все эвенты по нужной дате
              */
+            //console.log(events);
             events.forEach(event => {
                 if (moment(date).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
                     allEvents.push(event);
                 }
             })
-
+            //console.log('allEvents',allEvents);
             /*
             Похожусь по всем евентам, возвращаю массив свобоных интервалов и массив занятых евентов
              */
@@ -46,7 +48,7 @@ module.exports = (function(data, start, end, users, exclude) {
                     busyRanges.push(event);
                 }
             })
-
+            //console.log('emptyRanges',emptyRanges);
             /*
             Прохожусь по массиву свободных евентов
              */
