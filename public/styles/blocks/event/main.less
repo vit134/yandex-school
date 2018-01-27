@@ -1,12 +1,14 @@
 .event {
     height: calc(~"100vh - @{headerHeight}");
     position: relative;
+    overflow: auto;
 
     &__inner {
         position: relative;
         max-width: 872px;
         margin: 0 auto;
         padding-top: 31px;
+        min-height: calc(~'100% - @{footerHeight}');
     }
 
     &__title {
@@ -62,12 +64,10 @@
     }
 
     &__footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
+        position: relative;
         padding: 18px 0;
         border-top: 1px solid @borderColor;
+        height: @footerHeight;
 
         &__inner {
             max-width: 1280px;
