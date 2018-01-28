@@ -27,10 +27,10 @@ app.set('views', 'public/app/');
 
 app.get('/', function(req, res){
     //console.log(new Date() + new Date().getTimezoneOffset() / 60);
-    console.log(moment().format('yy-mm-dd') + 'z');
+    //console.log(moment().format('YYYY-MM-DD') + 'z');
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
-        //var floors = getFloors.getData(data, '2018-01-28T01:28:49.106');
+
         var floors = getFloors.getData(data, moment().format('YYYY-MM-DD') + 'z');
 
         res.render('index', {
@@ -41,7 +41,6 @@ app.get('/', function(req, res){
 
 app.post('/newevent', function(req, res){
     var data = req.body;
-    console.log(data);
     query.users().then((users) => {
         users = JSON.parse(JSON.stringify(users));
 
@@ -50,9 +49,12 @@ app.post('/newevent', function(req, res){
                 rooms = JSON.parse(JSON.stringify(rooms));
                 var recommendRooms = [];
 
-                // if (data.dateStart) {
-                //     recommendRooms = getRecommendation(rooms, data.dateStart, data.dateEnd, [])
-                // }
+                console.log('index /newevent rooms', rooms);
+                if (data.dateStart) {
+                    var floors = getFloors.getData(rooms, moment(data.dateStart).format('YYYY-MM-DD') + 'z');
+                    recommendRooms = getRecommendation(floors, data.dateStart, data.dateEnd, [])
+
+                }
                 //console.log('recommendRooms',recommendRooms);
                 Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data, recommendRooms: recommendRooms.rooms, from: data.from}, (err, html) => {
                     res.json({

@@ -2,7 +2,7 @@
     <div class="tooltip__triangle js-tooltip-triangle"></div>
     <div class="tooltip__title">{{ event.title }}</div>
     <div class="tooltip__description">
-        <span>{{ event.dateStart|date("d M") }},</span>
+        <span>{{ event.dateStart|date_modify('-3 hour')|date("d M") }},</span>
         <span>{{ event.dateStart|date_modify('-3 hour')|date('H:i') }}&#8212;{{ event.dateEnd|date_modify('-3 hour')|date('H:i') }}</span>
         <span> &#183; </span>
         <span>{{ room.title }}</span>

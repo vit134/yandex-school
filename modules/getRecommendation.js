@@ -5,9 +5,7 @@ const moment = MomentRange.extendMoment(Moment);
 
 module.exports = (function(data, start, end, users, exclude) {
     var needRange = moment.range(moment(start).utc(), moment(end).utc())
-    console.log('needRange',needRange);
     var date = moment(start).utc().format('YYYY-MM-DD');
-    console.log('date', date);
     var needdEmptyEvents = [];
     var suitableRanges = [];
     var suitableBusyRanges = [];
@@ -21,7 +19,7 @@ module.exports = (function(data, start, end, users, exclude) {
             var events = room.Events;
             var allEvents = [];
             console.log(room.title);
-            console.log(events);
+            //console.log(events);
             /*
             Отбираю все эвенты по нужной дате
              */

@@ -70,10 +70,7 @@ var aa = module.exports = {
                 //console.log(events);
                 
                 events.forEach(event => {
-                    console.log(moment(date).utcOffset(false).format('YYYY-MM-DD'));
-                    console.log(moment(event.dateStart).utc().format('YYYY-MM-DD'));
                     if (moment(date).utcOffset(false).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
-                        console.log(event);
                         needDateEvents.push(event);
                     }
                 })
