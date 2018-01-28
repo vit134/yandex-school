@@ -26,8 +26,6 @@ app.set('view engine', 'twig');
 app.set('views', 'public/app/');
 
 app.get('/', function(req, res){
-    //console.log(new Date() + new Date().getTimezoneOffset() / 60);
-    //console.log(moment().format('YYYY-MM-DD') + 'z');
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
 
@@ -49,13 +47,12 @@ app.post('/newevent', function(req, res){
                 rooms = JSON.parse(JSON.stringify(rooms));
                 var recommendRooms = [];
 
-                console.log('index /newevent rooms', rooms);
                 if (data.dateStart) {
                     var floors = getFloors.getData(rooms, moment(data.dateStart).format('YYYY-MM-DD') + 'z');
                     recommendRooms = getRecommendation(floors, data.dateStart, data.dateEnd, [])
 
                 }
-                //console.log('recommendRooms',recommendRooms);
+
                 Twig.renderFile('./public/app/blocks/newevent/main.twig', {members: users, room: room, data: data, recommendRooms: recommendRooms.rooms, from: data.from}, (err, html) => {
                     res.json({
                         html: html,
@@ -223,7 +220,6 @@ app.post('/deleteEvent', function(req, res){
     var needDate = req.body.dateStart;
 
     mutation.removeEvent(1, {id: eventId}).then((event) => {
-        //console.log(event);
         event = JSON.parse(JSON.stringify(event));
         query.rooms().then((data) => {
             data = JSON.parse(JSON.stringify(data));
@@ -233,17 +229,11 @@ app.post('/deleteEvent', function(req, res){
                 res.json({scheduleHtml: scheduleHtml})
             });
         })
-    }).then(event => {
-        //console.log(event);
-    }).catch(function(err) {
-        // print the error details
-        //console.log(err, request.body.email);
     });
 })
 
 app.post('/getFloors', function(req, res){
     var date = req.body.date;
-    console.log('index /getfloors new Date(date)', moment(date));
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
         var floors = getFloors.getData(data, moment(date).format('YYYY-MM-DD') + 'z');
@@ -256,11 +246,8 @@ app.post('/getFloors', function(req, res){
 
 app.post('/getRecommendation', function(req, res){
     var reqData = req.body;
-    //console.log('reqData', reqData);
-    console.log(reqData.eventId);
     query.rooms().then((data) => {
         data = JSON.parse(JSON.stringify(data));
-        console.log('index getRec reqData', reqData.dateStart);
         var floors = getFloors.getData(data, reqData.dateStart, reqData.eventId);
 
         var recommendRooms = getRecommendation(JSON.parse(JSON.stringify(floors)), reqData.dateStart, reqData.dateEnd, reqData.members);

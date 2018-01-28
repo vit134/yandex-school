@@ -12,24 +12,20 @@ module.exports = (function(data, start, end, users, exclude) {
     
     var floors = JSON.parse(JSON.stringify(data));
 
-    //var floors = getFloors.getData(data, date, exclude);
     for (var floor in floors) {
         var floorItem = floors[floor];
         floorItem.forEach(room => {
             var events = room.Events;
             var allEvents = [];
-            console.log(room.title);
-            //console.log(events);
+
             /*
             Отбираю все эвенты по нужной дате
              */
-            //console.log(events);
             events.forEach(event => {
                 if (moment(date).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
                     allEvents.push(event);
                 }
             })
-            //console.log('allEvents',allEvents);
             /*
             Похожусь по всем евентам, возвращаю массив свобоных интервалов и массив занятых евентов
              */
@@ -46,7 +42,6 @@ module.exports = (function(data, start, end, users, exclude) {
                     busyRanges.push(event);
                 }
             })
-            //console.log('emptyRanges',emptyRanges);
             /*
             Прохожусь по массиву свободных евентов
              */
@@ -66,16 +61,6 @@ module.exports = (function(data, start, end, users, exclude) {
                         timeStart: range.start,
                         timeEnd: range.end
                     });
-
-                    // needdEmptyEvents.push({
-                    //     floor: floor,
-                    //     roomTitle: room.title,
-                    //     roomId: room.id,
-                    //     capMin: room.capacityMin,
-                    //     capMax: room.capacityMax,
-                    //     timeStart: range.start,
-                    //     timeEnd: range.end
-                    // })
                 }
 
                 /*
@@ -95,18 +80,6 @@ module.exports = (function(data, start, end, users, exclude) {
                         timeEnd: range.end
                     })
                 }
-
-                /*if (range.isSame(moment.range(start,end))) {
-                    needdEmptyEvents.push({
-                        floor: floor,
-                        roomTitle: room.title,
-                        roomId: room.id,
-                        capMin: room.capacityMin,
-                        capMax: room.capacityMax,
-                        timeStart: range.start,
-                        timeEnd: range.end
-                    })
-                }*/
             })
 
             /*
@@ -149,7 +122,6 @@ module.exports = (function(data, start, end, users, exclude) {
             если количество пользователей в новом эвенте подходит, добавляю этот интервал в массив подходящих интервало по времени и пользователям
              */
             if (users.length >= item.capMin && users.length <= item.capMax) {
-                //console.log('push');
                 usersSuitableRanges.push(item);
             }
         })
@@ -228,12 +200,6 @@ module.exports = (function(data, start, end, users, exclude) {
             прохожусь по массиву подходящих занятых переговорок
              */
             suitableBusyRanges.forEach(itemBusy => {
-                /*var allRange = moment.range(itemAll.timeStart, itemAll.timeEnd),
-                    busyRange = moment.range(itemBusy.timeStart, itemBusy.timeEnd);*/
-
-
-                //if (busyRange.contains(allRange)) {
-
                 /*
                 если количетво пользователей в подходящей занятой переговорке подходит в свободную переговорку
                 добавляю занятый эевент, свободное время в другой переговорке и массив соответсвия ID занятого эвента и свободной переговорки
@@ -245,17 +211,11 @@ module.exports = (function(data, start, end, users, exclude) {
                         map: [itemAll.roomId, itemBusy.eventId]
                     });
                 }
-                //}
             })
         })
 
-        //console.log('replaceEventMap',replaceEventMap);
         return {type: 'replace', rooms: replaceEventMap};
     } else {
-        //console.log('emty', suitableRanges);
         return {type: 'empty', rooms: suitableRanges};
     }
-
-    // console.log('busy', suitableBusyRanges);
-    // return suitableRanges;
 })

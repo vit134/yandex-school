@@ -37,18 +37,12 @@ var aa = module.exports = {
       return longRanges;
     },
     getData(data, date, exclude) {
-        console.log('getFlors script date', date);
         let startDay =  moment(moment(date).utcOffset(false).format('YYYY-MM-DD') + 'T08:00:00.000Z').utc(),
             endDay = moment(moment(date).utcOffset(false).format('YYYY-MM-DD') + 'T23:00:00.000Z').utc(),
             day = moment.range(startDay, endDay);
 
-        // console.log('startDay',startDay);
-        // console.log('endDay',endDay);
-        // console.log('day',day);
-
         var floors = {};
 
-        //console.log(data);
 
         data.forEach(function(value){
             if(typeof floors[value.floor] == 'undefined')
@@ -63,11 +57,7 @@ var aa = module.exports = {
             floor.forEach(room => {
                 var events = room.Events;
                 let rangeEvents = [];
-                //console.log(room.title);
                 var needDateEvents = [];
-                // console.log('-----');
-                // console.log(room.title);
-                //console.log(events);
                 
                 events.forEach(event => {
                     if (moment(date).utcOffset(false).format('YYYY-MM-DD') == moment(event.dateStart).utc().format('YYYY-MM-DD')) {
@@ -80,7 +70,6 @@ var aa = module.exports = {
                  */
                 if (exclude && exclude != '') {
                     needDateEvents = needDateEvents.filter(event => {
-                        console.log(event.id != exclude);
                         return event.id != exclude
                     })
                 }
@@ -92,12 +81,9 @@ var aa = module.exports = {
 
                     var diff = end.diff(start, 'minute');
                     event['width'] = diff / 15;
-
-                    //console.log('needDateEvents', i);
                 });
 
                 var newRanges = aa.subtractRanges(day, rangeEvents);
-                //console.log(newRanges);
                 var newEvents = [];
                 newRanges.forEach(item => {
                     var start = item.start.utc(),
@@ -121,8 +107,6 @@ var aa = module.exports = {
                 room.Events.sort((a,b) => {
                     return moment(b.dateStart).isBefore(moment(a.dateStart))
                 })
-
-                //console.log(room.Events);
             })
         }
 

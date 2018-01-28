@@ -8243,7 +8243,6 @@ $(document).ready(function () {
         });
 
         $('.js-newevent-time-end').on('blur', function () {
-            console.log('end blur');
             var validate = validateForm();
 
             if (validate) {
@@ -8297,9 +8296,7 @@ $(document).ready(function () {
                     url: url,
                     type: 'POST',
                     data: data,
-                    beforeSend: function beforeSend() {
-                        console.log('create event before send data', data);
-                    },
+                    beforeSend: function beforeSend() {},
                     success: function success(data) {
                         $('.js-popup-wrapper').addClass('active');
                         var scheduleHtml = data.scheduleHtml,
@@ -8468,9 +8465,7 @@ $(document).ready(function () {
             url: '/getRecommendation',
             type: 'POST',
             data: data,
-            beforeSend: function beforeSend() {
-                console.log('before send', data);
-            },
+            beforeSend: function beforeSend() {},
             success: function success(data) {
                 $('.js-room-recommend').html(data.recommendHtml).removeClass('hidden');
                 $('.js-room-current').addClass('hidden');
