@@ -269,6 +269,7 @@ div {
   padding: 18px 0;
   border-top: 1px solid #E9ECEF;
   height: 76px;
+  background: #fff;
 }
 .event__footer__inner {
   max-width: 1280px;
@@ -293,6 +294,9 @@ div {
   }
 }
 @media screen and (max-width: 769px) {
+  .event__footer {
+    height: auto;
+  }
   .event_edit .event__footer {
     padding: 0;
     border: none;
@@ -360,7 +364,7 @@ div {
     margin-bottom: 16px;
   }
   .event__footer {
-    position: static;
+    position: relative;
   }
   .editevent .event__field-block_rooms {
     margin-bottom: 16px;
@@ -563,6 +567,10 @@ div {
   font-size: 13px;
   margin-bottom: 8px;
   cursor: pointer;
+}
+.field-block__room-item span {
+  display: inline-block;
+  vertical-align: middle;
 }
 .field-block__room-item__time {
   font-weight: 700;
@@ -774,6 +782,13 @@ div {
     border-bottom: 8px solid #E9ECEF;
     margin: 0 -16px 16px;
     padding: 0 16px 8px;
+  }
+  .field-block__room-item__name {
+    max-width: 110px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   .field-wrapper {
     margin: 0 -16px 16px;
@@ -1177,6 +1192,9 @@ div {
   .main__events__item:active {
     background: #005CFF;
   }
+  .main__events__item.last:after {
+    height: 58px;
+  }
   .main__events__item.busy:active {
     background: #98A9B9;
   }
@@ -1572,10 +1590,12 @@ div {
   font-weight: bold;
   padding: 12px 16px;
   transition: All 0.3s ease;
+  z-index: -1;
 }
 .validation.active {
   bottom: 100%;
   opacity: 1;
+  z-index: 9;
 }
 .validation__inner {
   max-width: 1280px;

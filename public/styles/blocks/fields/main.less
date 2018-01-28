@@ -220,6 +220,11 @@
             margin-bottom: 8px;
             cursor: pointer;
 
+            & span {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
             &__time {
                 font-weight: 700;
                 margin-right: 16px;
@@ -492,6 +497,16 @@
                 border-bottom: 8px solid #E9ECEF;
                 margin: 0 -16px 16px;
                 padding: 0 16px 8px;
+            }
+
+            &__room-item {
+                &__name {
+                    max-width: 110px;
+                    display: inline-block;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
             }
         }
 

@@ -77,8 +77,6 @@ $(document).ready(function() {
 
     var curentTime = new Date(),
         timeOffset = curentTime.getTimezoneOffset() / 60;
-    console.log(curentTime)
-    console.log(curentTime - timeOffset);
 
     function init() {
         updateIndexVars();
@@ -102,6 +100,8 @@ $(document).ready(function() {
                     $calendarContainer.datepicker('hide').hide();
 
                     changeSchedule($calendarContainer.datepicker('getDate'));
+                    updateIndexVars();
+                    bindEvents();
                 }
             }
         )
@@ -188,18 +188,13 @@ $(document).ready(function() {
         })
 
         $('.js-newevent-time-start').on('blur', function() {
-            console.log('start blur')
             var validate = validateForm();
-
             if (validate) {
 
                 var data = getNeweventData();
-                //console.log(data);
                 var getRecommend = checkEditRange();
 
-                //if (getRecommend) {
-                    getRecommendation(data);
-                //}
+                getRecommendation(data);
             }
         })
 
@@ -209,35 +204,25 @@ $(document).ready(function() {
 
             if (validate) {
                 var data = getNeweventData();
-                //console.log(data);
 
                 var getRecommend = checkEditRange();
-
-                //if (getRecommend) {
-                    getRecommendation(data);
-                //}
-                
+                getRecommendation(data);
             }
         })
 
         $dropdownSelect.on('change', function() {
-            console.log('users change')
             var validate = validateForm();
 
             if (validate) {
                 var data = getNeweventData();
-                //console.log(data);
 
                 var getRecommend = checkEditRange();
 
-                //if (getRecommend) {
-                    getRecommendation(data);
-                //}
+                getRecommendation(data);
             }
         })
 
         $('body').on('click', '.js-room-recommend-item', function(e) {
-            console.log('js-room-recommend-item click')
             e.preventDefault();
             $('.js-room-recommend-item').removeClass('active');
 
@@ -260,16 +245,17 @@ $(document).ready(function() {
         })
 
         $neweventFrom.on('submit', function(e, url) {
-            console.log(url)
             e.preventDefault();
             var data = getNeweventData();
-            if ($(this)[0].checkValidity()) {
+            var validate = validateForm();
+
+            if ($(this)[0].checkValidity() && validate) {
                 $.ajax({
                     url: url,
                     type: 'POST',
                     data: data,
                     beforeSend: function() {
-                        console.log('beforeSend neweventfrom submit data', data);
+                        console.log('create event before send data', data);
                     },
                     success: function success(data) {
                         $('.js-popup-wrapper').addClass('active');
@@ -294,12 +280,18 @@ $(document).ready(function() {
         })
 
         $('input[name="newevent_topic"]').on('invalid', function() {
-            console.log('input invalid')
             openValidation($(this).data('validation-text'));
         })
 
         $('input[name="newevent_room"]').on('invalid', function() {
-            console.log('input invalid')
+            openValidation($(this).data('validation-text'));
+        })
+
+        $('input[name="newevent_start"]').on('invalid', function() {
+            openValidation($(this).data('validation-text'));
+        })
+
+        $('input[name="newevent_end"]').on('invalid', function() {
             openValidation($(this).data('validation-text'));
         })
 
@@ -311,23 +303,6 @@ $(document).ready(function() {
             e.preventDefault();
             
             $neweventFrom.trigger('submit', ['/editeventSave']);
-            // console.log(data);
-            // $.ajax({
-            //     url: '/editeventSave',
-            //     type: 'POST',
-            //     data: data,
-            //     success: function(data){
-            //         $('.js-popup-wrapper').addClass('active');
-            //         var scheduleHtml = data.scheduleHtml,
-            //             poupHtml = data.popupHtml;
-
-            //         $('.js-schedule-wrapper').html(scheduleHtml);
-
-            //         $popup.html(poupHtml).addClass('small')//.show();
-            //         updateIndexVars();
-            //         bindEvents();
-            //     }
-            // });
         })
 
         $deleteEventBtn.on('click', function(e) {
@@ -350,7 +325,6 @@ $(document).ready(function() {
             e.preventDefault();
 
             var eventId = $(this).closest('.js-popup-delete').find('input[name="event_id"]').val();
-            console.log(eventId);
 
             $.ajax({
                 url: '/deleteEvent',
@@ -403,8 +377,6 @@ $(document).ready(function() {
     // -- newevent Functions -- //
     
     function openValidation(text) {
-        console.log(text);
-        console.log($validationText)
         $validationText.html(text);
         $validationBlock.addClass('active');
     }
@@ -460,14 +432,9 @@ $(document).ready(function() {
                 console.log('before send', data)
             },
             success: function(data){
-                //console.log('data getRecommendation',data);
                 $('.js-room-recommend').html(data.recommendHtml).removeClass('hidden');
                 $('.js-room-current').addClass('hidden');
                 $neweventFrom.find('input[name="newevent_room"]').val('');
-                // closeTooltip();
-                // $body.addClass('overflow');
-                // $('.js-popup').html(data.html).show();
-                // neweventInit();
             }
         });
     }
@@ -494,20 +461,6 @@ $(document).ready(function() {
             $eventEnd.removeClass('error');
             status++;
         }
-
-        // if ($eventRoom.val() === '') {
-        //     alert('вы не выбрали переговорку');
-        // } else {
-        //     status++;
-        // }
-
-        // if ($eventTitle.val() === '') {
-        //     $eventTitle.addClass('error');
-        //     alert('вы не указали тему встречи');
-        // } else {
-        //     $eventTitle.removeClass('error');
-        //     status++;
-        // }
 
         if (status === 2) {
             return true;
@@ -628,7 +581,6 @@ $(document).ready(function() {
 
     function bindEditEventEvents() {
         $editEventBtn.on('click', function(e) {
-            console.log('editeventbtn click');
             e.preventDefault();
             var eventId = $(this).parent().data('eventid');
             var roomId = $(this).parent().data('roomid');
@@ -640,7 +592,6 @@ $(document).ready(function() {
                 data: {eventId: eventId, roomId: roomId, from: from},
                 success: function(data){
 
-                    console.log('data edit',data);
                     closeTooltip();
                     $('body').addClass('overflow popup-open');
                     $('.js-popup').html(data.html).show();
@@ -658,7 +609,6 @@ $(document).ready(function() {
         $calendarNextDay.on("click", function () {
             var date = $calendarContainer.datepicker('getDate');
             date.setTime(date.getTime() + (1000*60*60*24))
-            console.log(date);
             $calendarContainer.datepicker("setDate", date);
             $('.ui-datepicker-current-day').click();
             $calendarContainer.datepicker( "refresh" );
@@ -703,7 +653,6 @@ $(document).ready(function() {
         })
 
         $eventItem.on('click', function() {
-            console.log('$eventItem click');
             var position = getEventItemPosition($(this));
             var eventId = $(this).data('eventid');
             var $this = $(this);
@@ -714,17 +663,13 @@ $(document).ready(function() {
 
             if ($this.hasClass('busy')) {
                 if ($this.hasClass('active')) {
-                    console.log('close')
                     closeTooltip();
                 } else {
-                    console.log('open');
-
                     $.ajax({
                         url: '/tooltip',
                         type: 'POST',
                         data: data,
                         success: function(data){
-                            console.log(data);
                             $tooltipWrapper.html(data.html).addClass('active');
                             $eventItem.removeClass('active');
                             $this.addClass('active');
@@ -743,8 +688,6 @@ $(document).ready(function() {
                 $thisParent = $(this).parent();
 
             if (!$this.hasClass('busy')) {
-                console.log($(this));
-                console.log('$addEventBtn click');
                 var from = $this.data('from')
                 var data = {
                     from: from
@@ -754,15 +697,11 @@ $(document).ready(function() {
                 data.dateEnd = $this.data('timeend'),
                 data.roomId = $this.data('roomid');
 
-                console.log(data);
-
-
                 $.ajax({
                     url: '/newevent',
                     type: 'POST',
                     data: data,
                     success: function(data){
-                        console.log('data add', data);
                         $body.addClass('overflow popup-open');
                         $('.js-popup').html(data.html).show();
                         closeTooltip();
@@ -785,21 +724,21 @@ $(document).ready(function() {
             if (!$eventItem.is(e.target) && $eventItem.has(e.target).length === 0 && !$editEventBtn.is(e.target)) {
                 $eventItem.removeClass('active');
                 closeTooltip();
-            } /*else if ($editEventBtn.is(e.target)) {
-                $editEventBtn.trigger('click');
-            }*/
+            }
         });
 
         $schedule.on('scroll', function() {
             var scrollLeft = $(this).scrollLeft();
+            _colLeftWidth = $colLeft.outerWidth(true);
             closeTooltip();
+
             if (scrollLeft > _colLeftWidth && !scheduleScrollFlag) {
                 $eventsRoom.show();
                 $eventsFloor.show();
                 scheduleScrollFlag = true;
             } else if (scrollLeft <= _colLeftWidth && scheduleScrollFlag) {
-                $eventsRoom.hide();
-                $eventsFloor.hide();
+                $eventsRoom.hide().css({left: 0});
+                $eventsFloor.hide().css({left: 0});
                 scheduleScrollFlag = false;
             }
 
@@ -823,13 +762,11 @@ $(document).ready(function() {
     //index functions
 
     function changeSchedule(date) {
-        console.log(date);
         $.ajax({
             url: '/getFloors',
             type: 'POST',
             data: {date: date},
             success: function(data){
-                console.log(data);
                 var scheduleHtml = data.scheduleHtml;
 
                 $('.js-schedule-wrapper').html(scheduleHtml);
@@ -868,9 +805,6 @@ $(document).ready(function() {
     }
 
     function openTooltip(position) {
-        console.log(position);
-        console.log($(window).scrollTop());
-        console.log($(window).outerHeight());
 
         var tooltipHeight;
 
@@ -881,7 +815,6 @@ $(document).ready(function() {
         }).show();
 
         tooltipHeight = $('.js-tooltip').outerHeight();
-        console.log('tooltipHeight', tooltipHeight);
 
         if ($(window).scrollTop() + $(window).outerHeight() < position.top + tooltipHeight + 20 + 26) {
             $('.js-tooltip').css({
