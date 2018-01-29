@@ -40,3 +40,24 @@ npm run reset-db
       }
     }
     ```
+
+    ### events
+    Была допущена ошибка, передавалась неопределенная переменная arguments
+    ```
+    query events {
+      events {
+        id
+        title
+      }
+    }
+    ```
+
+    ### user
+    ```
+    query user {
+      user(id:1) {
+        id
+        login
+      }
+    }
+    ```
