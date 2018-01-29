@@ -9,7 +9,7 @@ module.exports = (function(data, start, end, users, exclude) {
     var needdEmptyEvents = [];
     var suitableRanges = [];
     var suitableBusyRanges = [];
-    
+
     var floors = JSON.parse(JSON.stringify(data));
 
     for (var floor in floors) {
@@ -110,7 +110,7 @@ module.exports = (function(data, start, end, users, exclude) {
     /*
     если пришел массив с пользователями
      */
-    if (users && users.length > 0) {
+    if (users && users.length >= 0) {
         var usersSuitableRanges = [];
         var usersSuitableBusyRanges = [];
 
