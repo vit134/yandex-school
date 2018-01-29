@@ -245,8 +245,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("r7L21G"))
-},{"r7L21G":4}],4:[function(require,module,exports){
+}).call(this,require("6r38Q7"))
+},{"6r38Q7":4}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -5623,7 +5623,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var jsdate, f;
 	  // Keep this here (works, but for code commented-out below for file size reasons)
 	  // var tal= [];
-	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+	  var txtWords = ['Sun', 'Mon', 'Tues', 'Wednes', 'Thurs', 'Fri', 'Satur', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 	  // trailing backslash -> (dropped)
 	  // a backslash followed by any character (including backslash) -> the character
 	  // empty string -> empty string
@@ -8072,7 +8072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/../../../../node_modules/twig")
+}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
 },{"fs":2,"path":3}],6:[function(require,module,exports){
 'use strict';
 
@@ -8125,7 +8125,7 @@ $(document).ready(function () {
     var SaveEditEventStart, SaveEditEventEnd;
 
     //newevent vars
-    var $dropdowmContainer, $dropdownItem, $dropdowmInput, $dropdownSelect, $dropdownSelectOption, $membersItem, $removeMemberBtn, $calendarContainer, $neweventFrom, $neweventSaveBtn, $editeventSaveBtn, $deleteEventBtn, $popupDeleteCanselBtn, $popupDeleteSaveBtn, $removeRoom, $roomRecommendBlock, $roomCurrentBlock, $roomRecommendItem, $roomRecommendReplaceItem, $validationBlock, $validationText, scrollBar;
+    var $dropdowmContainer, $dropdownItem, $dropdowmInput, $dropdownSelect, $dropdownSelectOption, $membersItem, $removeMemberBtn, $calendarContainer, $neweventFrom, $neweventSaveBtn, $editeventSaveBtn, $deleteEventBtn, $popupDeleteCanselBtn, $popupDeleteSaveBtn, $removeRoom, $roomRecommendBlock, $roomCurrentBlock, $roomRecommendItem, $roomRecommendReplaceItem, $validationBlock, $validationText, $inputArrow, $inputClear, scrollBar;
 
     var curentTime = new Date(),
         timeOffset = curentTime.getTimezoneOffset() / 60;
@@ -8167,7 +8167,7 @@ $(document).ready(function () {
 
         var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
             showOn: "both",
-            buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
+            buttonImage: "../../../styles/blocks/event/images/calendar.svg",
             defaultDate: new Date($('#datepicker').val()),
             buttonImageOnly: true,
             showOtherMonths: true,
@@ -8209,6 +8209,8 @@ $(document).ready(function () {
 
         $validationBlock = $('.js-validation');
         $validationText = $('.js-validation-text');
+
+        $inputArrow = $('.js-input-arrow'), $inputClear = $('.js-input-clear');
     }
 
     function bindNeweventEvents() {
@@ -8335,6 +8337,10 @@ $(document).ready(function () {
             openValidation($(this).data('validation-text'));
         });
 
+        $('input[name="newevent_members_count"]').on('invalid', function () {
+            openValidation($(this).data('validation-text'));
+        });
+
         $('input[required]').on('change paste keyup', function () {
             closeValidation();
         });
@@ -8394,19 +8400,28 @@ $(document).ready(function () {
         $(document).mouseup(function (e) {
             if (!$dropdowmContainer.is(e.target) && $dropdowmContainer.has(e.target).length === 0) {
                 $dropdowmContainer.removeClass('active');
+                $inputArrow.hide();
             }
         });
 
         $dropdownItem.on('click', function (e) {
             e.preventDefault();
             getMember($(this).data('id'));
+            $inputArrow.hide();
             $(this).addClass('hidden');
+            setCountMembers();
+        });
+
+        $inputClear.on('click', function () {
+            $dropdowmInput.val('').trigger('click');
+            $(this).hide();
         });
 
         $removeMemberBtn.on('click', function (e) {
             e.preventDefault();
             removemembers($(this).parent().data('id'));
             $(this).parent().addClass('hidden');
+            setCountMembers();
         });
 
         $dropdowmInput.on('click keyup paste', liveSearch);
@@ -8572,16 +8587,37 @@ $(document).ready(function () {
         }).removeClass('hidden');
     }
 
+    function setCountMembers() {
+        var selectedMembers = $neweventFrom.find('.js-newevent-select-option').map(function (i, elem) {
+            if ($(elem).is(":selected")) {
+                return elem;
+            }
+        });
+
+        $('input[name="newevent_members_count"]').val(selectedMembers.length);
+    }
+
     function liveSearch() {
-        var filter = $dropdowmInput.val();
+        var filter = $dropdowmInput.val(),
+            count = 0;
 
         $dropdownItem.each(function () {
             if ($(this).text().search(new RegExp(filter, "i")) < 0) {
                 $(this).fadeOut();
             } else {
                 $(this).show();
+                count++;
             }
         });
+
+        if (count === 0) {
+            $dropdowmInput.addClass('can-clear');
+            $inputArrow.hide();
+            $inputClear.show();
+        } else {
+            $dropdowmInput.removeClass('can-clear');
+            $inputArrow.show();
+        }
 
         scrollBar.recalculate();
     }

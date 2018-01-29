@@ -73,6 +73,9 @@ $(document).ready(function() {
         $validationBlock,
         $validationText,
 
+        $inputArrow,
+        $inputClear,
+
         scrollBar;
 
     var curentTime = new Date(),
@@ -122,7 +125,7 @@ $(document).ready(function() {
             $.datepicker.regional[ "ru" ],
             {
                 showOn: "both",
-                buttonImage: "../../../styles/blocks/newevent/images/calendar.svg",
+                buttonImage: "../../../styles/blocks/event/images/calendar.svg",
                 defaultDate: new Date($('#datepicker').val()),
                 buttonImageOnly: true,
                 showOtherMonths: true,
@@ -165,6 +168,9 @@ $(document).ready(function() {
 
         $validationBlock = $('.js-validation');
         $validationText = $('.js-validation-text');
+
+        $inputArrow = $('.js-input-arrow'),
+        $inputClear = $('.js-input-clear');
     }
 
     function bindNeweventEvents() {
@@ -260,7 +266,7 @@ $(document).ready(function() {
                             poupHtml = data.popupHtml;
 
                         $('.js-schedule-wrapper').html(scheduleHtml);
-     
+
                         $popup.html(poupHtml).addClass('small'); //.show();
                         $body.addClass('popup-open');
                         updateIndexVars();
@@ -292,13 +298,17 @@ $(document).ready(function() {
             openValidation($(this).data('validation-text'));
         })
 
+        $('input[name="newevent_members_count"]').on('invalid', function() {
+            openValidation($(this).data('validation-text'));
+        })
+
         $('input[required]').on('change paste keyup', function() {
             closeValidation();
         })
 
         $editeventSaveBtn.on('click', function(e) {
             e.preventDefault();
-            
+
             $neweventFrom.trigger('submit', ['/editeventSave']);
         })
 
@@ -353,26 +363,35 @@ $(document).ready(function() {
         $(document).mouseup(function(e) {
             if (!$dropdowmContainer.is(e.target) && $dropdowmContainer.has(e.target).length === 0) {
                 $dropdowmContainer.removeClass('active');
+                $inputArrow.hide();
             }
         });
 
         $dropdownItem.on('click', function(e) {
             e.preventDefault();
             getMember($(this).data('id'));
-            $(this).addClass('hidden')
+            $inputArrow.hide();
+            $(this).addClass('hidden');
+            setCountMembers();
         });
+
+        $inputClear.on('click', function() {
+            $dropdowmInput.val('').trigger('click');
+            $(this).hide();
+        })
 
         $removeMemberBtn.on('click', function(e) {
             e.preventDefault();
             removemembers($(this).parent().data('id'));
             $(this).parent().addClass('hidden');
+            setCountMembers();
         })
 
         $dropdowmInput.on('click keyup paste', liveSearch);
     }
 
     // -- newevent Functions -- //
-    
+
     function openValidation(text) {
         $validationText.html(text);
         $validationBlock.addClass('active');
@@ -418,8 +437,8 @@ $(document).ready(function() {
             return true;
         }
 
-    } 
-    
+    }
+
     function getRecommendation(data) {
         $.ajax({
             url: '/getRecommendation',
@@ -534,16 +553,37 @@ $(document).ready(function() {
         }).removeClass('hidden');
     }
 
+    function setCountMembers() {
+        var selectedMembers =  $neweventFrom.find('.js-newevent-select-option').map((i, elem) => {
+            if ($(elem).is(":selected")) {
+                return elem;
+            }
+        });
+
+        $('input[name="newevent_members_count"]').val(selectedMembers.length);
+    }
+
     function liveSearch() {
-        var filter = $dropdowmInput.val();
+        var filter = $dropdowmInput.val(),
+            count = 0;
 
         $dropdownItem.each(function(){
             if ($(this).text().search(new RegExp(filter, "i")) < 0) {
                 $(this).fadeOut();
             } else {
                 $(this).show();
+                count++;
             }
         });
+
+        if (count === 0) {
+            $dropdowmInput.addClass('can-clear');
+            $inputArrow.hide();
+            $inputClear.show();
+        } else {
+            $dropdowmInput.removeClass('can-clear');
+            $inputArrow.show();
+        }
 
         scrollBar.recalculate();
     }
