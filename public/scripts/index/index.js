@@ -86,30 +86,8 @@ $(document).ready(function() {
         bindEvents();
         bindCalendarIndexEvents();
         setCurrentTime();
-
-        var datepickekerOptions = $.extend(
-            {},
-            $.datepicker.regional[ "ru" ],
-            {
-                showOtherMonths: true,
-                selectOtherMonths: true,
-                defaultDate: new Date(),
-                onSelect: function(date, obj) {
-
-                    var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
-                    var currentDate = obj.currentDay + '-' + obj.currentMonth + '-' + obj.currentYear;
-
-                    $calendarToogle.html(date).removeClass('open');
-                    $calendarContainer.datepicker('hide').hide();
-
-                    changeSchedule($calendarContainer.datepicker('getDate'));
-                    updateIndexVars();
-                    bindEvents();
-                }
-            }
-        )
-
-        $calendarContainer.datepicker(datepickekerOptions);
+        indexDatepickerInit();
+        
     }
 
     function neweventInit() {
@@ -193,6 +171,10 @@ $(document).ready(function() {
             }
         })
 
+        $('#datepicker').on('click', function() {
+            $neweventFrom.find($calendarContainer).show();
+        })
+
         $('.js-newevent-time-start').on('blur', function() {
             var validate = validateForm();
             if (validate) {
@@ -214,6 +196,19 @@ $(document).ready(function() {
                 getRecommendation(data);
             }
         })
+
+        $('.js-newevent-date').on('change', function() {
+            var validate = validateForm();
+            if (validate) {
+
+                var data = getNeweventData();
+                var getRecommend = checkEditRange();
+
+                getRecommendation(data);
+            }
+        })
+
+        $('.js-newevent-theme').on('blur', validateForm)
 
         $dropdownSelect.on('change', function() {
             var validate = validateForm();
@@ -259,7 +254,9 @@ $(document).ready(function() {
                     url: url,
                     type: 'POST',
                     data: data,
-                    beforeSend: function() {},
+                    beforeSend: function() {
+                        console.log(data);
+                    },
                     success: function success(data) {
                         $('.js-popup-wrapper').addClass('active');
                         var scheduleHtml = data.scheduleHtml,
@@ -271,6 +268,7 @@ $(document).ready(function() {
                         $body.addClass('popup-open');
                         updateIndexVars();
                         bindEvents();
+                        indexDatepickerInit();
                     }
                 });
             }
@@ -283,6 +281,7 @@ $(document).ready(function() {
         })
 
         $('input[name="newevent_topic"]').on('invalid', function() {
+            $(this).addClass('error');
             openValidation($(this).data('validation-text'));
         })
 
@@ -291,10 +290,12 @@ $(document).ready(function() {
         })
 
         $('input[name="newevent_start"]').on('invalid', function() {
+            $(this).addClass('error');
             openValidation($(this).data('validation-text'));
         })
 
         $('input[name="newevent_end"]').on('invalid', function() {
+            $(this).addClass('error');
             openValidation($(this).data('validation-text'));
         })
 
@@ -302,7 +303,8 @@ $(document).ready(function() {
             openValidation($(this).data('validation-text'));
         })
 
-        $('input[required]').on('change paste keyup', function() {
+        $('input[required]').on('change', function() {
+            $(this).removeClass('error');
             closeValidation();
         })
 
@@ -462,8 +464,23 @@ $(document).ready(function() {
         var $eventTitle = $neweventFrom.find('input[name="newevent_topic"]');
         var status = 0;
 
+        var startHour = parseInt($eventStart.val().split(':')[0]),
+            endHour = parseInt($eventEnd.val().split(':')[0]),
+            startMinute = parseInt($eventStart.val().split(':')[1]),
+            endMinute = parseInt($eventEnd.val().split(':')[1]);
+
+        var startTime = startHour + '.' + startMinute,
+            endTime = endHour + '.' + endMinute;
+
         if (!timeRegExp.test($eventStart.val())) {
             $eventStart.addClass('error');
+            openValidation('Неверный формат времени')
+        } else if (startTime < 8 || startTime > 22.45) {
+            $eventStart.addClass('error');
+            openValidation('Встреча может быть с 8:00 до 23:00')
+        } else if (startMinute%15 != 0) {
+            $eventStart.addClass('error');
+            openValidation('Время начала и конца встречи должны быть кратны 15 минутам')
         } else {
             $eventStart.removeClass('error');
             status++;
@@ -471,14 +488,23 @@ $(document).ready(function() {
 
         if (!timeRegExp.test($eventEnd.val())) {
             $eventEnd.addClass('error');
+            openValidation('Неверный формат времени')
+        } else if (endTime < 8.15 || endTime > 23) {
+            $eventEnd.addClass('error');
+            openValidation('Встреча может быть с 8:00 до 23:00')
+        } else if (endMinute%15 != 0) {
+            $eventEnd.addClass('error');
+            openValidation('Время начала и конца встречи должны быть кратны 15 минутам')
         } else {
             $eventEnd.removeClass('error');
             status++;
         }
 
         if (status === 2) {
+            $neweventSaveBtn.removeClass('disabled')
             return true;
         } else {
+            $neweventSaveBtn.addClass('disabled')
             return false;
         }
     }
@@ -638,6 +664,34 @@ $(document).ready(function() {
                 }
             });
         })
+    }
+
+    function indexDatepickerInit() {
+        var datepickekerOptions = $.extend(
+            {},
+            $.datepicker.regional[ "ru" ],
+            {
+                showOtherMonths: true,
+                selectOtherMonths: true,
+                defaultDate: new Date(),
+                numberOfMonths: 3,
+                showCurrentAtPos: 1,
+                onSelect: function(date, obj) {
+
+                    var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
+                    var currentDate = obj.currentDay + '-' + obj.currentMonth + '-' + obj.currentYear;
+
+                    $calendarToogle.html(date).removeClass('open');
+                    $calendarContainer.datepicker('hide').hide();
+
+                    changeSchedule($calendarContainer.datepicker('getDate'));
+                    updateIndexVars();
+                    bindEvents();
+                }
+            }
+        )
+
+        $calendarContainer.datepicker(datepickekerOptions);
     }
 
     function bindCalendarIndexEvents() {

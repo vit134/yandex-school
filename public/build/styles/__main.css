@@ -81,7 +81,7 @@ div {
   position: absolute;
   top: 35px;
   left: 0;
-  width: 245px;
+  width: 604px;
   padding: 16px;
   background: #fff;
   box-shadow: 0 1px 10px 0 rgba(0, 44, 92, 0.28);
@@ -161,11 +161,25 @@ div {
 .ui-datepicker-calendar th {
   font-size: 14px;
 }
+.ui-datepicker-inline {
+  width: 100% !important;
+  display: flex !important;
+}
+.ui-datepicker-group {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 10px;
+  width: 33%;
+}
+.ui-datepicker-group-last {
+  margin-right: 0;
+}
 .ui-datepicker-header {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  height: 20px;
 }
 .ui-datepicker-title {
   margin: 0 10px;
@@ -416,11 +430,21 @@ div {
   box-sizing: border-box;
 }
 .field-block__input.error {
-  border-color: red;
+  border-color: #ff6f6f;
+}
+.field-block__input.error:hover {
+  border-color: #ff6f6f;
 }
 .field-block__input:focus {
   outline: none;
   border-color: #007DFF;
+}
+.field-block__input:focus:hover {
+  border-color: #007DFF;
+}
+.field-block__input:hover {
+  box-shadow: 0px 0px 3px rgba(0, 125, 255, 0.2);
+  border-color: rgba(0, 125, 255, 0.2);
 }
 .field-block__input__arrow,
 .field-block__input__clear {

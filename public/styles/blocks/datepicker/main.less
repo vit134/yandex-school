@@ -46,11 +46,28 @@
            }
         }
 
+        &-inline {
+            width: 100% !important;
+            display: flex !important;
+        }
+
+        &-group {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 10px;
+            width: 33%;
+
+            &-last {
+                margin-right: 0;
+            }
+        }
+
         &-header {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-bottom: 10px;
+            height: 20px;
         }
 
         &-title {

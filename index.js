@@ -17,6 +17,40 @@ const graphqlRoutes = require('./graphql/routes');
 
 const app = express();
 
+Twig.extendFilter("ru", function(value, short) {
+    var mounthMap = [
+        'Январь',
+        'Февраль',
+        'Март',
+        'Апрель', 
+        'Май',
+        'Июнь',
+        'Июль',
+        'Август',
+        'Сентябрь',
+        'Октябрь',
+        'Ноябрь',
+        'Декабрь'
+    ]
+
+
+    var date = moment(value);
+    var mounth;
+    mounthMap.forEach(function(el, i) {
+        if (i === date.month()) {
+            mounth = el
+        }
+    })
+
+    if (short) {
+        mounth = date.date() + ' ' + mounth.substring(0, 3);
+    } else {
+        mounth = date.date() + ' ' + mounth.substring(0, 3) + ', ' + date.year()
+    }
+
+    return mounth;
+});
+
 app.use(bodyParser.urlencoded({
     extended: true
 }));
