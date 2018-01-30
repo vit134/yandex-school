@@ -8141,11 +8141,13 @@ $(document).ready(function () {
             autoHide: false
         });
 
+        //console.log(new Date($('#datepicker').data('date')));
+
         var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
             showOn: "both",
             buttonImage: "../../../styles/blocks/event/images/calendar.svg",
             dateFormat: "yy-mm-dd",
-            defaultDate: new Date($('#datepicker').val()),
+            defaultDate: new Date($('#datepicker').data('date')),
             buttonImageOnly: true,
             showOtherMonths: true,
             selectOtherMonths: true,
@@ -8573,9 +8575,16 @@ $(document).ready(function () {
         });
 
         var DATE = new Date($('#datepicker').datepicker("getDate"));
+        console.log($('#datepicker').datepicker("getDate"));
+        console.log('DATE', DATE);
+
         var year = DATE.getFullYear(),
             month = DATE.getMonth() < 10 ? 0 + '' + (DATE.getMonth() + 1) : DATE.getMonth(),
-            date = DATE.getDate();
+            date = DATE.getDate() < 10 ? 0 + '' + DATE.getDate() : DATE.getDate();
+
+        console.log(year);
+        console.log(month);
+        console.log(date);
 
         var $roomReplace = $neweventFrom.find('input[name="room_replace"]'),
             busyEventId,
@@ -8837,6 +8846,8 @@ $(document).ready(function () {
                         $popup.html(data.html).show();
                         closeTooltip();
                         neweventInit();
+
+                        console.log($('#datepicker').datepicker('getDate'));
                     }
                 });
             }

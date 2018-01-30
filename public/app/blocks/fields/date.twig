@@ -5,7 +5,7 @@
 <div class="field-wrapper">
     <div class="field-block field-block_date">
         <div class="field-block__label">Дата</div>
-        <input type="text" autocomplete="off" name="newevent_date" class="field-block__input js-newevent-date" id="datepicker" value="{{ data.dateStart|date('d M\, Y')|ru }}">
+        <input type="text" autocomplete="off" name="newevent_date" class="field-block__input js-newevent-date" id="datepicker" value="{{ data.dateStart|date('d M\, Y')|ru }}" data-date="{{ data.dateStart }}">
         <div class="field-block__calendar js-calendar-container"></div>
     </div>
     <div class="field-block field-block_start">
