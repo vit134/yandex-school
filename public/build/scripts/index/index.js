@@ -8144,6 +8144,7 @@ $(document).ready(function () {
         var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
             showOn: "both",
             buttonImage: "../../../styles/blocks/event/images/calendar.svg",
+            dateFormat: "yy-mm-dd",
             defaultDate: new Date($('#datepicker').val()),
             buttonImageOnly: true,
             showOtherMonths: true,
@@ -8484,7 +8485,9 @@ $(document).ready(function () {
             url: '/getRecommendation',
             type: 'POST',
             data: data,
-            beforeSend: function beforeSend() {},
+            beforeSend: function beforeSend() {
+                console.log('getRecommendation b date', data);
+            },
             success: function success(data) {
                 $('.js-room-recommend').html(data.recommendHtml).removeClass('hidden');
                 $('.js-room-current').addClass('hidden');

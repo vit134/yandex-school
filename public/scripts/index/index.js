@@ -100,6 +100,7 @@ $(document).ready(function() {
             {
                 showOn: "both",
                 buttonImage: "../../../styles/blocks/event/images/calendar.svg",
+                dateFormat: "yy-mm-dd",
                 defaultDate: new Date($('#datepicker').val()),
                 buttonImageOnly: true,
                 showOtherMonths: true,
@@ -448,7 +449,9 @@ $(document).ready(function() {
             url: '/getRecommendation',
             type: 'POST',
             data: data,
-            beforeSend: function() {},
+            beforeSend: function() {
+                console.log('getRecommendation b date', data);
+            },
             success: function(data){
                 $('.js-room-recommend').html(data.recommendHtml).removeClass('hidden');
                 $('.js-room-current').addClass('hidden');
