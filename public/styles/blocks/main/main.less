@@ -52,6 +52,10 @@
                 &:hover {
                     color: @blueColor;
                 }
+
+                &:active {
+                    color: #1D54FE;
+                }
             }
 
             &__capacity {
@@ -198,6 +202,10 @@
                 }
             }
 
+            &:active {
+                background: #1D54FE;
+            }
+
             &_small & {
                 &__add {
                     width: 100%;
@@ -236,7 +244,13 @@
                 background: #D5DFE9;
 
                 &.active {
-                    background: #98A9B9;
+                    background: #8594A2;
+                    z-index: 11;
+
+                    &:hover {
+                        background: #8594A2;
+                        z-index: 11;
+                    }
                 }
             }
         }

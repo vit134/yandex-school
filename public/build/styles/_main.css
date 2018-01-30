@@ -428,6 +428,7 @@ div {
   letter-spacing: 0.47px;
   padding: 0 10px;
   box-sizing: border-box;
+  outline: none;
 }
 .field-block__input.error {
   border-color: #ff6f6f;
@@ -913,6 +914,9 @@ div {
 .main__schedule__room__name:hover {
   color: #007DFF;
 }
+.main__schedule__room__name:active {
+  color: #1D54FE;
+}
 .main__schedule__room__capacity {
   font-size: 13px;
   line-height: 17px;
@@ -1028,6 +1032,9 @@ div {
 .main__events__item__add:active {
   background: #1D00FE;
 }
+.main__events__item:active {
+  background: #1D54FE;
+}
 .main__events__item_small .main__events__item__add {
   width: 100%;
 }
@@ -1055,7 +1062,12 @@ div {
   background: #D5DFE9;
 }
 .main__events__item.busy.active {
-  background: #98A9B9;
+  background: #8594A2;
+  z-index: 11;
+}
+.main__events__item.busy.active:hover {
+  background: #8594A2;
+  z-index: 11;
 }
 .main__lines {
   position: absolute;

@@ -87,7 +87,7 @@ $(document).ready(function() {
         bindCalendarIndexEvents();
         setCurrentTime();
         indexDatepickerInit();
-        
+
     }
 
     function neweventInit() {
@@ -229,6 +229,9 @@ $(document).ready(function() {
             if (!$(this).hasClass('active')) {
                 $(this).addClass('active');
                 $neweventFrom.find('input[name="newevent_room"]').val($(this).data('room-id'));
+                $('input[name="newevent_members_count"]').attr('min', $(this).data('capmin'));
+                $('input[name="newevent_members_count"]').attr('max', $(this).data('capmax'));
+
             } else {
                 $(this).removeClass('active');
                 $neweventFrom.find('input[name="newevent_room"]').val('');
@@ -469,8 +472,11 @@ $(document).ready(function() {
             startMinute = parseInt($eventStart.val().split(':')[1]),
             endMinute = parseInt($eventEnd.val().split(':')[1]);
 
-        var startTime = startHour + '.' + startMinute,
-            endTime = endHour + '.' + endMinute;
+        var startTime = parseFloat(startHour + '.' + startMinute),
+            endTime = parseFloat(endHour + '.' + endMinute);
+
+        console.log(endTime);
+        console.log(startTime);
 
         if (!timeRegExp.test($eventStart.val())) {
             $eventStart.addClass('error');
@@ -481,6 +487,9 @@ $(document).ready(function() {
         } else if (startMinute%15 != 0) {
             $eventStart.addClass('error');
             openValidation('Время начала и конца встречи должны быть кратны 15 минутам')
+        } else if (startTime > endTime) {
+            $eventStart.addClass('error');
+            openValidation('Время начала не может быть больше окончания')
         } else {
             $eventStart.removeClass('error');
             status++;
@@ -495,16 +504,21 @@ $(document).ready(function() {
         } else if (endMinute%15 != 0) {
             $eventEnd.addClass('error');
             openValidation('Время начала и конца встречи должны быть кратны 15 минутам')
+        } else if (endTime < startTime) {
+            $eventEnd.addClass('error');
+            openValidation('Время окнчания не может быть меньше начала')
         } else {
             $eventEnd.removeClass('error');
             status++;
         }
 
         if (status === 2) {
-            $neweventSaveBtn.removeClass('disabled')
+            $neweventSaveBtn.removeClass('disabled');
+            $editeventSaveBtn.removeClass('disabled');
             return true;
         } else {
             $neweventSaveBtn.addClass('disabled')
+            $editeventSaveBtn.addClass('disabled')
             return false;
         }
     }

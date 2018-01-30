@@ -1,7 +1,7 @@
 <div class="field-block__room-recommend js-room-recommend {% if from == 'schedule' or from == 'edit' %}hidden{% endif %}">
     <div class="field-block__label">Рекомендованные переговорки</div>
     {% for item in recommendRooms %}
-        <div class="field-block__room-item js-room-recommend-item" data-room-id="{{ item.roomId }}">
+        <div class="field-block__room-item js-room-recommend-item" data-room-id="{{ item.roomId }}" data-capMin="{{ item.capMin }}" data-capMax="{{ item.capMax }}">
             <span class="field-block__room-item__time">{{ data.dateStart|date_modify("-3 hour")|date("H:i") }}&#8212;{{ data.dateEnd|date_modify("-3 hour")|date("H:i") }}</span>
             <span class="field-block__room-item__name">{{ item.roomTitle }}</span>
             &#183;

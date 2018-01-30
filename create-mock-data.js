@@ -1,10 +1,11 @@
 const {models, sequelize} = require('./models');
 
 function createData() {
-    let usersPromise = models.User.bulkCreate([{
+    let usersPromise = models.User.bulkCreate([
+    {
         login: 'veged',
         avatarUrl: 'https://avatars3.githubusercontent.com/u/15365?s=460&v=4',
-        homeFloor: 0
+        homeFloor: 1
     },
     {
         login: 'alt-j',
@@ -15,6 +16,36 @@ function createData() {
         login: 'yeti-or',
         avatarUrl: 'https://avatars0.githubusercontent.com/u/1813468?s=460&v=4',
         homeFloor: 2
+    },
+    {
+        login: 'dart vaider',
+        avatarUrl: 'https://avatars3.githubusercontent.com/u/15365?s=460&v=4',
+        homeFloor: 5
+    },
+    {
+        login: 'pupsik pupsikovich',
+        avatarUrl: 'https://avatars1.githubusercontent.com/u/3763844?s=400&v=4',
+        homeFloor: 7
+    },
+    {
+        login: 'ivan vasechkin',
+        avatarUrl: 'https://avatars0.githubusercontent.com/u/1813468?s=460&v=4',
+        homeFloor: 1
+    },
+    {
+        login: 'lalaleila',
+        avatarUrl: 'https://avatars3.githubusercontent.com/u/15365?s=460&v=4',
+        homeFloor: 4
+    },
+    {
+        login: 'obi van kanobi',
+        avatarUrl: 'https://avatars1.githubusercontent.com/u/3763844?s=400&v=4',
+        homeFloor: 6
+    },
+    {
+        login: 'fucking yeti',
+        avatarUrl: 'https://avatars0.githubusercontent.com/u/1813468?s=460&v=4',
+        homeFloor: 5
     }
     ]);
 
