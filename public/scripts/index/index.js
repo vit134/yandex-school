@@ -13,30 +13,26 @@ $(document).ready(function() {
         $calendarToogle = $('.js-calendar-toggle'),
         $calendarPrevDay = $('.js-calendar-prev'),
         $calendarNextDay = $('.js-calendar-next'),
-        $tooltip = $('.js-tooltip'),
         $tooltipWrapper = $('.js-tooltip-wrapper'),
+        $tooltip = $('.js-tooltip'),
         $tooltipTriangle = $('.js-tooltip-triangle'),
         $eventItem = $('.js-event-item'),
         $eventRow = $('.js-main-events-row'),
         $eventRoom = $('.js-main-events-room'),
+        $scheduleWrapper = $('.js-schedule-wrapper'),
         $schedule = $('.js-schedule'),
         $eventsRoom = $('.js-events-room'),
         $eventsFloor = $('.js-events-floor'),
         $colLeft = $('.js-col-left'),
 
+
         $addEventBtn = $('.js-add-event-btn'),
         $editEventBtn = $('.js-edit-event-btn');
 
     //poup vars
-    var $popup = $('.js-popup');
-
-    var currentTime = new Date(),
-        currentHour = currentTime.getHours(),
-        currentMinute = currentTime.getMinutes();
-
-    var _oneHour = 6.25,
-        _oneMinute = _oneHour / 60,
-        _startPoint = 8 * _oneHour;
+    var $popup = $('.js-popup'),
+        $popupWrapper = $('.js-popup-wrapper'),
+        $popupDelete = $('.js-popup-delete');
 
     var _colLeftWidth;
 
@@ -125,7 +121,7 @@ $(document).ready(function() {
         $dropdownItem = $('.js-dropdown-item');
         $dropdowmInput = $('.js-dropdown-input');
         $dropdownSelect = $('.js-newevent-select');
-        $dropdownSelectOption = $dropdownSelect.find('option');
+        $dropdownSelectOption = $dropdownSelect.find('.js-newevent-select-option');
         $membersItem = $('.js-members-item');
         $removeMemberBtn = $('.js-remove-member');
         $calendarContainer = $('.js-calendar-container');
@@ -261,11 +257,11 @@ $(document).ready(function() {
                         console.log(data);
                     },
                     success: function success(data) {
-                        $('.js-popup-wrapper').addClass('active');
+                        $popupWrapper.addClass('active');
                         var scheduleHtml = data.scheduleHtml,
                             poupHtml = data.popupHtml;
 
-                        $('.js-schedule-wrapper').html(scheduleHtml);
+                        $scheduleWrapper.html(scheduleHtml);
 
                         $popup.html(poupHtml).addClass('small'); //.show();
                         $body.addClass('popup-open');
@@ -322,43 +318,46 @@ $(document).ready(function() {
 
             var eventID = $neweventFrom.find('input[name="event_id"]').val();
 
-            $('.js-popup-wrapper').addClass('active');
-            $('.js-popup-delete').show().find('input[name="event_id"]').val(eventID);
+            $popupWrapper.addClass('active');
+            $popupDelete.show().find('input[name="event_id"]').val(eventID);
         })
 
         $popupDeleteCanselBtn.on('click', function(e) {
             e.preventDefault();
 
-            $('.js-popup-wrapper').removeClass('active');
-            $('.js-popup-delete').hide().find('input[name="event_id"]').val('');
+            $popupWrapper.removeClass('active');
+            $popupDelete.hide().find('input[name="event_id"]').val('');
         })
 
         $popupDeleteSaveBtn.on('click', function(e) {
             e.preventDefault();
 
-            var eventId = $(this).closest('.js-popup-delete').find('input[name="event_id"]').val();
-
-            $.ajax({
-                url: '/deleteEvent',
-                type: 'POST',
-                data: {eventId: eventId},
-                success: function(data){
-                    var scheduleHtml = data.scheduleHtml;
-
-                    $('.js-schedule-wrapper').html(scheduleHtml);
-
-                    $popup.html('').hide();
-                    $('.js-popup-wrapper').removeClass('active');
-                    $('.js-popup-delete').hide().find('input[name="event_id"]').val('');
-                    updateIndexVars();
-                    bindEvents();
-                }
-            });
+            var eventId = $(this).closest($popupDelete).find('input[name="event_id"]').val();
 
 
+            if (eventId != '') {
+                $.ajax({
+                    url: '/deleteEvent',
+                    type: 'POST',
+                    data: {eventId: eventId},
+                    success: function(data){
+                        var scheduleHtml = data.scheduleHtml;
 
-            $('.js-popup-wrapper').removeClass('active');
-            $('.js-popup-delete').hide().find('input[name="event_id"]').val('');
+                        $scheduleWrapper.html(scheduleHtml);
+
+                        $popup.html('').hide();
+                        $popupWrapper.removeClass('active');
+                        $popupDelete.hide().find('input[name="event_id"]').val('');
+                        updateIndexVars();
+                        bindEvents();
+                    }
+                });
+
+                $popupWrapper.removeClass('active');
+                $popupDelete.hide().find('input[name="event_id"]').val('');
+            }
+
+
         })
 
         $dropdowmInput.on('click', function() {
@@ -422,7 +421,7 @@ $(document).ready(function() {
 
         var users = [];
 
-        $.each($('.js-newevent-select-option'), function(i, el) {
+        $.each($dropdownSelectOption, function(i, el) {
             if ($(el).is(':selected')) {
                 users.push(el);
             }
@@ -506,7 +505,7 @@ $(document).ready(function() {
             openValidation('Время начала и конца встречи должны быть кратны 15 минутам')
         } else if (endTime < startTime) {
             $eventEnd.addClass('error');
-            openValidation('Время окнчания не может быть меньше начала')
+            openValidation('Время окончания не может быть меньше начала')
         } else {
             $eventEnd.removeClass('error');
             status++;
@@ -528,7 +527,7 @@ $(document).ready(function() {
         data.eventId = $neweventFrom.find('input[name="event_id"]').val();
         data.eventTitle = $neweventFrom.find('input[name="newevent_topic"]').val();
         data.members = [];
-        $neweventFrom.find('.js-newevent-select-option').map((i, elem) => {
+        $neweventFrom.find($dropdownSelectOption).map((i, elem) => {
             if ($(elem).is(":selected")) {
                 data.members.push({id:$(elem).val(), homeFloor: $(elem).data('floor')});
             }
@@ -594,7 +593,7 @@ $(document).ready(function() {
     }
 
     function setCountMembers() {
-        var selectedMembers =  $neweventFrom.find('.js-newevent-select-option').map((i, elem) => {
+        var selectedMembers =  $neweventFrom.find($dropdownSelectOption).map((i, elem) => {
             if ($(elem).is(":selected")) {
                 return elem;
             }
@@ -669,7 +668,7 @@ $(document).ready(function() {
 
                     closeTooltip();
                     $('body').addClass('overflow popup-open');
-                    $('.js-popup').html(data.html).show();
+                    $popup.html(data.html).show();
                     neweventInit();
 
                     var editEventDate = getNeweventData();
@@ -774,11 +773,14 @@ $(document).ready(function() {
                         data: data,
                         success: function(data){
                             $tooltipWrapper.html(data.html).addClass('active');
+
+                            updateIndexVars();
+                            bindEditEventEvents();
+
                             $eventItem.removeClass('active');
                             $this.addClass('active');
                             openTooltip(position);
-                            updateIndexVars();
-                            bindEditEventEvents()
+
                         }
                     });
                 }
@@ -806,7 +808,7 @@ $(document).ready(function() {
                     data: data,
                     success: function(data){
                         $body.addClass('overflow popup-open');
-                        $('.js-popup').html(data.html).show();
+                        $popup.html(data.html).show();
                         closeTooltip();
                         neweventInit();
                     }
@@ -819,7 +821,7 @@ $(document).ready(function() {
             e.preventDefault();
             $popup.removeClass('small').html('').hide();
             $body.removeClass('overflow popup-open');
-            $('.js-popup-wrapper').removeClass('active');
+            $popupWrapper.removeClass('active');
             updateIndexVars();
         })
 
@@ -872,7 +874,7 @@ $(document).ready(function() {
             success: function(data){
                 var scheduleHtml = data.scheduleHtml;
 
-                $('.js-schedule-wrapper').html(scheduleHtml);
+                $scheduleWrapper.html(scheduleHtml);
 
                 updateIndexVars();
                 bindEvents();
@@ -882,6 +884,14 @@ $(document).ready(function() {
     }
 
     function setCurrentTime() {
+        var currentTime = new Date(),
+            currentHour = currentTime.getHours(),
+            currentMinute = currentTime.getMinutes();
+
+        var _oneHour = 6.25,
+            _oneMinute = _oneHour / 60,
+            _startPoint = 8 * _oneHour;
+
         if (currentHour > 8 && currentHour < 23 ) {
 
             $hoursCurrentItem.css({left: currentHour * _oneHour + currentMinute * _oneMinute - _startPoint + '%'}).show();
@@ -908,19 +918,18 @@ $(document).ready(function() {
     }
 
     function openTooltip(position) {
-
         var tooltipHeight;
 
-        $('.js-tooltip').css({
+        $tooltip.css({
             top: position.top + 26 + 'px',
             left: position.left + position.width / 2 - 338 / 2 + 'px',
             visibility: 'hidden'
         }).show();
 
-        tooltipHeight = $('.js-tooltip').outerHeight();
+        tooltipHeight = $tooltip.outerHeight();
 
         if ($(window).scrollTop() + $(window).outerHeight() < position.top + tooltipHeight + 20 + 26) {
-            $('.js-tooltip').css({
+            $tooltip.css({
                 top: position.top - tooltipHeight
             }).addClass('bottom');
         }
@@ -928,11 +937,11 @@ $(document).ready(function() {
         if ($(window).width() < 415) {
 
             if (position.left + position.width > $(window).width()) {
-                $('.js-tooltip-triangle').css({
+                $tooltipTriangle.css({
                     left: position.left + 20  + 'px'
                 })
             } else {
-                $('.js-tooltip-triangle').css({
+                $tooltipTriangle.css({
                     left: position.left + position.width / 2 - 4 + 'px'
                 })
             }
@@ -940,7 +949,7 @@ $(document).ready(function() {
 
         }
 
-        $('.js-tooltip').css({visibility: 'visible'});
+        $tooltip.css({visibility: 'visible'});
     }
 
     function closeTooltip() {
