@@ -266,7 +266,7 @@ $(document).ready(function() {
 
                         $scheduleWrapper.html(scheduleHtml);
 
-                        $popup.html(poupHtml).addClass('small'); //.show();
+                        $popup.html(poupHtml).addClass('small');
                         $body.addClass('popup-open');
                         updateIndexVars();
                         bindEvents();
@@ -351,6 +351,7 @@ $(document).ready(function() {
                         $popup.html('').hide();
                         $popupWrapper.removeClass('active');
                         $popupDelete.hide().find('input[name="event_id"]').val('');
+                        $('body').removeClass('overflow popup-open');
                         updateIndexVars();
                         bindEvents();
                     }

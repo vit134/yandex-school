@@ -245,8 +245,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("6r38Q7"))
-},{"6r38Q7":4}],4:[function(require,module,exports){
+}).call(this,require("r7L21G"))
+},{"r7L21G":4}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8072,7 +8072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
+}).call(this,"/../../../../node_modules/twig")
 },{"fs":2,"path":3}],6:[function(require,module,exports){
 'use strict';
 
@@ -8306,7 +8306,7 @@ $(document).ready(function () {
 
                         $scheduleWrapper.html(scheduleHtml);
 
-                        $popup.html(poupHtml).addClass('small'); //.show();
+                        $popup.html(poupHtml).addClass('small');
                         $body.addClass('popup-open');
                         updateIndexVars();
                         bindEvents();
@@ -8390,6 +8390,7 @@ $(document).ready(function () {
                         $popup.html('').hide();
                         $popupWrapper.removeClass('active');
                         $popupDelete.hide().find('input[name="event_id"]').val('');
+                        $('body').removeClass('overflow popup-open');
                         updateIndexVars();
                         bindEvents();
                     }
