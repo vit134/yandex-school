@@ -8141,12 +8141,9 @@ $(document).ready(function () {
             autoHide: false
         });
 
-        //console.log(new Date($('#datepicker').data('date')));
-
         var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
             showOn: "both",
             buttonImage: "../../../styles/blocks/event/images/calendar.svg",
-            dateFormat: "yy-mm-dd",
             defaultDate: new Date($('#datepicker').data('date')),
             buttonImageOnly: true,
             showOtherMonths: true,
@@ -8296,9 +8293,7 @@ $(document).ready(function () {
                     url: url,
                     type: 'POST',
                     data: data,
-                    beforeSend: function beforeSend() {
-                        console.log(data);
-                    },
+                    beforeSend: function beforeSend() {},
                     success: function success(data) {
                         $popupWrapper.addClass('active');
                         var scheduleHtml = data.scheduleHtml,
@@ -8488,9 +8483,7 @@ $(document).ready(function () {
             url: '/getRecommendation',
             type: 'POST',
             data: data,
-            beforeSend: function beforeSend() {
-                console.log('getRecommendation b date', data);
-            },
+            beforeSend: function beforeSend() {},
             success: function success(data) {
                 $('.js-room-recommend').html(data.recommendHtml).removeClass('hidden');
                 $('.js-room-current').addClass('hidden');
@@ -8515,9 +8508,6 @@ $(document).ready(function () {
 
         var startTime = parseFloat(startHour + '.' + startMinute),
             endTime = parseFloat(endHour + '.' + endMinute);
-
-        console.log(endTime);
-        console.log(startTime);
 
         if (!timeRegExp.test($eventStart.val())) {
             $eventStart.addClass('error');
@@ -8576,16 +8566,10 @@ $(document).ready(function () {
         });
 
         var DATE = new Date($('#datepicker').datepicker("getDate"));
-        console.log($('#datepicker').datepicker("getDate"));
-        console.log('DATE', DATE);
 
         var year = DATE.getFullYear(),
             month = DATE.getMonth() < 10 ? 0 + '' + (DATE.getMonth() + 1) : DATE.getMonth(),
             date = DATE.getDate() < 10 ? 0 + '' + DATE.getDate() : DATE.getDate();
-
-        console.log(year);
-        console.log(month);
-        console.log(date);
 
         var $roomReplace = $neweventFrom.find('input[name="room_replace"]'),
             busyEventId,
@@ -8724,12 +8708,13 @@ $(document).ready(function () {
     }
 
     function indexDatepickerInit() {
+
         var datepickekerOptions = $.extend({}, $.datepicker.regional["ru"], {
             showOtherMonths: true,
             selectOtherMonths: true,
             defaultDate: new Date(),
             numberOfMonths: 3,
-            showCurrentAtPos: 1,
+            showCurrentAtPos: 0,
             onSelect: function onSelect(date, obj) {
 
                 var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
@@ -8765,8 +8750,15 @@ $(document).ready(function () {
         });
 
         $calendarToogle.on('click', function () {
+            if ($(window).width() < 415) {
+                $calendarContainer.datepicker("option", { numberOfMonths: 1 });
+            } else {
+                $calendarContainer.datepicker("option", { numberOfMonths: 3 });
+            }
+
             if (!$(this).hasClass('open')) {
                 $(this).addClass('open');
+
                 $calendarContainer.datepicker('show').show();
             } else {
                 $(this).removeClass('open');
@@ -8847,8 +8839,6 @@ $(document).ready(function () {
                         $popup.html(data.html).show();
                         closeTooltip();
                         neweventInit();
-
-                        console.log($('#datepicker').datepicker('getDate'));
                     }
                 });
             }

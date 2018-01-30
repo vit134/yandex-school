@@ -52,8 +52,15 @@
                         <div class="main__events__floor__title js-events-floor">{{ key }} этаж</div>
                     </div>
                     {% for room in floor %}
+                    {% set emptyCount = 0 %}
+
+                    {% for event in room.Events %}
+                        {% if event.type == 'empty' %}
+                            {% set emptyCount = emptyCount + 1 %}
+                        {% endif %}
+                    {% endfor %}
                     <div class="main__events__row js-main-events-row" data-room-id="{{ room.id }}">
-                    <span class="main__events__room busy js-events-room">{{ room.title }}</span>
+                    <span class="main__events__room {% if emptyCount == 0 %}busy{% endif %} js-events-room">{{ room.title }}</span>
                         {% for event in room.Events %}
 
                             {% if event.type and event.type == 'empty' %}
