@@ -699,6 +699,10 @@ $(document).ready(function() {
                     var selectDate = obj.selectedDay + '-' + obj.selectedMonth + '-' + obj.selectedYear;
                     var currentDate = obj.currentDay + '-' + obj.currentMonth + '-' + obj.currentYear;
 
+                    if (obj.selectedDay == curentTime.getDate() && obj.selectedMonth == curentTime.getMonth() && obj.selectedYear == curentTime.getFullYear()) {
+                        date = date.replace(', ' + obj.currentYear, '· Сегодня')
+                    }
+
                     $calendarToogle.html(date).removeClass('open');
                     $calendarContainer.datepicker('hide').hide();
 

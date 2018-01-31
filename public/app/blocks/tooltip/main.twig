@@ -14,9 +14,11 @@
                 <img src="{{ event.Users[0].avatarUrl }}" class="tooltip__members__image">
                 <span class="tooltip__members__name">{{ event.Users[0].login }}</span>
             </div>
-            <span class="tooltip__members__also">
-                и <span>{{ event.Users|length - 1 }}</span> участник{% if event.Users|length > 4 %}ов{% elseif event.Users|length > 2 %}а{% endif %}
-            </span>
+            {% if event.Users|length > 1 %}
+                <span class="tooltip__members__also">
+                    и <span>{{ event.Users|length - 1 }}</span> участник{% if event.Users|length > 4 %}ов{% elseif event.Users|length > 2 %}а{% endif %}
+                </span>
+            {% endif %}
         </div>
     {% endif %}
     <a href="#" class="tooltip__edit js-edit-event-btn" data-from="edit"></a>
