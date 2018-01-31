@@ -17,8 +17,8 @@
         {% for item in members %}
             <div class="field-block__dropdown__item js-dropdown-item {% if item.allready %}hidden{% endif %}"  data-id="{{ item.id }}" data-floor="{{ item.homeFloor }}">
                 <img src="{{ item.avatarUrl }}" class="field-block__dropdown__image">
-                <span class="field-block__dropdown__member">{{ item.login }} ·</span>
-                <span class="field-block_dropdown__floor"> {{ item.homeFloor }} этаж</span>
+                <span class="field-block__dropdown__member">{{ item.login }} </span>
+                <span class="field-block_dropdown__floor">· {{ item.homeFloor }} этаж</span>
             </div>
         {% endfor %}
     </div>

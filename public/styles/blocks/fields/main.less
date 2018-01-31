@@ -211,6 +211,14 @@
                 font-size: 13px;
             }
 
+            &__member {
+                position: relative;
+                max-width: 250px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
             &__image {
                 width: 24px;
                 height: 24px;
@@ -378,6 +386,10 @@
                 display: inline-block;
                 vertical-align: middle;
                 font-size: 13px;
+                max-width: 140px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
             }
 
             &__image {
@@ -524,6 +536,17 @@
                     white-space: nowrap;
                     text-overflow: ellipsis;
                     overflow: hidden;
+                }
+            }
+
+            &__calendar {
+                width: 100%;
+                padding: 20px 10px;
+            }
+
+            &__dropdown {
+                &__member {
+                    max-width: 140px;
                 }
             }
         }
