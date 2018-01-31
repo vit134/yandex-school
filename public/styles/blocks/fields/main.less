@@ -350,8 +350,14 @@
         &__room-replace-item & {
             &__room-item {
                 &__name {
+                    display: inline-block;
+                    vertical-align: middle;
                     font-weight: bold;
                     font-size: 12px;
+                    max-width: 130px;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
                 }
 
                 &__floor {
