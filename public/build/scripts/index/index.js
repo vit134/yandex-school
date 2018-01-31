@@ -245,8 +245,8 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-}).call(this,require("r7L21G"))
-},{"r7L21G":4}],4:[function(require,module,exports){
+}).call(this,require("6r38Q7"))
+},{"6r38Q7":4}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8072,7 +8072,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ])
 });
 ;
-}).call(this,"/../../../../node_modules/twig")
+}).call(this,"/..\\..\\..\\..\\node_modules\\twig")
 },{"fs":2,"path":3}],6:[function(require,module,exports){
 'use strict';
 
@@ -8190,24 +8190,6 @@ $(document).ready(function () {
     }
 
     function bindNeweventEvents() {
-        $('body').on('click', '.js-room-recommend-replace', function (e) {
-            e.preventDefault();
-            $('.js-room-recommend-replace').removeClass('active');
-
-            var eventBusyId = $(this).data('eventbusy-id');
-            var roomEmptyId = $(this).data('roomempty-id');
-            var roomToNew = $(this).data('room-to-new');
-
-            if (!$(this).hasClass('active')) {
-                $(this).addClass('active');
-                $neweventFrom.find('input[name="room_replace"]').val(eventBusyId + '_' + roomEmptyId);
-                $neweventFrom.find('input[name="newevent_room"]').val(roomToNew);
-            } else {
-                $(this).removeClass('active');
-                $neweventFrom.find('input[name="room_replace"]').val('');
-                $neweventFrom.find('input[name="newevent_room"]').val('');
-            }
-        });
 
         $('#datepicker').on('click', function () {
             $neweventFrom.find($calendarContainer).show();
@@ -8274,6 +8256,28 @@ $(document).ready(function () {
                 $neweventFrom.find('input[name="newevent_room"]').val('');
             }
         });
+
+        $('body').on('click', '.js-room-recommend-replace', function (e) {
+            e.preventDefault();
+            $('.js-room-recommend-replace').removeClass('active');
+
+            var eventBusyId = $(this).data('eventbusy-id');
+            var roomEmptyId = $(this).data('roomempty-id');
+            var roomToNew = $(this).data('room-to-new');
+
+            if (!$(this).hasClass('active')) {
+                $(this).addClass('active');
+                $neweventFrom.find('input[name="room_replace"]').val(eventBusyId + '_' + roomEmptyId);
+                $neweventFrom.find('input[name="newevent_room"]').val(roomToNew);
+                $('input[name="newevent_members_count"]').attr('min', $(this).data('room-busy-capmin'));
+                $('input[name="newevent_members_count"]').attr('max', $(this).data('room-busy-capmax'));
+            } else {
+                $(this).removeClass('active');
+                $neweventFrom.find('input[name="room_replace"]').val('');
+                $neweventFrom.find('input[name="newevent_room"]').val('');
+            }
+        });
+
         $removeRoom.on('click', function (e) {
             e.preventDefault();
 
